@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 #include <functional>
+#include <chrono>
+#include <thread>
+#include <iostream>
 
 namespace dae
 {
