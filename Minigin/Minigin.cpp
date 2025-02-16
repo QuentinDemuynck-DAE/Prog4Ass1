@@ -11,7 +11,6 @@
 #include "ResourceManager.h"
 
 SDL_Window* g_window{};
-const float g_fixedTimeStep = 0.02f;
 
 void PrintSDLVersion()
 {
@@ -79,7 +78,7 @@ dae::Minigin::~Minigin()
 void dae::Minigin::Run(const std::function<void()>& load)
 {
 	const int targetFps = 60;
-	const std::chrono::milliseconds ms_per_frame(1000 / targetFps);
+	const std::chrono::milliseconds msPerFrame(1000 / targetFps);
 	load();
 
 	auto& renderer = Renderer::GetInstance();
@@ -98,14 +97,13 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		doContinue = input.ProcessInput();
 		while (lag >= g_fixedTimeStep)
 		{
-			sceneManager.Update(g_fixedTimeStep);
+			sceneManager.FixedUpdate();
 			lag -= g_fixedTimeStep;
 		}
 		sceneManager.Update(deltaTime);
 		renderer.Render();
 
-		printf("FPS: %f\n", 1.0f / deltaTime);
-		const auto sleepTime = currentTime + std::chrono::milliseconds(ms_per_frame) - std::chrono::high_resolution_clock::now();
+		const auto sleepTime = currentTime + std::chrono::milliseconds(msPerFrame) - std::chrono::high_resolution_clock::now();
 		std::this_thread::sleep_for(sleepTime);
 	}
 }
