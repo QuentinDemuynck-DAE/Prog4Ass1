@@ -16,6 +16,15 @@ void dae::GameObject::Update([[maybe_unused]] float deltaTime)
 	{
 		component.second->PostUpdate();
 	}
+
+	// Remove destroyed components
+	for (const auto& component : m_components)
+	{
+		if (component.second->IsDestroyed())
+		{
+			m_components.erase(component.first);
+		}
+	}
 }
 
 void dae::GameObject::FixedUpdate() { }
@@ -23,16 +32,12 @@ void dae::GameObject::FixedUpdate() { }
 
 void dae::GameObject::Render() const
 {
-	const auto& pos = m_transform.GetPosition();
-	Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
-}
-
-void dae::GameObject::SetTexture(const std::string& filename)
-{
-	m_texture = ResourceManager::GetInstance().LoadTexture(filename);
-}
-
-void dae::GameObject::SetPosition(float x, float y)
-{
-	m_transform.SetPosition(x, y, 0.0f);
+	if (HasComponent<TransformComponent>())
+	{
+		const auto& pos = GetComponent<TransformComponent>()->GetPosition();
+		for (const auto& component : m_components)
+		{
+			component.second->Render(pos);
+		}
+	}
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "Transform.h"
+#include "TransformComponent.h"
 #include <unordered_map>
 #include <typeindex>
 #include "Component.h"
@@ -16,9 +16,6 @@ namespace dae
 		virtual void Update(float deltaTime);
 		virtual void FixedUpdate();
 		virtual void Render() const;
-
-		void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
 
 		GameObject() = default;
 		virtual ~GameObject();
@@ -61,13 +58,10 @@ namespace dae
 		{
 			const auto id{ std::type_index(typeid(ComponentType)) };
 
-			return (m_components.find(id) != m_components.end())
+			return (m_components.find(id) != m_components.end());
 		}
 
 	private:
-		Transform m_transform{};
-		// todo: mmm, every gameobject has a texture? Is that correct?
-		std::shared_ptr<Texture2D> m_texture{};
 		std::unordered_map<std::type_index, std::unique_ptr<Component>> m_components{};
 	};
 }
