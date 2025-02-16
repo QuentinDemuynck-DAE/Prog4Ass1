@@ -27,7 +27,13 @@ void dae::GameObject::Update([[maybe_unused]] float deltaTime)
 	}
 }
 
-void dae::GameObject::FixedUpdate() { }
+void dae::GameObject::FixedUpdate() 
+{ 
+	for (const auto& component : m_components)
+	{
+		component.second->FixedUpdate();
+	}
+}
 
 
 void dae::GameObject::Render() const
