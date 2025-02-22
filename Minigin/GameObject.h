@@ -7,15 +7,13 @@
 
 namespace dae
 {
-	class Texture2D;
-
-	// todo: this should become final.
-	class GameObject 
+	class GameObject final
 	{
 	public:
-		virtual void Update(float deltaTime);
-		virtual void FixedUpdate();
-		virtual void Render() const;
+		void Update(float deltaTime);
+		void FixedUpdate();
+		void PostUpdate(float deltaTime);
+		void Render() const;
 
 		GameObject() = default;
 		virtual ~GameObject();
@@ -35,13 +33,14 @@ namespace dae
 			return static_cast<ComponentType*>(m_components.at(id).get());
 		}
 
-		template <typename ComponentType>
-		void AddComponent(std::unique_ptr<ComponentType> component)
+		template <typename ComponentType, typename... Args>
+		void AddComponent(Args&&... args)
 		{
 			const auto id{ std::type_index(typeid(ComponentType)) };
 			if (m_components.find(id) != m_components.end())
 				return;
-			m_components[id] = std::move(component);
+
+			m_components[id] = std::make_unique<ComponentType>(*this, std::forward<Args>(args)...);
 		}
 
 		template <typename ComponentType>

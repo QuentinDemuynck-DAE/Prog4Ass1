@@ -2,8 +2,6 @@
 
 void FPSComponent::Update(float deltaTime)
 {
-	m_pTextComponent->Update(deltaTime);
-
 	if (deltaTime > 0.0f)
 		m_FPS = 1.0f / deltaTime;
 
@@ -11,17 +9,18 @@ void FPSComponent::Update(float deltaTime)
 	{
 		std::stringstream ss;
 		ss << std::fixed << std::setprecision(1) << m_FPS;
-		m_pTextComponent->SetText(ss.str());
+
+		if (m_textComponent)
+			m_textComponent->SetText(ss.str());
 
 		m_counter = 0;
 	}
-	
-}
 
-void FPSComponent::Render(glm::vec3 position) const
-{
-	if (m_showFPS)
-		m_pTextComponent->Render(position);
+	// If the text component is removed, remove this component as well
+	if (!GetOwner().HasComponent<dae::TextComponent>()) 
+	{
+		Destroy();
+	}
 }
 
 void FPSComponent::FixedUpdate()
@@ -29,8 +28,12 @@ void FPSComponent::FixedUpdate()
 	m_counter++;
 }
 
-FPSComponent::FPSComponent(std::shared_ptr<dae::Font> font)
-	: m_FPS{ 0 }
+FPSComponent::FPSComponent(dae::GameObject& owner)
+	:Component(owner), m_FPS{ 0 }
 {
-	m_pTextComponent = std::make_unique<dae::TextComponent>("60.0", font);
+	if (owner.HasComponent<dae::TextComponent>())
+	{
+		m_textComponent = owner.GetComponent<dae::TextComponent>();
+	}
 }
+

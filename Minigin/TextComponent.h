@@ -11,12 +11,12 @@ namespace dae
 	class TextComponent final : public Component
 	{
 	public:
-		void Update([[maybe_unused]] float deltaTime) override;
+		void Update(float deltaTime) override;
 		void Render(glm::vec3 position) const override;
 
 		void SetText(const std::string& text);
 
-		TextComponent(const std::string& text, std::shared_ptr<Font> font);
+		TextComponent(dae::GameObject& owner, const std::string& text, std::shared_ptr<Font> font);
 		virtual ~TextComponent() = default;
 		TextComponent(const TextComponent& other) = delete;
 		TextComponent(TextComponent&& other) = delete;

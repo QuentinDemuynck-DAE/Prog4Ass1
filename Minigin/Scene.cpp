@@ -34,6 +34,14 @@ void Scene::Update(float deltaTime)
 	}
 }
 
+void dae::Scene::PostUpdate(float deltaTime)
+{
+	for (auto& object : m_objects)
+	{
+		object->PostUpdate(deltaTime);
+	}
+}
+
 void dae::Scene::FixedUpdate()
 {
 	for (auto& object : m_objects)

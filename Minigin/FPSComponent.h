@@ -5,14 +5,14 @@
 #include "Font.h"
 #include <sstream>
 #include <iomanip>
+#include "GameObject.h"
 
 class FPSComponent final : public Component
 {
 public:
 	void Update(float deltaTime) override;
-	void Render(glm::vec3 position) const override;
 	void FixedUpdate() override;
-	FPSComponent(std::shared_ptr<dae::Font> font);
+	FPSComponent(dae::GameObject& owner);
 	virtual ~FPSComponent() = default;
 	FPSComponent(const FPSComponent& other) = delete;
 	FPSComponent(FPSComponent&& other) = delete;
@@ -23,11 +23,13 @@ public:
 	void SetShowFPS(bool show) { m_showFPS = show; }
 	bool GetShowFPS() const { return m_showFPS; }
 
+
 private:
 	float m_FPS { };
 	bool m_showFPS { true };
 	int m_counter{ 0 };
+	
 
-	std::unique_ptr<dae::TextComponent> m_pTextComponent;
+	dae::TextComponent* m_textComponent = { nullptr };
 };
 

@@ -13,7 +13,7 @@ public:
 	void Render(glm::vec3 position) const override;
 	void SetTexture(const std::string& filename);
 
-	Texture2DComponent(const std::string& filename);
+	Texture2DComponent(dae::GameObject& owner, const std::string& filename);
 	virtual ~Texture2DComponent() = default;
 	Texture2DComponent(const Texture2DComponent& other) = delete;
 	Texture2DComponent(Texture2DComponent&& other) = delete;

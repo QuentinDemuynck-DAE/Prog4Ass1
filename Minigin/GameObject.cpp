@@ -5,25 +5,11 @@
 
 dae::GameObject::~GameObject() = default;
 
-void dae::GameObject::Update([[maybe_unused]] float deltaTime) 
+void dae::GameObject::Update(float deltaTime) 
 {
 	for (const auto& component : m_components)
 	{
 		component.second->Update(deltaTime);
-	}
-
-	for (const auto& component : m_components)
-	{
-		component.second->PostUpdate();
-	}
-
-	// Remove destroyed components
-	for (const auto& component : m_components)
-	{
-		if (component.second->IsDestroyed())
-		{
-			m_components.erase(component.first);
-		}
 	}
 }
 
@@ -33,6 +19,19 @@ void dae::GameObject::FixedUpdate()
 	{
 		component.second->FixedUpdate();
 	}
+}
+
+void dae::GameObject::PostUpdate(float deltaTime)
+{
+	for (const auto& component : m_components)
+	{
+		component.second->PostUpdate(deltaTime);
+	}
+
+	std::erase_if(m_components, [](const auto& component) 
+	{
+		return component.second->IsDestroyed();
+	});
 }
 
 

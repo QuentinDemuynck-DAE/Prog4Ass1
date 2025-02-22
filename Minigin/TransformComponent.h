@@ -7,7 +7,7 @@ namespace dae
 	class TransformComponent final : public Component
 	{
 	public:
-		TransformComponent(const glm::vec3& position);
+		TransformComponent(dae::GameObject& owner, const glm::vec3& position);
 		const glm::vec3& GetPosition() const { return m_position; }
 		void SetPosition(float x, float y, float z);
 	private:
