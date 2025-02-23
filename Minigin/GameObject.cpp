@@ -37,10 +37,9 @@ void dae::GameObject::PostUpdate(float deltaTime)
 
 void dae::GameObject::Render() const
 {
-	const auto& pos = m_transform.get()->GetGlobalPosition();
 	for (const auto& component : m_components)
 	{
-			component.second->Render(pos);
+			component.second->Render(m_transform.get()->GetGlobalPosition());
 	}
 }
 
@@ -60,14 +59,16 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 {
 	if(parent == this)
 	{
-		assert(false && "SetParent should not be called with itself as parent");
 		return;
 	}
 
+	if (m_parent == parent)
+	{
+		return; 
+	}
 
 	if (IsDescendant(parent))
 	{
-		assert(false && "SetParent should not be called with a descendant as parent");
 		return;
 	}
 
@@ -75,7 +76,6 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 	{
 		if (child->GetParent() == parent)
 		{
-			assert(false && "SetParent should not be called with a child as parent");
 			return;
 		}
 	}
@@ -88,7 +88,7 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 	{
 		if (keepWorldPosition)
 		{
-			m_transform.get()->SetLocalPosition(m_transform.get()->GetGlobalPosition() - m_parent->m_transform.get()->GetGlobalPosition());
+			m_transform.get()->SetLocalPosition(m_transform.get()->GetGlobalPosition() - parent->m_transform.get()->GetGlobalPosition());
 		}
 		m_transform.get()->SetPositionDirty();
 	}
@@ -96,14 +96,12 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 	// Remove from current parent if needed
 	if (m_parent)
 	{
-		auto& siblings = m_parent->m_children;
-		auto it = std::find_if(siblings.begin(), siblings.end(),
-			[this](const GameObject* child) { return child == this; });
-
-		if (it != siblings.end())
+		if (m_parent)
 		{
-			siblings.erase(it); // Erase this object from the parent's children list
+			auto it = std::remove(m_parent->m_children.begin(), m_parent->m_children.end(), this);
+			m_parent->m_children.erase(it, m_parent->m_children.end());
 		}
+
 	}
 
 	// Assign new parent
@@ -119,12 +117,13 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 
 bool dae::GameObject::IsDescendant(GameObject* target)
 {
-	for (const auto& child : m_children)
+	if (!target) return false;
+
+	GameObject* current = this;
+	while (current)
 	{
-		if (child == target || child->IsDescendant(target))
-		{
-			return true;
-		}
+		if (current == target) return true;  // Prevent cycles
+		current = current->m_parent;
 	}
 	return false;
 }

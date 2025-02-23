@@ -63,6 +63,9 @@
     <ClInclude Include="FPSComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RotateComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ResourceManager.cpp">
@@ -108,6 +111,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ObjectTransform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RotateComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
