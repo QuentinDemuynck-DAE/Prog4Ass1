@@ -1,12 +1,13 @@
 #pragma once
 #include <memory>
-#include "TransformComponent.h"
 #include <unordered_map>
 #include <typeindex>
 #include "Component.h"
+#include "Transform.h"
 
 namespace dae
 {
+	class Transform;
 	class GameObject final
 	{
 	public:
@@ -15,7 +16,9 @@ namespace dae
 		void PostUpdate(float deltaTime);
 		void Render() const;
 
-		GameObject() = default;
+		GameObject(const Transform& transform, GameObject* parent = nullptr);
+		GameObject(const glm::vec3 localPosition = { 0,0,0 }, const glm::vec3 localRotation = {0,0,0}, const glm::vec3 localScale = { 0,0,0 }, GameObject* parent = nullptr);
+
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -60,7 +63,28 @@ namespace dae
 			return (m_components.find(id) != m_components.end());
 		}
 
+		// Parenting
+		GameObject* GetParent() { return m_parent; }
+		void SetParent(GameObject* parent, bool keepWorldPosition = false);
+
+		int GetChildCount() { return int(m_children.size()); }
+		GameObject* GetChildAt(int index) { return m_children[index]; }
+
+		// Transform
+		Transform* GetTransform() { return m_transform.get(); }
+
+
 	private:
 		std::unordered_map<std::type_index, std::unique_ptr<Component>> m_components{};
+
+		std::unique_ptr<Transform> m_transform{};
+
+		GameObject* m_parent{nullptr};
+		std::vector<GameObject*> m_children{};
+
+		bool IsDescendant(GameObject* target);
+		bool IsChildOf(GameObject* target);
+		
+
 	};
 }

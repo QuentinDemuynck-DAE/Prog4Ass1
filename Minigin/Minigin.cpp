@@ -77,7 +77,16 @@ dae::Minigin::~Minigin()
 
 void dae::Minigin::Run(const std::function<void()>& load)
 {
-	const int targetFps = 60;
+	int targetFps = 60;
+
+#ifdef _WIN32
+	DEVMODE devMode;
+	if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &devMode)) {
+		targetFps = devMode.dmDisplayFrequency;
+	}
+#endif // _WIN32
+
+
 	const std::chrono::milliseconds msPerFrame(1000 / targetFps);
 	load();
 
