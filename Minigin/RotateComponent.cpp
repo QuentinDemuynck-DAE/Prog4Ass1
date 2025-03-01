@@ -22,7 +22,6 @@ void RotateComponent::Update(float deltaTime)
     auto* parentTransform = parent->GetTransform();
     if (!parentTransform) return;
 
-    // Rotation speed (degrees per second)
     float angle = glm::radians(m_speed * deltaTime); 
     if (m_clockwise)
     {
