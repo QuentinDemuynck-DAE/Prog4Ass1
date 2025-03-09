@@ -9,7 +9,7 @@ void Component::Update(float)
 {
 }
 
-void Component::Render(glm::vec3) const
+void Component::Render(glm::vec3)
 {
 }
 

@@ -32,7 +32,7 @@ void dae::TextComponent::Update(float)
 	}
 }
 
-void dae::TextComponent::Render(glm::vec3 position) const
+void dae::TextComponent::Render(glm::vec3 position)
 {
 	if (m_textTexture != nullptr)
 	{

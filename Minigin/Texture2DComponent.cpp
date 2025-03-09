@@ -1,6 +1,6 @@
 #include "Texture2DComponent.h"
 
-void Texture2DComponent::Render(glm::vec3 position) const
+void Texture2DComponent::Render(glm::vec3 position)
 {
 	dae::Renderer::GetInstance().RenderTexture(*m_texture, position.x, position.y);
 }

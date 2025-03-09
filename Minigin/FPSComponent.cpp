@@ -1,5 +1,8 @@
 #include "FPSComponent.h"
 
+#include <Windows.h>
+#include <Xinput.h>
+
 void FPSComponent::Update(float deltaTime)
 {
 	if (deltaTime > 0.0f)
