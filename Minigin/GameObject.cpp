@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
+#include "Command.h"
+#include "Subject.h"
 
 dae::GameObject::~GameObject() = default;
 
@@ -47,12 +49,15 @@ dae::GameObject::GameObject(const Transform& transform, GameObject* parent)
 {
 	m_transform = std::make_unique<Transform>(transform);
 	SetParent(parent, false);
+	m_pSubject = std::make_unique<Subject>(this);
 }
 
 dae::GameObject::GameObject(const glm::vec3 localPosition, const glm::vec3 localRotation, const glm::vec3 localScale, GameObject* parent)
 {
 	m_transform = std::make_unique<Transform>(*this, localPosition, localRotation, localScale);
 	SetParent(parent, false);
+	m_pSubject = std::make_unique<Subject>(this);
+
 }
 
 void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
@@ -114,6 +119,11 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 	}
 }
 
+
+dae::Subject* dae::GameObject::GetSubject()
+{
+	return m_pSubject.get();
+}
 
 bool dae::GameObject::IsDescendant(GameObject* target)
 {

@@ -1,50 +1,79 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "GameObject.h"
+class RigidbodyComponent;
+class HealthComponent;
+class ScoreComponent;
 
-class Command
+namespace dae
 {
-public:
-	virtual ~Command() = default;
-	virtual void Execute() = 0;
-};
+	class GameObject;
 
-
-class GameActorCommand : public Command
-{
-public:
-	GameActorCommand(class GameActor* pActor) : m_pActor{ pActor } {}
-protected:
-	class GameActor* GetActor() const { return m_pActor; }
-private:
-	class GameActor* m_pActor;
-};
-
-class LogCommand : public Command
-{
-public:
-	LogCommand(const std::string& message) : m_Message{ message } {}
-	void Execute() override { std::cout << m_Message << std::endl;  }
-
-private:
-	std::string m_Message;
-};
-
-class MoveTransformCommand : public Command
-{
-public:
-	MoveTransformCommand(dae::GameObject* gameObject, float x, float y) : m_GameObject{ gameObject }, m_X{ x }, m_Y{ y } {}
-	void Execute() override
+	class Command
 	{
-		if(!m_GameObject)
-			return;
-
-		auto pos = m_GameObject->GetTransform()->GetLocalPosition();
-		m_GameObject->GetTransform()->SetLocalPosition(pos.x + m_X, pos.y + m_Y, pos.z);
+	public:
+		virtual ~Command() = default;
+		virtual void Execute() = 0;
 	};
 
-private:
-	float m_X, m_Y;
-	dae::GameObject* m_GameObject;
-};
+
+	class GameActorCommand : public Command
+	{
+	public:
+		GameActorCommand(class GameActor* pActor) : m_pActor{ pActor } {}
+	protected:
+		class GameActor* GetActor() const { return m_pActor; }
+	private:
+		class GameActor* m_pActor;
+	};
+
+	class LogCommand : public Command
+	{
+	public:
+		LogCommand(const std::string& message) : m_Message{ message } {}
+		void Execute() override { std::cout << m_Message << std::endl; }
+
+	private:
+		std::string m_Message;
+	};
+
+	class MoveTransformCommand : public Command
+	{
+	public:
+		MoveTransformCommand(dae::GameObject* gameObject, float x, float y);
+		void Execute() override;
+
+	private:
+		float m_X, m_Y;
+		dae::GameObject* m_GameObject;
+		RigidbodyComponent* m_pRigidbody;
+	};
+
+	class DamageCommand : public Command
+	{
+	public: 
+		DamageCommand(dae::GameObject* gameObject, int amount = 10);
+		void Execute() override;
+
+	private:
+		dae::GameObject* m_GameObject;
+		HealthComponent* m_HealthComponent;
+		int m_Amount;
+
+	};
+
+	class ScoreCommand : public Command
+	{
+	public:
+		ScoreCommand(dae::GameObject* gameObject, int amount = 10);
+		void Execute() override;
+
+	private:
+		dae::GameObject* m_GameObject;
+		ScoreComponent* m_ScoreComponent;
+		int m_Amount;
+
+	};
+}
+
+

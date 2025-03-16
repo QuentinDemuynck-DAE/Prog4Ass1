@@ -34,7 +34,7 @@ void GamePad::ProcessInput()
     }
 }
 
-void GamePad::BindCommand(Button keycode, std::shared_ptr<Command> command, KeyState keyState)
+void GamePad::BindCommand(Button keycode, std::shared_ptr<dae::Command> command, KeyState keyState)
 {
 	m_Keys[keycode] = std::make_pair(keyState, command);
 }

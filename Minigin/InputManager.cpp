@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include "InputManager.h"
+#include "Command.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"

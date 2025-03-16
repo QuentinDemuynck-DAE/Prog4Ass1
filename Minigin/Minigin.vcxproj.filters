@@ -28,6 +28,9 @@
     <Filter Include="Engine Files\Command">
       <UniqueIdentifier>{c6514909-601d-49c4-aba2-6008f6bc738a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine Files\Observer">
+      <UniqueIdentifier>{ca0595b6-e4aa-4f49-a787-308c41d8d674}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -107,6 +110,33 @@
     </ClInclude>
     <ClInclude Include="GamePad.h">
       <Filter>Engine Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidbodyComponent.h">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Engine Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Events.h">
+      <Filter>Engine Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Engine Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="LivesComponent.h">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthComponent.h">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthObserver.h">
+      <Filter>Engine Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreObserver.h">
+      <Filter>Engine Files\Observer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +223,30 @@
     </ClCompile>
     <ClCompile Include="XInputImplGamePad.cpp">
       <Filter>Engine Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidbodyComponent.cpp">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Engine Files\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="LivesComponent.cpp">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthComponent.cpp">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthObserver.cpp">
+      <Filter>Engine Files\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Engine Files\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreObserver.cpp">
+      <Filter>Engine Files\Observer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

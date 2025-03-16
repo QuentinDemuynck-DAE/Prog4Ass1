@@ -2,14 +2,15 @@
 #include "Singleton.h"
 #include <Windows.h>
 #include <Xinput.h>
-#include "Command.h"
 #include <memory>
 #include <unordered_map>
 #include "Globals.h"
 #include "GamePad.h"
 
+
 namespace dae
 {
+	class Command;
 
 	class InputManager final : public Singleton<InputManager>
 	{

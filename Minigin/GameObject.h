@@ -5,9 +5,12 @@
 #include "Component.h"
 #include "Transform.h"
 
+
 namespace dae
 {
 	class Transform;
+	class Command;
+	class Subject;
 	class GameObject final
 	{
 	public:
@@ -74,6 +77,23 @@ namespace dae
 		Transform* GetTransform() { return m_transform.get(); }
 
 
+		void AddCommand(Command* command) 
+		{
+			if (command && std::find(m_pBoundCommands.begin(), m_pBoundCommands.end(), command) == m_pBoundCommands.end()) {
+				m_pBoundCommands.push_back(command);
+			}
+		}
+
+		void RemoveCommand(Command* command) 
+		{
+			auto it = std::find(m_pBoundCommands.begin(), m_pBoundCommands.end(), command);
+			if (it != m_pBoundCommands.end()) {
+				m_pBoundCommands.erase(it);
+			}
+		}
+
+		dae::Subject* GetSubject();
+
 	private:
 		std::unordered_map<std::type_index, std::unique_ptr<Component>> m_components{};
 
@@ -84,7 +104,9 @@ namespace dae
 
 		bool IsDescendant(GameObject* target);
 		bool IsChildOf(GameObject* target);
-		
 
+		std::vector<Command*> m_pBoundCommands;
+
+		std::unique_ptr<dae::Subject> m_pSubject;
 	};
 }
