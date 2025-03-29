@@ -9,7 +9,6 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include <steam_api.h>
 
 SDL_Window* g_window{};
 
@@ -112,7 +111,6 @@ void dae::Minigin::Run(const std::function<void()>& load)
 			sceneManager.FixedUpdate();
 			lag -= g_fixedTimeStep;
 		}
-		SteamAPI_RunCallbacks();
 
 		sceneManager.Update(deltaTime);
 

@@ -26,26 +26,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -117,6 +117,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
 xcopy "$(SolutionDir)3rdParty\steamworks\redistributable_bin\*.dll" "$(OutputPath)" /Y
 xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>xinput.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -143,6 +146,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
 xcopy "$(SolutionDir)3rdParty\steamworks\redistributable_bin\win64\*.dll" "$(OutputPath)" /Y
 xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>xinput.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -173,6 +179,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
 xcopy "$(SolutionDir)3rdParty\steamworks\redistributable_bin\*.dll" "$(OutputPath)" /Y
 xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>xinput.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -203,6 +212,9 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
 xcopy "$(SolutionDir)3rdParty\steamworks\redistributable_bin\win64\*.dll" "$(OutputPath)" /Y
 xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>xinput.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdParty\imgui\backends\imgui_impl_opengl3.h" />
@@ -215,32 +227,21 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClInclude Include="Component.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="Font.h" />
-    <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamePad.h" />
     <ClInclude Include="Globals.h" />
-    <ClInclude Include="HealthComponent.h" />
-    <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="LivesComponent.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RigidbodyComponent.h" />
-    <ClInclude Include="RotateComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="ScoreComponent.h" />
-    <ClInclude Include="ScoreObserver.h" />
     <ClInclude Include="Singleton.h" />
-    <ClInclude Include="SteamAchievement.h" />
     <ClInclude Include="Subject.h" />
-    <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
-    <ClInclude Include="Texture2DComponent.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="TrashTheCacheComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\backends\imgui_impl_opengl3.cpp" />
@@ -253,35 +254,19 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClCompile Include="..\3rdParty\imgui\implot.cpp" />
     <ClCompile Include="..\3rdParty\imgui\implot_items.cpp" />
     <ClCompile Include="Command.cpp" />
-    <ClCompile Include="Commands.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Font.cpp" />
-    <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GamePad.cpp" />
-    <ClCompile Include="HealthComponent.cpp" />
-    <ClCompile Include="HealthObserver.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="LivesComponent.cpp" />
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="ObjectTransform.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="RigidbodyComponent.cpp" />
-    <ClCompile Include="RotateComponent.cpp" />
-    <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="ScoreComponent.cpp" />
-    <ClCompile Include="ScoreObserver.cpp" />
-    <ClCompile Include="SteamAchievement.cpp" />
     <ClCompile Include="Subject.cpp" />
-    <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
-    <ClCompile Include="Texture2DComponent.cpp" />
-    <ClCompile Include="TransformComponent.cpp" />
-    <ClCompile Include="TrashTheCacheComponent.cpp" />
     <ClCompile Include="XInputImplGamePad.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

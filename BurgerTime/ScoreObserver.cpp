@@ -1,6 +1,5 @@
 #include "ScoreObserver.h"
 #include "Globals.h"
-#include "SteamAchievement.h"
 
 ScoreObserver::ScoreObserver(dae::TextComponent* textComponent)
 	: m_TextComponent(textComponent)
@@ -22,11 +21,6 @@ void ScoreObserver::Notify(Event event, dae::GameObject*)
 				{
 					std::string text = "Score: " + std::to_string(score);
 					m_TextComponent->SetText(text);
-				}
-
-				if (score >= 500)
-				{
-					SteamAchievement::GetInstance().SetAchievement("ACH_WIN_ONE_GAME");
 				}
 			}
 		}

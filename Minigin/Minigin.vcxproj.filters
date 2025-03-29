@@ -25,14 +25,14 @@
     <Filter Include="Libraries\Imgui">
       <UniqueIdentifier>{671ea71f-0be4-4419-b057-7864badce812}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine Files\Command">
-      <UniqueIdentifier>{c6514909-601d-49c4-aba2-6008f6bc738a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine Files\Observer">
       <UniqueIdentifier>{ca0595b6-e4aa-4f49-a787-308c41d8d674}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine Files\Achievement">
       <UniqueIdentifier>{6f2e7b38-4a99-4ac1-bc60-c19c8c68af29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine Files\Command">
+      <UniqueIdentifier>{c6514909-601d-49c4-aba2-6008f6bc738a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,21 +87,6 @@
     <ClInclude Include="Component.h">
       <Filter>Engine Files\Component</Filter>
     </ClInclude>
-    <ClInclude Include="TrashTheCacheComponent.h">
-      <Filter>Engine Files\Component\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2DComponent.h">
-      <Filter>Engine Files\Component\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TextComponent.h">
-      <Filter>Engine Files\Component\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="RotateComponent.h">
-      <Filter>Engine Files\Component\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="FPSComponent.h">
-      <Filter>Engine Files\Component\Components</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
@@ -114,35 +99,17 @@
     <ClInclude Include="GamePad.h">
       <Filter>Engine Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Events.h">
-      <Filter>Engine Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Engine Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthObserver.h">
-      <Filter>Engine Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LivesComponent.h">
-      <Filter>Engine Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Engine Files</Filter>
-    </ClInclude>
     <ClInclude Include="RigidbodyComponent.h">
-      <Filter>Engine Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreComponent.h">
-      <Filter>Engine Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreObserver.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
-    <ClInclude Include="SteamAchievement.h">
-      <Filter>Engine Files\Achievement</Filter>
+    <ClInclude Include="Events.h">
+      <Filter>Engine Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Engine Files\Observer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -176,28 +143,10 @@
     <ClCompile Include="Component.cpp">
       <Filter>Engine Files\Component</Filter>
     </ClCompile>
-    <ClCompile Include="TrashTheCacheComponent.cpp">
-      <Filter>Engine Files\Component\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture2DComponent.cpp">
-      <Filter>Engine Files\Component\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
-      <Filter>Engine Files\Component\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="RotateComponent.cpp">
-      <Filter>Engine Files\Component\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="FPSComponent.cpp">
-      <Filter>Engine Files\Component\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Engine Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="Minigin.cpp">
@@ -230,41 +179,11 @@
     <ClCompile Include="XInputImplGamePad.cpp">
       <Filter>Engine Files\Input</Filter>
     </ClCompile>
-    <ClCompile Include="HealthComponent.cpp">
-      <Filter>Libraries</Filter>
-    </ClCompile>
     <ClCompile Include="Command.cpp">
-      <Filter>Libraries</Filter>
-    </ClCompile>
-    <ClCompile Include="Commands.cpp">
-      <Filter>Libraries</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthObserver.cpp">
-      <Filter>Libraries</Filter>
-    </ClCompile>
-    <ClCompile Include="LivesComponent.cpp">
-      <Filter>Libraries</Filter>
-    </ClCompile>
-    <ClCompile Include="RigidbodyComponent.cpp">
-      <Filter>Libraries</Filter>
-    </ClCompile>
-    <ClCompile Include="RotatorComponent.cpp">
-      <Filter>Libraries</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreComponent.cpp">
-      <Filter>Libraries</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreObserver.cpp">
-      <Filter>Libraries</Filter>
+      <Filter>Engine Files\Command</Filter>
     </ClCompile>
     <ClCompile Include="Subject.cpp">
-      <Filter>Libraries</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformComponent.cpp">
-      <Filter>Libraries</Filter>
-    </ClCompile>
-    <ClCompile Include="SteamAchievement.cpp">
-      <Filter>Engine Files\Achievement</Filter>
+      <Filter>Engine Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
