@@ -112,9 +112,10 @@ void dae::Minigin::Run(const std::function<void()>& load)
 			sceneManager.FixedUpdate();
 			lag -= g_fixedTimeStep;
 		}
+		SteamAPI_RunCallbacks();
+
 		sceneManager.Update(deltaTime);
 
-		SteamAPI_RunCallbacks();
 
 		sceneManager.PostUpdate(deltaTime);
 		renderer.Render();

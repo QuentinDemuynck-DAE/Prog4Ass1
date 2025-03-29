@@ -31,6 +31,9 @@
     <Filter Include="Engine Files\Observer">
       <UniqueIdentifier>{ca0595b6-e4aa-4f49-a787-308c41d8d674}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine Files\Achievement">
+      <UniqueIdentifier>{6f2e7b38-4a99-4ac1-bc60-c19c8c68af29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -111,32 +114,35 @@
     <ClInclude Include="GamePad.h">
       <Filter>Engine Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="RigidbodyComponent.h">
-      <Filter>Engine Files\Component\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Engine Files\Observer</Filter>
-    </ClInclude>
     <ClInclude Include="Events.h">
-      <Filter>Engine Files\Observer</Filter>
-    </ClInclude>
-    <ClInclude Include="Subject.h">
-      <Filter>Engine Files\Observer</Filter>
-    </ClInclude>
-    <ClInclude Include="LivesComponent.h">
-      <Filter>Engine Files\Component\Components</Filter>
+      <Filter>Engine Files</Filter>
     </ClInclude>
     <ClInclude Include="HealthComponent.h">
-      <Filter>Engine Files\Component\Components</Filter>
+      <Filter>Engine Files</Filter>
     </ClInclude>
     <ClInclude Include="HealthObserver.h">
-      <Filter>Engine Files\Observer</Filter>
+      <Filter>Engine Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LivesComponent.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidbodyComponent.h">
+      <Filter>Engine Files</Filter>
     </ClInclude>
     <ClInclude Include="ScoreComponent.h">
-      <Filter>Engine Files\Component\Components</Filter>
+      <Filter>Engine Files</Filter>
     </ClInclude>
     <ClInclude Include="ScoreObserver.h">
-      <Filter>Engine Files\Observer</Filter>
+      <Filter>Engine Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamAchievement.h">
+      <Filter>Engine Files\Achievement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -224,29 +230,41 @@
     <ClCompile Include="XInputImplGamePad.cpp">
       <Filter>Engine Files\Input</Filter>
     </ClCompile>
-    <ClCompile Include="RigidbodyComponent.cpp">
-      <Filter>Engine Files\Component\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Subject.cpp">
-      <Filter>Engine Files\Observer</Filter>
-    </ClCompile>
-    <ClCompile Include="LivesComponent.cpp">
-      <Filter>Engine Files\Component\Components</Filter>
-    </ClCompile>
     <ClCompile Include="HealthComponent.cpp">
-      <Filter>Engine Files\Component\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthObserver.cpp">
-      <Filter>Engine Files\Observer</Filter>
+      <Filter>Libraries</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp">
-      <Filter>Engine Files\Command</Filter>
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Commands.cpp">
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthObserver.cpp">
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="LivesComponent.cpp">
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidbodyComponent.cpp">
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="RotatorComponent.cpp">
+      <Filter>Libraries</Filter>
     </ClCompile>
     <ClCompile Include="ScoreComponent.cpp">
-      <Filter>Engine Files\Component\Components</Filter>
+      <Filter>Libraries</Filter>
     </ClCompile>
     <ClCompile Include="ScoreObserver.cpp">
-      <Filter>Engine Files\Observer</Filter>
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="SteamAchievement.cpp">
+      <Filter>Engine Files\Achievement</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
