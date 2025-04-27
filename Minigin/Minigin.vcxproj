@@ -234,6 +234,7 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="PlaySoundCommand.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RigidbodyComponent.h" />
@@ -244,6 +245,7 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="ThreadSafeQueue.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
@@ -265,10 +267,12 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="ObjectTransform.cpp" />
+    <ClCompile Include="PlaySoundCommand.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SdlMixerImpl.cpp" />
     <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Texture2D.cpp" />

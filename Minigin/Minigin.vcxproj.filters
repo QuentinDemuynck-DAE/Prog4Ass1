@@ -37,6 +37,9 @@
     <Filter Include="Engine Files\Sound">
       <UniqueIdentifier>{1883fc40-48de-42ff-8f07-308baf1e023f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine Files\Helpers">
+      <UniqueIdentifier>{518a29a5-a5cc-42c4-93e6-2d370f2d0bf2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -123,6 +126,12 @@
     <ClInclude Include="ServiceLocator.h">
       <Filter>Engine Files\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="ThreadSafeQueue.h">
+      <Filter>Engine Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaySoundCommand.h">
+      <Filter>Engine Files\Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -202,6 +211,12 @@
     </ClCompile>
     <ClCompile Include="DerivedSoundSystems.cpp">
       <Filter>Engine Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SdlMixerImpl.cpp">
+      <Filter>Engine Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaySoundCommand.cpp">
+      <Filter>Engine Files\Command</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

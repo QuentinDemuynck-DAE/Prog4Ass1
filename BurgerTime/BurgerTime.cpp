@@ -27,10 +27,13 @@
 #include "ScoreObserver.h"
 #include "ScoreComponent.h"
 #include "Commands.h"
+#include "PlaySoundCommand.h"
+#include "ServiceLocator.h"
 
 void load()
 {
-
+	auto noisySoundSystem = std::make_unique<NoisySoundSystem>();
+	ServiceLocator::ProvideSoundSystem(std::make_unique<DebugSoundSystem>(std::move(noisySoundSystem)));
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
 
 	// Add background
@@ -47,6 +50,12 @@ void load()
 	go = std::make_shared<dae::GameObject>(glm::vec3{ 80,20,0 });
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	go->AddComponent<dae::TextComponent>("Programming 4 Assignment", font);
+	scene.Add(go);
+
+	//Tutorial
+	go = std::make_shared<dae::GameObject>(glm::vec3{ 100,80,0 });
+	font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 24);
+	go->AddComponent<dae::TextComponent>("Press space to play sound!", font);
 	scene.Add(go);
 
 	// Add FPS counter
@@ -133,6 +142,8 @@ void load()
 	dae::InputManager::GetInstance().BindCommand(SDLK_c, std::make_shared<dae::DamageCommand>(textureTwo.get()), KeyState::Up);
 	dae::InputManager::GetInstance().BindCommand(SDLK_z, std::make_shared<dae::ScoreCommand>(textureTwo.get()), KeyState::Up);
 	dae::InputManager::GetInstance().BindCommand(SDLK_x, std::make_shared<dae::ScoreCommand>(textureTwo.get(), 100), KeyState::Up);
+
+	dae::InputManager::GetInstance().BindCommand(SDLK_SPACE, std::make_shared<dae::PlaySoundCommand>("../Data/Audio/Start.mp3",10), KeyState::Up);
 
 
 
