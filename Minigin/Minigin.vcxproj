@@ -99,7 +99,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\imgui\backends;$(SolutionDir)3rdParty\steamworks\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\imgui\backends;$(SolutionDir)3rdParty\steamworks\public\steam;$(SolutionDir)3rdParty\SDL2_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -128,7 +128,7 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\imgui\backends;$(SolutionDir)3rdParty\steamworks\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\imgui\backends;$(SolutionDir)3rdParty\steamworks\public\steam;$(SolutionDir)3rdParty\SDL2_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -159,7 +159,7 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\imgui\backends;$(SolutionDir)3rdParty\steamworks\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\imgui\backends;$(SolutionDir)3rdParty\steamworks\public\steam;$(SolutionDir)3rdParty\SDL2_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -192,7 +192,7 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\imgui\backends;$(SolutionDir)3rdParty\steamworks\public\steam;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)3rdParty\imgui;$(SolutionDir)3rdParty\imgui\backends;$(SolutionDir)3rdParty\steamworks\public\steam;$(SolutionDir)3rdParty\SDL2_mixer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
@@ -225,6 +225,7 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClInclude Include="..\3rdParty\imgui\implot_internal.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DerivedSoundSystems.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameObject.h" />
@@ -238,7 +239,9 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClInclude Include="RigidbodyComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Transform.h" />
@@ -255,6 +258,7 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClCompile Include="..\3rdParty\imgui\implot_items.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DerivedSoundSystems.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GamePad.cpp" />
@@ -265,6 +269,7 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="XInputImplGamePad.cpp" />

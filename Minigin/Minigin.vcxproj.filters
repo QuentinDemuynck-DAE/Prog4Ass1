@@ -34,6 +34,9 @@
     <Filter Include="Engine Files\Command">
       <UniqueIdentifier>{c6514909-601d-49c4-aba2-6008f6bc738a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine Files\Sound">
+      <UniqueIdentifier>{1883fc40-48de-42ff-8f07-308baf1e023f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -111,6 +114,15 @@
     <ClInclude Include="Observer.h">
       <Filter>Engine Files\Observer</Filter>
     </ClInclude>
+    <ClInclude Include="SoundSystem.h">
+      <Filter>Engine Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="DerivedSoundSystems.h">
+      <Filter>Engine Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceLocator.h">
+      <Filter>Engine Files\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -184,6 +196,12 @@
     </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSystem.cpp">
+      <Filter>Engine Files\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="DerivedSoundSystems.cpp">
+      <Filter>Engine Files\Sound</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
