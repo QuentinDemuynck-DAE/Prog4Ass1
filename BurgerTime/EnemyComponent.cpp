@@ -1,8 +1,13 @@
 #include "EnemyComponent.h"
+#include "GameObject.h"
+#include "Subject.h"
+#include "Globals.h"
+#include "PatrolState.h"
 
-EnemyComponent::EnemyComponent(dae::GameObject& owner)
-	:Component(owner)
+EnemyComponent::EnemyComponent(dae::GameObject& owner, std::vector<dae::GameObject*> players)
+	:Component(owner), m_Players(players), m_ChasingPlayer(nullptr)
 {
+	SetState(std::make_unique<PatrolState>());
 }
 
 void EnemyComponent::Update(float deltaTime)
@@ -20,4 +25,30 @@ void EnemyComponent::SetState(std::unique_ptr<EnemyState> newState)
 	if (m_CurrentState) m_CurrentState->OnExit(GetOwner());
 	m_CurrentState = std::move(newState);
 	if (m_CurrentState) m_CurrentState->OnEnter(GetOwner());
+}
+
+void EnemyComponent::SeekPlayer()
+{
+//Temp function to check the states will be changed in later version
+	dae::GameObject* closestPlayer = nullptr;
+	float distance = SEEK_DISTANCE;
+
+
+	for (dae::GameObject* player : m_Players)
+	{
+		float newDistance = glm::distance(GetOwner().GetTransform()->GetGlobalPosition(), player->GetTransform()->GetGlobalPosition());
+		if (newDistance < distance)
+		{
+			closestPlayer = player;
+			distance = newDistance;
+		}
+
+		if (closestPlayer != nullptr)
+		{
+			Event event(make_sdbm_hash("player_seen"));
+			event.AddArg(closestPlayer);
+			GetOwner().GetSubject()->Notify(event);
+		}
+		m_ChasingPlayer = closestPlayer;
+	}
 }

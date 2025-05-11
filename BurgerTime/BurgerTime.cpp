@@ -114,7 +114,12 @@ void load()
 
 	auto enemyObserver = std::make_shared<EnemyObserver>();
 	auto enemy = std::make_shared<dae::GameObject>(glm::vec3{ 20,110,0 });
-	enemy->AddComponent<EnemyComponent>();
+
+	std::vector<dae::GameObject*> players;
+	players.push_back(textureOne.get());
+	players.push_back(textureTwo.get());
+
+	enemy->AddComponent<EnemyComponent>(players);
 	enemy->GetSubject()->AddObserver(enemyObserver);
 	enemy->AddComponent<Texture2DComponent>("EnemyOne.png");
 

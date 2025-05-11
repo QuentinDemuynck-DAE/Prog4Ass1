@@ -6,6 +6,12 @@
 #include "GameObject.h"
 #include "PatrolState.h"
 
+void ChaseState::OnEnter(dae::GameObject& game_object)
+{
+	EnemyState::OnEnter(game_object);
+	std::cout << "Entered ChaseState";
+}
+
 void ChaseState::HandleInput(dae::GameObject& object, const Event& event)
 {
 	if (event.id == make_sdbm_hash("player_unseen"))
