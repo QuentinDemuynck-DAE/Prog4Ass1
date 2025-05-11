@@ -15,11 +15,10 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
-
     strategy:
       matrix:
-        BUILD_CONFIGURATION: [ Debug, Release ]
-        BUILD_PLATFORM:    [ Win32, x64 ]
+        BUILD_CONFIGURATION: [Debug, Release]
+        BUILD_PLATFORM:    [Win32, x64]
 
     steps:
       - uses: actions/checkout@v3
@@ -27,7 +26,7 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
 
-      - name: Debug: show workspace layout
+      - name: "Debug: show workspace layout"
         run: |
           echo "Workspace root: $PWD"
           dir
