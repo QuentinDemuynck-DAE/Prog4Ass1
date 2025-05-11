@@ -158,30 +158,44 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BurgerTime.cpp" />
+    <ClCompile Include="ChaseState.cpp" />
     <ClCompile Include="Commands.cpp" />
+    <ClCompile Include="EnemyComponent.cpp" />
+    <ClCompile Include="EnemyObserver.cpp" />
+    <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HealthObserver.cpp" />
     <ClCompile Include="LivesComponent.cpp" />
+    <ClCompile Include="PatrolState.cpp" />
     <ClCompile Include="RigidbodyComponent.cpp" />
     <ClCompile Include="RotateComponent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreObserver.cpp" />
+    <ClCompile Include="StunnedState.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2DComponent.cpp" />
+    <ClCompile Include="VulnerableState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChaseState.h" />
     <ClInclude Include="Commands.h" />
+    <ClInclude Include="EnemyComponent.h" />
+    <ClInclude Include="EnemyObserver.h" />
+    <ClInclude Include="EnemyState.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="LivesComponent.h" />
+    <ClInclude Include="PatrolState.h" />
     <ClInclude Include="RigidbodyComponent.h" />
     <ClInclude Include="RotateComponent.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreObserver.h" />
+    <ClInclude Include="StunnedState.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2DComponent.h" />
+    <ClInclude Include="VulnerableState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

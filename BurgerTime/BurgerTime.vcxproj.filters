@@ -22,6 +22,12 @@
     <Filter Include="Game\Commands">
       <UniqueIdentifier>{7f73832e-26ce-4142-8225-e1b9fa420447}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\States">
+      <UniqueIdentifier>{13d59b8b-2b7e-4a18-b03e-4292fcedbdb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\States\Enemies">
+      <UniqueIdentifier>{f70897d2-cd87-45a7-bb16-9afedd72bd02}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BurgerTime.cpp">
@@ -60,6 +66,27 @@
     <ClCompile Include="Texture2DComponent.cpp">
       <Filter>Game\Components</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyState.cpp">
+      <Filter>Game\States\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="PatrolState.cpp">
+      <Filter>Game\States\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="ChaseState.cpp">
+      <Filter>Game\States\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="VulnerableState.cpp">
+      <Filter>Game\States\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="StunnedState.cpp">
+      <Filter>Game\States\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyComponent.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyObserver.cpp">
+      <Filter>Game\Observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands.h">
@@ -94,6 +121,27 @@
     </ClInclude>
     <ClInclude Include="Texture2DComponent.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyState.h">
+      <Filter>Game\States\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="PatrolState.h">
+      <Filter>Game\States\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ChaseState.h">
+      <Filter>Game\States\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="VulnerableState.h">
+      <Filter>Game\States\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="StunnedState.h">
+      <Filter>Game\States\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyComponent.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyObserver.h">
+      <Filter>Game\Observers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -243,6 +243,7 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundSystem.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="ThreadSafeQueue.h" />
@@ -274,6 +275,7 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SdlMixerImpl.cpp" />
     <ClCompile Include="SoundSystem.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="XInputImplGamePad.cpp" />

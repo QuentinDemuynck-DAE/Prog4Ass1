@@ -40,6 +40,9 @@
     <Filter Include="Engine Files\Helpers">
       <UniqueIdentifier>{518a29a5-a5cc-42c4-93e6-2d370f2d0bf2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine Files\State">
+      <UniqueIdentifier>{c3556df3-dd17-4b89-b266-096f1f9992ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -132,6 +135,9 @@
     <ClInclude Include="PlaySoundCommand.h">
       <Filter>Engine Files\Command</Filter>
     </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Engine Files\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -217,6 +223,9 @@
     </ClCompile>
     <ClCompile Include="PlaySoundCommand.cpp">
       <Filter>Engine Files\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Engine Files\State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
