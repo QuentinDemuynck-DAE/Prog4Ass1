@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  SOLUTION_FILE_PATH: Prog4Ass1/Minigin.sln
+  SOLUTION_FILE_PATH: Minigin.sln
 
 permissions:
   contents: read
@@ -15,10 +15,11 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
+
     strategy:
       matrix:
-        BUILD_CONFIGURATION: [Debug, Release]
-        BUILD_PLATFORM:    [Win32, x64]
+        BUILD_CONFIGURATION: [ Debug, Release ]
+        BUILD_PLATFORM:    [ Win32, x64 ]
 
     steps:
       - uses: actions/checkout@v3
@@ -26,5 +27,10 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
 
+      - name: Debug: show workspace layout
+        run: |
+          echo "Workspace root: $PWD"
+          dir
+
       - name: Build solution
-        run: msbuild ${{ env.SOLUTION_FILE_PATH }} /restore /m /p:Configuration=${{ matrix.BUILD_CONFIGURATION }} /p:Platform=${{ matrix.BUILD_PLATFORM }}
+        run: msbuild ./${{ env.SOLUTION_FILE_PATH }} /restore /m /p:Configuration=${{ matrix.BUILD_CONFIGURATION }} /p:Platform=${{ matrix.BUILD_PLATFORM }}
