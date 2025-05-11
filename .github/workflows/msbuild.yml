@@ -7,7 +7,6 @@ on:
     branches: [ main ]
 
 env:
-  # ← point to the real .sln
   SOLUTION_FILE_PATH: Prog4Ass1/Minigin.sln
 
 permissions:
@@ -16,7 +15,6 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
-
     strategy:
       matrix:
         BUILD_CONFIGURATION: [Debug, Release]
@@ -29,6 +27,4 @@ jobs:
         uses: microsoft/setup-msbuild@v1
 
       - name: Build solution
-        run: msbuild ${{ env.SOLUTION_FILE_PATH }} /restore /m \
-             /p:Configuration=${{ matrix.BUILD_CONFIGURATION }} \
-             /p:Platform=${{ matrix.BUILD_PLATFORM }}
+        run: msbuild ${{ env.SOLUTION_FILE_PATH }} /restore /m /p:Configuration=${{ matrix.BUILD_CONFIGURATION }} /p:Platform=${{ matrix.BUILD_PLATFORM }}
