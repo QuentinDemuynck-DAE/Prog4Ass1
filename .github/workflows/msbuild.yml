@@ -1,4 +1,4 @@
-name: MSBuild
+name: MSBuild CI
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 env:
-  # Correct path from repo root to your solution:
+  # ← Correct path to your .sln here:
   SOLUTION_FILE_PATH: Prog4Ass1/Minigin.sln
 
 permissions:
@@ -18,21 +18,22 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
+        # Test both Debug and Release
         BUILD_CONFIGURATION: [Debug, Release]
+        # The only valid platforms in your .sln are Win32 and x64
         BUILD_PLATFORM:    [Win32, x64]
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Check out code
+        uses: actions/checkout@v3
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1
 
-      - name: Restore NuGet packages
-        # will do nothing now if you have no packages, but safe to leave:
-        run: nuget restore ${{ env.SOLUTION_FILE_PATH }}
-
-      - name: Build solution
-        run: msbuild ${{ env.SOLUTION_FILE_PATH }} \
-              /m \
-              /p:Configuration=${{ matrix.BUILD_CONFIGURATION }} \
-              /p:Platform=${{ matrix.BUILD_PLATFORM }}
+      - name: Build & restore NuGet packages
+        run: |
+          msbuild ${{ env.SOLUTION_FILE_PATH }} \
+            /restore \
+            /m \
+            /p:Configuration=${{ matrix.BUILD_CONFIGURATION }} \
+            /p:Platform=${{ matrix.BUILD_PLATFORM }}
