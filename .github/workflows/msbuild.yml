@@ -1,37 +1,35 @@
-name: MSBuild
+name: MSBuild CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 env:
-  # Path to the solution file relative to the root of the project.
-  SOLUTION_FILE_PATH: .
+  SOLUTION_FILE_PATH: Minigin.sln
 
 permissions:
   contents: read
 
 jobs:
- build:
+  build:
     runs-on: windows-latest
     strategy:
       matrix:
-        BUILD_CONFIGURATION: [Release, Debug]
-        BUILD_PLATFORM: [x64, x86]
+        BUILD_CONFIGURATION: [Debug, Release]
+        BUILD_PLATFORM:    [Win32, x64]
+
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.1.3
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
 
-    - name: Restore NuGet packages
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+      - name: "Debug: show workspace layout"
+        run: |
+          echo "Workspace root: $PWD"
+          dir
 
-    - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      # Add additional options to the MSBuild command line here (like platform or verbosity level).
-      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: msbuild /m /p:Configuration=${{matrix.BUILD_CONFIGURATION}} /p:Platform=${{matrix.BUILD_PLATFORM}} ${{env.SOLUTION_FILE_PATH}}
+      - name: Build solution
+        run: msbuild ./${{ env.SOLUTION_FILE_PATH }} /restore /m /p:Configuration=${{ matrix.BUILD_CONFIGURATION }} /p:Platform=${{ matrix.BUILD_PLATFORM }}
