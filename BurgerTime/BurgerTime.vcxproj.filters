@@ -87,6 +87,12 @@
     <ClCompile Include="EnemyObserver.cpp">
       <Filter>Game\Observers</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerComponent.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ShootPepperCommand.cpp">
+      <Filter>Game\Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands.h">
@@ -142,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="EnemyObserver.h">
       <Filter>Game\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerComponent.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ShootPepperCommand.h">
+      <Filter>Game\Commands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

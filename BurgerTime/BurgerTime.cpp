@@ -36,9 +36,8 @@
 #include "PatrolState.h"
 #include "PlaySoundCommand.h"
 #include "ServiceLocator.h"
-
-
-
+#include "ShootPepperCommand.h"
+#include "PlayerComponent.h"
 
 
 void load()
@@ -125,6 +124,10 @@ void load()
 	textureOne->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
 	textureTwo->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
 
+	textureOne->AddComponent<PlayerComponent>();
+	textureTwo->AddComponent<PlayerComponent>();
+
+
 
 
 	auto enemyObserver = std::make_shared<EnemyObserver>();
@@ -160,7 +163,7 @@ void load()
 		gamePad->BindCommand(GamePad::Button::DPadDown, std::make_shared<dae::MoveTransformCommand>(textureOne.get(), 0.f, speed), KeyState::Pressed);
 		gamePad->BindCommand(GamePad::Button::DPadLeft, std::make_shared<dae::MoveTransformCommand>(textureOne.get(), -speed, 0.f), KeyState::Pressed);
 		gamePad->BindCommand(GamePad::Button::DPadRight, std::make_shared<dae::MoveTransformCommand>(textureOne.get(), speed, 0.f), KeyState::Pressed);
-		gamePad->BindCommand(GamePad::Button::ButtonX, std::make_shared<dae::DamageCommand>(textureOne.get()), KeyState::Up);
+		gamePad->BindCommand(GamePad::Button::ButtonX, std::make_shared<dae::ShootPepperCommand>(textureOne.get()), KeyState::Up);
 		gamePad->BindCommand(GamePad::Button::ButtonA, std::make_shared<dae::ScoreCommand>(textureOne.get()), KeyState::Up);
 		gamePad->BindCommand(GamePad::Button::ButtonB, std::make_shared<dae::ScoreCommand>(textureOne.get(), 100), KeyState::Up);
 
@@ -171,7 +174,7 @@ void load()
 	dae::InputManager::GetInstance().BindCommand(SDLK_s, std::make_shared<dae::MoveTransformCommand>(textureTwo.get(), 0.f, speed * 2.f), KeyState::Pressed);
 	dae::InputManager::GetInstance().BindCommand(SDLK_a, std::make_shared<dae::MoveTransformCommand>(textureTwo.get(), -speed * 2.f, 0.f), KeyState::Pressed);
 	dae::InputManager::GetInstance().BindCommand(SDLK_d, std::make_shared<dae::MoveTransformCommand>(textureTwo.get(), speed * 2.f, 0.f), KeyState::Pressed);
-	dae::InputManager::GetInstance().BindCommand(SDLK_c, std::make_shared<dae::DamageCommand>(textureTwo.get()), KeyState::Up);
+	dae::InputManager::GetInstance().BindCommand(SDLK_c, std::make_shared<dae::ShootPepperCommand>(textureTwo.get()), KeyState::Up);
 	dae::InputManager::GetInstance().BindCommand(SDLK_z, std::make_shared<dae::ScoreCommand>(textureTwo.get()), KeyState::Up);
 	dae::InputManager::GetInstance().BindCommand(SDLK_x, std::make_shared<dae::ScoreCommand>(textureTwo.get(), 100), KeyState::Up);
 

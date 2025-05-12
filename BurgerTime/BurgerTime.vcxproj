@@ -168,10 +168,12 @@
     <ClCompile Include="HealthObserver.cpp" />
     <ClCompile Include="LivesComponent.cpp" />
     <ClCompile Include="PatrolState.cpp" />
+    <ClCompile Include="PlayerComponent.cpp" />
     <ClCompile Include="RigidbodyComponent.cpp" />
     <ClCompile Include="RotateComponent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreObserver.cpp" />
+    <ClCompile Include="ShootPepperCommand.cpp" />
     <ClCompile Include="StunnedState.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2DComponent.cpp" />
@@ -188,10 +190,12 @@
     <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="LivesComponent.h" />
     <ClInclude Include="PatrolState.h" />
+    <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="RigidbodyComponent.h" />
     <ClInclude Include="RotateComponent.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreObserver.h" />
+    <ClInclude Include="ShootPepperCommand.h" />
     <ClInclude Include="StunnedState.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2DComponent.h" />
