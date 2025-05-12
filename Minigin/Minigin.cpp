@@ -5,13 +5,15 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include "Minigin.h"
+
+#include "CollisionListener.h"
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+std::unique_ptr<b2World> dae::Minigin::physicsWorld = nullptr;
 
 SDL_Window* g_window{};
-
 void PrintSDLVersion()
 {
 	SDL_version version{};
@@ -65,6 +67,11 @@ dae::Minigin::Minigin(const std::string &dataPath)
 	Renderer::GetInstance().Init(g_window);
 
 	ResourceManager::GetInstance().Init(dataPath);
+
+	b2Vec2 gravity{ 0.0f, 0.0f };
+	physicsWorld = std::make_unique<b2World>(gravity);
+	m_CollisionListenerPtr = std::make_unique<CollisionListener>();
+	physicsWorld->SetContactListener(m_CollisionListenerPtr.get());
 }
 
 dae::Minigin::~Minigin()
@@ -110,6 +117,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		while (lag >= g_fixedTimeStep)
 		{
 			sceneManager.FixedUpdate();
+			physicsWorld->Step(g_fixedTimeStep, 3, 8);
+
 			lag -= g_fixedTimeStep;
 		}
 
@@ -118,7 +127,6 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 		sceneManager.PostUpdate(deltaTime);
 		renderer.Render();
-
 		const auto sleepTime = currentTime + std::chrono::milliseconds(msPerFrame) - std::chrono::high_resolution_clock::now();
 		std::this_thread::sleep_for(sleepTime);
 	}

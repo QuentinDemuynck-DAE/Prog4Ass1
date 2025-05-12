@@ -104,3 +104,16 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 }
 
 SDL_Renderer* dae::Renderer::GetSDLRenderer() const { return m_renderer; }
+
+void dae::Renderer::DrawLine(float x1, float y1, float x2, float y2, SDL_Color color) const
+{
+	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+
+	SDL_RenderDrawLine(
+		m_renderer,
+		static_cast<int>(x1),
+		static_cast<int>(y1),
+		static_cast<int>(x2),
+		static_cast<int>(y2)
+	);
+}

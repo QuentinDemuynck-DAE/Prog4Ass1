@@ -19,11 +19,21 @@ public:
 	void SetState(std::unique_ptr<EnemyState> newState);
 
 	void SeekPlayer();
+	void ChasePlayer();
+	void SetCanMove(bool canMove);
+	void Patrol(float dt);
+	void ResetPatrolTimer();
 
 private:
-	const float SEEK_DISTANCE = 2000.0f;
+	void Move(float deltaTime);
+	bool m_CanMove = true;
+	const float SEEK_DISTANCE = 100.0f;
+	const float MOVEMENT_SPEED = 10.0f;
+	const float CALCULATE_NEW_PATROL_DIR = 3.0f;
 	std::unique_ptr<EnemyState> m_CurrentState;
 	std::vector<dae::GameObject*> m_Players;
 	dae::GameObject* m_ChasingPlayer;
+	glm::vec3 m_Direction;
+	float m_PatrolDirectionTimer;
 };
 

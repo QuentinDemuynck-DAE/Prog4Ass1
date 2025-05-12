@@ -7,6 +7,10 @@
 #endif
 #endif
 
+#include "Collision.h"
+
+#include "CollisionComponent.h"
+#include "CollisionListener.h"
 #include "Minigin.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
@@ -29,11 +33,17 @@
 #include "Commands.h"
 #include "EnemyComponent.h"
 #include "EnemyObserver.h"
+#include "PatrolState.h"
 #include "PlaySoundCommand.h"
 #include "ServiceLocator.h"
 
+
+
+
+
 void load()
 {
+
 	auto noisySoundSystem = std::make_unique<NoisySoundSystem>();
 	ServiceLocator::ProvideSoundSystem(std::make_unique<DebugSoundSystem>(std::move(noisySoundSystem)));
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
@@ -66,7 +76,7 @@ void load()
 	go->AddComponent<FPSComponent>();
 	scene.Add(go);
 
-	auto textureOne = std::make_shared<dae::GameObject>(glm::vec3{ 20,20,0 });
+	auto textureOne = std::make_shared<dae::GameObject>(glm::vec3{ 20,200,0 });
 	auto textureTwo = std::make_shared<dae::GameObject>(glm::vec3{ 20,10,0 });
 
 	textureOne->AddComponent<RigidbodyComponent>();
@@ -112,6 +122,11 @@ void load()
 	textureOne.get()->GetSubject()->AddObserver(scoreObserverOne);
 	textureTwo.get()->GetSubject()->AddObserver(scoreObserverTwo);
 
+	textureOne->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
+	textureTwo->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
+
+
+
 	auto enemyObserver = std::make_shared<EnemyObserver>();
 	auto enemy = std::make_shared<dae::GameObject>(glm::vec3{ 20,110,0 });
 
@@ -119,11 +134,14 @@ void load()
 	players.push_back(textureOne.get());
 	players.push_back(textureTwo.get());
 
-	enemy->AddComponent<EnemyComponent>(players);
-	enemy->GetSubject()->AddObserver(enemyObserver);
 	enemy->AddComponent<Texture2DComponent>("EnemyOne.png");
+	enemy->GetSubject()->AddObserver(enemyObserver);
+	enemy->AddComponent<EnemyComponent>(players);
+	enemy->GetComponent<EnemyComponent>()->SetState(std::make_unique<PatrolState>());
+	enemy->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
 
 	scene.Add(enemy);
+
 	scene.Add(livesPlayerOne);
 	scene.Add(livesPlayerTwo);
 

@@ -138,6 +138,12 @@
     <ClInclude Include="State.h">
       <Filter>Engine Files\State</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionComponent.h">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -227,5 +233,14 @@
     <ClCompile Include="State.cpp">
       <Filter>Engine Files\State</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionComponent.cpp">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionListener.h">
+      <Filter>Engine Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

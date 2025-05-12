@@ -6,9 +6,10 @@
 #include "GameObject.h"
 #include "PatrolState.h"
 
-void ChaseState::OnEnter(dae::GameObject& game_object)
+void ChaseState::OnEnter(dae::GameObject& gameObject)
 {
-	EnemyState::OnEnter(game_object);
+	EnemyState::OnEnter(gameObject);
+	m_EnemyComponent = gameObject.GetComponent<EnemyComponent>();
 	std::cout << "Entered ChaseState";
 }
 
@@ -20,9 +21,16 @@ void ChaseState::HandleInput(dae::GameObject& object, const Event& event)
 		enemyComponent->SetState(std::make_unique<PatrolState>());
 	}
 
-	if (event.id == make_sdbm_hash("pepper_hit"))
+	if (event.id == make_sdbm_hash("collision_enter"))
 	{
 		auto* enemyComponent = object.GetComponent<EnemyComponent>();
 		enemyComponent->SetState(std::make_unique<VulnerableState>());
 	}
+}
+
+void ChaseState::Update(dae::GameObject& game_object, float deltaTime)
+{
+	EnemyState::Update(game_object, deltaTime);
+	m_EnemyComponent->ChasePlayer();
+	m_EnemyComponent->SeekPlayer();
 }

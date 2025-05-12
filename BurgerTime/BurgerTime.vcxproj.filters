@@ -146,5 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
