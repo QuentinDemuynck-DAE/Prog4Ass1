@@ -1,5 +1,4 @@
 #include "CollisionComponent.h"
-#include "CollisionComponent.h"
 
 #include "Events.h"
 #include "GameObject.h"
@@ -7,27 +6,45 @@
 #include "Renderer.h"
 #include "Subject.h"
 
-CollisionComponent::CollisionComponent(dae::GameObject& owner, b2World& world,
-                                       const glm::vec2& halfSize, const glm::vec2& offset, bool dynamic, bool isSensor)
+CollisionComponent::CollisionComponent(dae::GameObject& owner,
+    b2World& world,
+    const glm::vec2& halfSize,
+    const glm::vec2& offset,
+    bool dynamic,
+    bool isSensor)
     : Component(owner)
     , m_World(world)
-    , m_HalfSize(halfSize)
-    , m_Offset(offset)
 {
+    glm::vec2 globalScale{
+        owner.GetTransform()->GetGlobalScale().x,
+        owner.GetTransform()->GetGlobalScale().y
+    };
+
+    m_HalfSize = halfSize * globalScale;
+
+    glm::vec2 scaledOffset = offset * globalScale;
 
     b2BodyDef bd;
     bd.type = dynamic ? b2_dynamicBody : b2_staticBody;
-    glm::vec3 pos = owner.GetTransform()->GetGlobalPosition();
-    bd.position.Set(pos.x + offset.x, pos.y + offset.y);
-    glm::vec3 eulerDeg = owner.GetTransform()->GetGlobalRotation();
-    float   angleRad = glm::radians(eulerDeg.z);
-    bd.angle = angleRad;
-    // store this component
-    bd.userData = this;
 
+    glm::vec3 pos3 = owner.GetTransform()->GetGlobalPosition();
+    bd.position.Set(pos3.x, pos3.y);
+
+    glm::vec3 eulerDeg = owner.GetTransform()->GetGlobalRotation();
+    float angleRad = glm::radians(eulerDeg.z);
+    bd.angle = angleRad;
+
+    bd.userData = this;
     m_pBody = m_World.CreateBody(&bd);
+
+
     b2PolygonShape shape;
-    shape.SetAsBox(m_HalfSize.x, m_HalfSize.y);
+    shape.SetAsBox(
+        m_HalfSize.x,
+        m_HalfSize.y,
+         b2Vec2{ scaledOffset.x, scaledOffset.y },
+         0.0f
+    );
 
     b2FixtureDef fd;
     fd.shape = &shape;
@@ -35,13 +52,16 @@ CollisionComponent::CollisionComponent(dae::GameObject& owner, b2World& world,
     m_pFixture = m_pBody->CreateFixture(&fd);
 }
 
+
 CollisionComponent::~CollisionComponent()
 {
     if (m_pBody)
+    {
         m_World.DestroyBody(m_pBody);
+    }
 }
 
-void CollisionComponent::Update(float /*dt*/)
+void CollisionComponent::Update(float)
 {
     // Snap the Box2D body to match the GameObject transform each frame
     glm::vec3 pos = GetOwner().GetTransform()->GetGlobalPosition();
@@ -72,9 +92,9 @@ void CollisionComponent::OnTriggerExit(CollisionComponent* other)
     GetOwner().GetSubject()->Notify(e);
 }
 
-void CollisionComponent::Render(glm::vec3 position)
+void CollisionComponent::Render(glm::vec3 position, glm::vec2)
 {
-    Component::Render(position);
+    Component::Render(position, glm::vec2{1,1}); // m_HalfSize gets scaled
 
     if (!m_DrawDebug || !m_pFixture)
         return;

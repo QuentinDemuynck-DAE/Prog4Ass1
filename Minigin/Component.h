@@ -18,7 +18,7 @@ public:
 
 	virtual void Update(float deltaTime);
 	virtual void FixedUpdate() {};
-	virtual void Render(glm::vec3 position);
+	virtual void Render(glm::vec3 position, glm::vec2 scale);
 	virtual void PostUpdate(float deltaTime);
 
 	void Destroy() { m_destroyed = true; }

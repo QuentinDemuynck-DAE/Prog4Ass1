@@ -55,7 +55,7 @@ dae::Minigin::Minigin(const std::string &dataPath)
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		640,
+		480,
 		480,
 		SDL_WINDOW_OPENGL
 	);
@@ -76,6 +76,7 @@ dae::Minigin::Minigin(const std::string &dataPath)
 
 dae::Minigin::~Minigin()
 {
+	physicsWorld->SetContactListener(nullptr);
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;

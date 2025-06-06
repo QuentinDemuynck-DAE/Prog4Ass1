@@ -41,7 +41,10 @@ void dae::GameObject::Render() const
 {
 	for (const auto& component : m_components)
 	{
-			component.second->Render(m_transform.get()->GetGlobalPosition());
+		component.second->Render(
+			m_transform->GetGlobalPosition(),
+			glm::vec2(m_transform->GetGlobalScale())
+		);
 	}
 }
 

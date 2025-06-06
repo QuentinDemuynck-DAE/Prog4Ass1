@@ -45,12 +45,15 @@ void load()
 
 	auto noisySoundSystem = std::make_unique<NoisySoundSystem>();
 	ServiceLocator::ProvideSoundSystem(std::make_unique<DebugSoundSystem>(std::move(noisySoundSystem)));
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = dae::SceneManager::GetInstance().CreateScene("LevelOne");
 
+	auto map = std::make_shared<dae::GameObject>(glm::vec3{ 0,0,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
+	map->AddComponent<Texture2DComponent>("levelOne.png");
+	scene.Add(map);
 	// Add background
 	auto go = std::make_shared<dae::GameObject>(glm::vec3{ 0,0,0 });
-	go->AddComponent<Texture2DComponent>("background.tga");
-	scene.Add(go);
+	//go->AddComponent<Texture2DComponent>("background.tga");
+	//scene.Add(go);
 
 	// Add logo
 	go = std::make_shared<dae::GameObject>(glm::vec3{ 216,180,0 });
@@ -75,8 +78,8 @@ void load()
 	go->AddComponent<FPSComponent>();
 	scene.Add(go);
 
-	auto textureOne = std::make_shared<dae::GameObject>(glm::vec3{ 20,200,0 });
-	auto textureTwo = std::make_shared<dae::GameObject>(glm::vec3{ 20,10,0 });
+	auto textureOne = std::make_shared<dae::GameObject>(glm::vec3{ 20,200,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
+	auto textureTwo = std::make_shared<dae::GameObject>(glm::vec3{ 20,10,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
 
 	textureOne->AddComponent<RigidbodyComponent>();
 	textureTwo->AddComponent<RigidbodyComponent>(20.f, 10.f, 0.1f);
@@ -97,11 +100,11 @@ void load()
 	auto smallerFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
 
 
-	auto livesPlayerOne = std::make_shared<dae::GameObject>(glm::vec3{ 20,80,0 });
-	auto scorePlayerOne = std::make_shared<dae::GameObject>(glm::vec3{ 20,95,0 });
+	auto livesPlayerOne = std::make_shared<dae::GameObject>(glm::vec3{ 20,80,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
+	auto scorePlayerOne = std::make_shared<dae::GameObject>(glm::vec3{ 20,95,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
 
-	auto livesPlayerTwo = std::make_shared<dae::GameObject>(glm::vec3{ 20,110,0 });
-	auto scorePlayerTwo = std::make_shared<dae::GameObject>(glm::vec3{ 20,125,0 });
+	auto livesPlayerTwo = std::make_shared<dae::GameObject>(glm::vec3{ 20,110,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
+	auto scorePlayerTwo = std::make_shared<dae::GameObject>(glm::vec3{ 20,125,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
 
 	livesPlayerOne->AddComponent<dae::TextComponent>("# of lifes: 5", smallerFont);
 	livesPlayerTwo->AddComponent<dae::TextComponent>("# of lifes: 5", smallerFont);
@@ -131,7 +134,7 @@ void load()
 
 
 	auto enemyObserver = std::make_shared<EnemyObserver>();
-	auto enemy = std::make_shared<dae::GameObject>(glm::vec3{ 20,110,0 });
+	auto enemy = std::make_shared<dae::GameObject>(glm::vec3{ 20,110,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
 
 	std::vector<dae::GameObject*> players;
 	players.push_back(textureOne.get());
@@ -153,7 +156,6 @@ void load()
 
 
 	const float speed{ 1.f };
-	speed;
 	//Connect controllers
 	for (int i = 0; i < g_maxControllers; i++)
 	{
@@ -185,7 +187,7 @@ void load()
 	scene.Add(textureOne);
 	scene.Add(textureTwo);
 
-
+	dae::SceneManager::GetInstance().SetActiveScene("LevelOne");
 }
 
 int main(int, char* []) 

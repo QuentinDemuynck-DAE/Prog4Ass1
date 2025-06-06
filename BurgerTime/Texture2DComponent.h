@@ -10,7 +10,7 @@
 class Texture2DComponent final : public Component
 {
 public:
-	void Render(glm::vec3 position) override;
+	void Render(glm::vec3 position, glm::vec2 scale) override;
 	void SetTexture(const std::string& filename);
 
 	Texture2DComponent(dae::GameObject& owner, const std::string& filename);

@@ -8,7 +8,7 @@ namespace dae
 	class Transform final
 	{
 	public:
-		Transform(GameObject& owner, const glm::vec3& localPosition = { 0,0,0 }, const glm::vec3& localRotation = { 0,0,0 }, const glm::vec3& localScale = { 0,0,0 });
+		Transform(GameObject& owner, const glm::vec3& localPosition = { 0,0,0 }, const glm::vec3& localRotation = { 0,0,0 }, const glm::vec3& localScale = { 1.0,1.0,1.0 });
 		const glm::vec3& GetLocalPosition() const { return m_localPosition; }
 		void SetLocalPosition(const float x,const float y,const  float z);
 		void SetLocalPosition(const glm::vec3& position) { SetPositionDirty(); m_localPosition = position; }

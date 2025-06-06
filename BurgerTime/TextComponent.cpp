@@ -32,14 +32,15 @@ void dae::TextComponent::Update(float)
 	}
 }
 
-void dae::TextComponent::Render(glm::vec3 position)
+void dae::TextComponent::Render(glm::vec3 position, glm::vec2 scale)
 {
+	Component::Render(position, scale);
+
 	if (m_textTexture != nullptr)
 	{
-		Renderer::GetInstance().RenderTexture(*m_textTexture, position.x, position.y);
+		Renderer::GetInstance().RenderTexture(*m_textTexture, position.x, position.y, scale);
 	}
 }
-
 
 // This implementation uses the "dirty flag" pattern
 void dae::TextComponent::SetText(const std::string& text)

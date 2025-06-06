@@ -20,7 +20,7 @@ namespace dae
 		void Render() const;
 
 		GameObject(const Transform& transform, GameObject* parent = nullptr);
-		GameObject(const glm::vec3 localPosition = { 0,0,0 }, const glm::vec3 localRotation = {0,0,0}, const glm::vec3 localScale = { 0,0,0 }, GameObject* parent = nullptr);
+		GameObject(const glm::vec3 localPosition = { 0,0,0 }, const glm::vec3 localRotation = {0,0,0}, const glm::vec3 localScale = { 1,1,1 }, GameObject* parent = nullptr);
 
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;

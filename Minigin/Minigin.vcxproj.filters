@@ -144,6 +144,9 @@
     <ClInclude Include="Collision.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
+    <ClInclude Include="AnimatedSpriteComponent.h">
+      <Filter>Engine Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -238,6 +241,9 @@
     </ClCompile>
     <ClCompile Include="CollisionListener.h">
       <Filter>Engine Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimatedSpriteComponent.cpp">
+      <Filter>Libraries</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

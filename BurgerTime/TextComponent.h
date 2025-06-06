@@ -12,8 +12,7 @@ namespace dae
 	{
 	public:
 		void Update(float deltaTime) override;
-		void Render(glm::vec3 position) override;
-
+		void Render(glm::vec3 position, glm::vec2 scale) override;
 		void SetText(const std::string& text);
 
 		TextComponent(dae::GameObject& owner, const std::string& text, std::shared_ptr<Font> font);

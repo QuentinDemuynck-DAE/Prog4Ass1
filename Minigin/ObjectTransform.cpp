@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Transform.h"
 #include "GameObject.h"
 
@@ -10,6 +12,8 @@ dae::Transform::Transform(GameObject& owner, const glm::vec3& localPosition, con
     m_globalPosition = m_localPosition;
     m_globalRotation = m_localRotation;
     m_globalScale = m_localScale;
+
+    std::cout << "Scale: " << m_globalScale.x;
 }
 
 // --- POSITION ---

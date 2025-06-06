@@ -31,7 +31,7 @@ public:
     b2Body* GetBody()    const { return m_pBody; }
     b2Fixture* GetFixture() const { return m_pFixture; }
 
-    void Render(glm::vec3 position) override;
+    void Render(glm::vec3 position, glm::vec2 scale) override;
 
 private:
     b2World& m_World;

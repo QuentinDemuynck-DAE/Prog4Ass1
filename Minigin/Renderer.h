@@ -1,5 +1,7 @@
 #pragma once
 #include <SDL.h>
+#include <vec2.hpp>
+
 #include "Singleton.h"
 
 namespace dae
@@ -18,7 +20,7 @@ namespace dae
 		void Render() const;
 		void Destroy();
 
-		void RenderTexture(const Texture2D& texture, float x, float y) const;
+		void RenderTexture(const Texture2D& texture, float x, float y, glm::vec2 scale = {1.0,1.0}) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
 
 		SDL_Renderer* GetSDLRenderer() const;

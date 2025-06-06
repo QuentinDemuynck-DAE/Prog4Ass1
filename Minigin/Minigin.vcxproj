@@ -223,6 +223,7 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClInclude Include="..\3rdParty\imgui\imgui_internal.h" />
     <ClInclude Include="..\3rdParty\imgui\implot.h" />
     <ClInclude Include="..\3rdParty\imgui\implot_internal.h" />
+    <ClInclude Include="AnimatedSpriteComponent.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionComponent.h" />
     <ClInclude Include="Command.h" />
@@ -261,6 +262,7 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClCompile Include="..\3rdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\3rdParty\imgui\implot.cpp" />
     <ClCompile Include="..\3rdParty\imgui\implot_items.cpp" />
+    <ClCompile Include="AnimatedSpriteComponent.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
     <ClCompile Include="CollisionListener.h" />
     <ClCompile Include="Command.cpp" />
