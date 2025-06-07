@@ -20,7 +20,7 @@ void dae::ShootPepperCommand::Execute()
 	{
 		auto pepper = std::make_shared<GameObject>(glm::vec3{ 24, 24,24 });
 		pepper->AddComponent<Texture2DComponent>("pepper.png");
-		pepper->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
+		pepper->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), dae::CollisionLayers::SALT, dae::CollisionLayers::ENEMY , glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
 		pepper->SetParent(m_OwningObj);
 		m_PlayerComponent->SetIsShooting(true);
 		m_PlayerComponent->SetPepper(pepper.get());

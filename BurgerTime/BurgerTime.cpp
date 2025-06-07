@@ -43,6 +43,7 @@
 
 #include "DebugPositionCommand.h"
 #include "EnemyComponent.h"
+#include "MapComponent.h"
 #include "SVGParser.h"
 
 
@@ -73,6 +74,7 @@ void load()
 
 	auto map = std::make_shared<dae::GameObject>(mapOffset, glm::vec3{ 0,0,0 }, mapScale);
 	map->AddComponent<Texture2DComponent>("levelOne.png");
+	map->AddComponent<dae::MapComponent>(*dae::Minigin::physicsWorld.get(),"levelOne.json" , glm::vec2{ 0,0 });
 	scene.Add(map);
 
 
@@ -138,61 +140,36 @@ void load()
 	textureOne.get()->GetSubject()->AddObserver(scoreObserverOne);
 	textureTwo.get()->GetSubject()->AddObserver(scoreObserverTwo);
 
-	textureOne->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
-	textureTwo->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
+	dae::CollisionLayers playerColidesWith
+	{
+		dae::CollisionLayers::ALL & ~dae::CollisionLayers::PLAYER
+
+	};
+
+	dae::CollisionLayers playerOwnLayer
+	{
+		dae::CollisionLayers::PLAYER
+	};
+
+	textureOne->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(),playerOwnLayer, playerColidesWith, glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
+	textureTwo->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), playerOwnLayer, playerColidesWith, glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
 
 	textureOne->AddComponent<PlayerComponent>();
 	textureTwo->AddComponent<PlayerComponent>();
 
-	const float svgRemap{ 0.75 }; // it somehow kept being 280 x 280 even though I set it to th same value as the texture, this is my stupid solution its 210 / 280
 
-	auto floors = dae::parseRectsInLayer("firstLevel.svg", "Floor");
-	for (auto floor : floors)
-	{
-		glm::vec3 position
-		{
-			mapOffset.x + (floor.x * mapScale.x * svgRemap),
-			mapOffset.y + (floor.y * mapScale.y * svgRemap),
-			0.0f
-		};
-
-		glm::vec2 halfSize
-		{
-			floor.width * 0.5 * svgRemap,
-			floor.height *0.5 * svgRemap
-		};
-
-		auto floorGameObject = std::make_shared<dae::GameObject>(position, glm::vec3{ 0,0,0 }, mapScale);
-		floorGameObject->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), halfSize, halfSize, true, false);
-		scene.Add(floorGameObject);
-	}
-
-	auto walls = dae::parseRectsInLayer("firstLevel.svg", "Walls");
-	for (auto wall : walls)
-	{
-		glm::vec3 position
-		{
-			mapOffset.x + (wall.x * mapScale.x * svgRemap),
-			mapOffset.y + (wall.y * mapScale.y * svgRemap) ,
-			0.0f
-		};
-
-		glm::vec2 halfSize
-		{
-			wall.width * 0.5 * svgRemap,
-			wall.height * 0.5 * svgRemap
-		};
-
-		auto wallGameObject = std::make_shared<dae::GameObject>(position, glm::vec3{ 0,0,0 }, mapScale);
-		wallGameObject->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), halfSize, halfSize, true, false);
-		scene.Add(wallGameObject);
-	}
-
-
+	auto mapGrid = dae::loadMapFromTiledJSON("levelOne.json", glm::vec2{ mapScale });
+	//const float svgRemap{ 0.75 }; // it somehow kept being 280 x 280 even though I set it to th same value as the texture, this is my stupid solution its 210 / 280
 
 
 	auto enemyObserver = std::make_shared<EnemyObserver>();
 	auto enemy = std::make_shared<dae::GameObject>(glm::vec3{ 20,110,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
+
+
+	dae::CollisionLayers enemyCollidesWith
+	{
+		dae::CollisionLayers::PLAYER | dae::CollisionLayers::SALT
+	};
 
 	std::vector<dae::GameObject*> players;
 	players.push_back(textureOne.get());
@@ -202,7 +179,7 @@ void load()
 	enemy->GetSubject()->AddObserver(enemyObserver);
 	enemy->AddComponent<EnemyComponent>(players);
 	enemy->GetComponent<EnemyComponent>()->SetState(std::make_unique<PatrolState>());
-	enemy->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
+	enemy->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(),dae::CollisionLayers::ENEMY, enemyCollidesWith, glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
 
 	scene.Add(enemy);
 

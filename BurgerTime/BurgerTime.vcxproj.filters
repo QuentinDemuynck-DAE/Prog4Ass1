@@ -28,6 +28,12 @@
     <Filter Include="Game\States\Enemies">
       <UniqueIdentifier>{f70897d2-cd87-45a7-bb16-9afedd72bd02}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\States\Player">
+      <UniqueIdentifier>{4cbfd44d-041e-40fb-b2e3-f2c1c0eeb209}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Components\Map">
+      <UniqueIdentifier>{df2ad69f-89a1-4c6f-a982-18f4c68d1a0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BurgerTime.cpp">
@@ -96,11 +102,17 @@
     <ClCompile Include="DebugPositionCommand.cpp">
       <Filter>Game\Commands</Filter>
     </ClCompile>
+    <ClCompile Include="MapComponent.cpp">
+      <Filter>Game\Components\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapTileComponent.cpp">
+      <Filter>Game\Components\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapWalkerComponent.cpp">
+      <Filter>Game\Components\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Commands.h">
-      <Filter>Game\Components</Filter>
-    </ClInclude>
     <ClInclude Include="FPSComponent.h">
       <Filter>Game\Components</Filter>
     </ClInclude>
@@ -160,6 +172,18 @@
     </ClInclude>
     <ClInclude Include="DebugPositionCommand.h">
       <Filter>Game\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands.h">
+      <Filter>Game\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MapComponent.h">
+      <Filter>Game\Components\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapTileComponent.h">
+      <Filter>Game\Components\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapWalkerComponent.h">
+      <Filter>Game\Components\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -18,7 +18,13 @@ void Scene::Add(std::shared_ptr<GameObject> object)
 
 void Scene::Remove(std::shared_ptr<GameObject> object)
 {
-	m_objects.erase(std::remove(m_objects.begin(), m_objects.end(), object), m_objects.end());
+	m_objects.erase(
+		std::remove_if(m_objects.begin(), m_objects.end(),
+			[&](const std::shared_ptr<GameObject>& o)
+			{
+				return o == object;
+			}),
+		m_objects.end());
 }
 
 void Scene::RemoveAll()
@@ -28,25 +34,58 @@ void Scene::RemoveAll()
 
 void Scene::Update(float deltaTime)
 {
-	for(auto& object : m_objects)
+	for (auto& object : m_objects)
 	{
-		object->Update(deltaTime);
+		RecursiveUpdate(object, deltaTime);
 	}
 }
 
-void dae::Scene::PostUpdate(float deltaTime)
+void Scene::RecursiveUpdate(const std::shared_ptr<GameObject>& object, float deltaTime)
 {
-	for (auto& object : m_objects)
+	object->Update(deltaTime);
+
+	int childCount = object->GetChildCount();
+	for (int i = 0; i < childCount; ++i)
 	{
-		object->PostUpdate(deltaTime);
+		RecursiveUpdate(object->GetChildAt(i), deltaTime);
 	}
 }
 
-void dae::Scene::FixedUpdate()
+void Scene::PostUpdate(float deltaTime)
 {
 	for (auto& object : m_objects)
 	{
-		object->FixedUpdate();
+		RecursivePostUpdate(object, deltaTime);
+	}
+}
+
+void Scene::RecursivePostUpdate(const std::shared_ptr<GameObject>& object, float deltaTime)
+{
+	object->PostUpdate(deltaTime);
+
+	int childCount = object->GetChildCount();
+	for (int i = 0; i < childCount; ++i)
+	{
+		RecursivePostUpdate(object->GetChildAt(i), deltaTime);
+	}
+}
+
+void Scene::FixedUpdate()
+{
+	for (auto& object : m_objects)
+	{
+		RecursiveFixedUpdate(object);
+	}
+}
+
+void Scene::RecursiveFixedUpdate(const std::shared_ptr<GameObject>& object)
+{
+	object->FixedUpdate();
+
+	int childCount = object->GetChildCount();
+	for (int i = 0; i < childCount; ++i)
+	{
+		RecursiveFixedUpdate(object->GetChildAt(i));
 	}
 }
 
@@ -54,7 +93,18 @@ void Scene::Render() const
 {
 	for (const auto& object : m_objects)
 	{
-		object->Render();
+		RecursiveRender(object);
+	}
+}
+
+void Scene::RecursiveRender(const std::shared_ptr<GameObject>& object) const
+{
+	object->Render();
+
+	int childCount = object->GetChildCount();
+	for (int i = 0; i < childCount; ++i)
+	{
+		RecursiveRender(object->GetChildAt(i));
 	}
 }
 

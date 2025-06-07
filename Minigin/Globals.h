@@ -1,5 +1,8 @@
 #pragma once
 
+
+
+
 namespace dae {
 	struct SteamAchievement {
 		int Id;
@@ -9,6 +12,45 @@ namespace dae {
 		bool achieved;
 		int iconImage;
 	};
+
+	enum class CollisionLayers : uint16_t // max 16
+	{
+		MAP = 1 << 0,  
+		PLAYER = 1 << 1,  
+		ENEMY = 1 << 2, 
+		SALT = 1 << 3, 
+		INGREDIENT = 1 << 4,  
+		PLATE = 1 << 5,
+		MAPWALKER = 1 << 6,
+
+
+		ALL = MAP | PLAYER | ENEMY | SALT | INGREDIENT | PLATE | MAPWALKER,
+		NONE = 0
+	};
+
+	// operator overloading for the collision layers;
+	using CL = dae::CollisionLayers;
+
+	inline CL operator|(CL a, CL b) {
+		return static_cast<CL>(static_cast<uint16_t>(a) | static_cast<uint16_t>(b));
+	}
+
+	inline CL operator&(CL a, CL b) {
+		return static_cast<CL>(static_cast<uint16_t>(a) & static_cast<uint16_t>(b));
+	}
+
+	inline CL operator~(CL a) {
+		return static_cast<CL>(~static_cast<uint16_t>(a));
+	}
+
+	inline CL operator-(CL a, CL b) {
+		return static_cast<CL>(static_cast<uint16_t>(a) & ~static_cast<uint16_t>(b));
+	}
+
+	inline bool operator!(CL a) {
+		return static_cast<uint16_t>(a) == 0;
+	}
+
 }
 
 static const float g_fixedTimeStep{ 0.02f };
@@ -24,7 +66,7 @@ enum class KeyState
 	Pressed	
 };
 
-const int g_maxControllers{ 2 };
+static const int g_maxControllers{ 2 };
 
 // Hash functions
 

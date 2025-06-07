@@ -150,6 +150,9 @@
     <ClInclude Include="SVGParser.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameGlobals.h">
+      <Filter>Engine Files\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">

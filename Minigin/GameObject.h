@@ -11,7 +11,7 @@ namespace dae
 	class Transform;
 	class Command;
 	class Subject;
-	class GameObject final
+	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 	public:
 		void Update(float deltaTime);
@@ -71,7 +71,7 @@ namespace dae
 		void SetParent(GameObject* parent, bool keepWorldPosition = false);
 
 		int GetChildCount() { return int(m_children.size()); }
-		GameObject* GetChildAt(int index) { return m_children[index]; }
+		std::shared_ptr<GameObject> GetChildAt(int index) { return m_children[index]; }
 
 		// Transform
 		Transform* GetTransform() { return m_transform.get(); }
@@ -100,7 +100,8 @@ namespace dae
 		std::unique_ptr<Transform> m_transform{};
 
 		GameObject* m_parent{nullptr};
-		std::vector<GameObject*> m_children{};
+
+		std::vector<std::shared_ptr<GameObject>> m_children;
 
 		bool IsDescendant(GameObject* target);
 		bool IsChildOf(GameObject* target);

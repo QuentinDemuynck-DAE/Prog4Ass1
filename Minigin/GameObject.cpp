@@ -91,24 +91,35 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 	if (parent == nullptr)
 	{
 		m_transform.get()->SetLocalPosition(m_transform.get()->GetGlobalPosition());
+		m_transform.get()->SetLocalScale(m_transform.get()->GetGlobalScale());
+
 	}
 	else
 	{
 		if (keepWorldPosition)
 		{
 			m_transform.get()->SetLocalPosition(m_transform.get()->GetGlobalPosition() - parent->m_transform.get()->GetGlobalPosition());
+			m_transform.get()->SetLocalScale(m_transform.get()->GetGlobalScale() - parent->m_transform.get()->GetGlobalScale());
 		}
 		m_transform.get()->SetPositionDirty();
+		m_transform.get()->SetScaleDirty();
 	}
 
 	// Remove from current parent if needed
 	if (m_parent)
 	{
 		if (m_parent)
+{
+	auto it = std::remove_if(
+		m_parent->m_children.begin(),
+		m_parent->m_children.end(),
+		[this](const std::shared_ptr<GameObject>& child)
 		{
-			auto it = std::remove(m_parent->m_children.begin(), m_parent->m_children.end(), this);
-			m_parent->m_children.erase(it, m_parent->m_children.end());
-		}
+			return child.get() == this;
+		});
+	m_parent->m_children.erase(it, m_parent->m_children.end());
+}
+
 
 	}
 
@@ -118,7 +129,7 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 	// Add this object to the new parent's children list (if a new parent exists)
 	if (m_parent)
 	{
-		m_parent->m_children.push_back(this); // Transfer ownership
+		m_parent->m_children.push_back(shared_from_this()); // Transfer ownership
 	}
 }
 

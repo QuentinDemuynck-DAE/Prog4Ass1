@@ -8,12 +8,16 @@
 
 CollisionComponent::CollisionComponent(dae::GameObject& owner,
     b2World& world,
+    dae::CollisionLayers collisionLayerSelf,
+    dae::CollisionLayers collisionLayerToCollide,
     const glm::vec2& halfSize,
     const glm::vec2& offset,
     bool dynamic,
     bool isSensor)
     : Component(owner)
     , m_World(world)
+	, m_SelfLayers(collisionLayerSelf)
+	, m_CollidesWithLayers(collisionLayerToCollide)
 {
     glm::vec2 globalScale{
         owner.GetTransform()->GetGlobalScale().x,
@@ -50,6 +54,7 @@ CollisionComponent::CollisionComponent(dae::GameObject& owner,
     fd.shape = &shape;
     fd.isSensor = isSensor;
     m_pFixture = m_pBody->CreateFixture(&fd);
+    UpdateCollisionLayers();
 }
 
 
@@ -133,3 +138,43 @@ void CollisionComponent::Render(glm::vec3 position, glm::vec2)
         SDL_Color{ 255, 0, 0, 255 }
     );
 }
+
+void CollisionComponent::AddCollisionLayerSelf(dae::CollisionLayers layer)
+{
+    if (!(m_SelfLayers & layer))
+    {
+        m_SelfLayers = m_SelfLayers | layer;
+        UpdateCollisionLayers();
+    }
+}
+
+void CollisionComponent::AddCollisionLayerToCollide(dae::CollisionLayers layer)
+{
+    if (!(m_CollidesWithLayers & layer))
+    {
+        m_CollidesWithLayers = m_CollidesWithLayers | layer;
+        UpdateCollisionLayers();
+    }
+}
+
+void CollisionComponent::RemoveCollisionLayerToSelf(dae::CollisionLayers layer)
+{
+    m_SelfLayers = m_SelfLayers & ~layer;
+    UpdateCollisionLayers();
+}
+
+void CollisionComponent::RemoveCollisionLayerToCollide(dae::CollisionLayers layer)
+{
+    m_CollidesWithLayers = m_CollidesWithLayers & ~layer;
+    UpdateCollisionLayers();
+}
+
+void CollisionComponent::UpdateCollisionLayers()
+{
+    b2Filter filter = m_pFixture->GetFilterData();
+    filter.categoryBits = static_cast<uint16_t>(m_SelfLayers);
+    filter.maskBits = static_cast<uint16_t>(m_CollidesWithLayers);
+    m_pFixture->SetFilterData(filter);
+}
+
+

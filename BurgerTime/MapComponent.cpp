@@ -1,0 +1,92 @@
+#include "MapComponent.h"
+#include "CollisionComponent.h"
+#include "MapTileComponent.h"
+#include "GameObject.h"
+
+dae::MapComponent::MapComponent(GameObject& owner, b2World& world, const std::string& filename,
+	const Vec2& offset)
+	:Component(owner),
+	m_World(world)
+{
+	m_Map = loadMapFromTiledJSON(filename, offset);
+
+	// So I don't have to write it out all the time
+	const int cols = m_Map.columns;
+	const int rows = m_Map.rows;
+	const float tileW = m_Map.tileSize.x;
+	const float tileH = m_Map.tileSize.y;
+	const Vec2  origin = Vec2(offset.x, offset.y);
+
+
+	m_TileObjects.reserve(cols * rows);
+
+	// double for loop over the grid
+	for (int y = 0; y < rows; ++y)
+	{
+		for (int x = 0; x < cols; ++x)
+		{
+			
+			int index = y * cols + x;
+			const TileInfo& info = m_Map.tiles[index]; // get the correct tile
+			if (!info.floor && !info.wall && !info.ladder && !info.ladderExit && !info.bottomBun && !info.topBun && !info.plate && !info.meat && !info.cheese && !info.salad && !info.tomato) // basically useless tile
+				continue;
+			
+			glm::vec2 scale = owner.GetTransform()->GetGlobalScale();
+			glm::vec3 ownerPos = owner.GetTransform()->GetGlobalPosition();
+			glm::vec2 scaledTileSize = glm::vec2{ tileW, tileH } *glm::vec2{ scale.x, scale.y };
+			glm::vec3 scaledPosition = glm::vec3{ origin, 0 } + glm::vec3{ x * scaledTileSize.x, y * scaledTileSize.y, 0.0f };
+
+
+			// yet another burger this time in reverse
+			if (info.bottomBun)
+			{
+				m_BottomBunSpawnPos.push_back(scaledPosition + ownerPos);
+				m_TotalIngredients++;
+			}
+			else if (info.meat)
+			{
+				m_MeatSpawnPos.push_back(scaledPosition + ownerPos);
+				m_TotalIngredients++;
+			}
+			else if (info.cheese)
+			{
+				m_CheeseSpawnPos.push_back(scaledPosition + ownerPos);
+				m_TotalIngredients++;
+			}
+			else if (info.salad)
+			{
+				m_SaladSpawnPos.push_back(scaledPosition + ownerPos);
+				m_TotalIngredients++;
+			}
+			else if (info.tomato)
+			{
+				m_TomateSpawnPos.push_back(scaledPosition + ownerPos);
+				m_TotalIngredients++;
+			}
+			else if (info.topBun)
+			{
+				m_TopBunSpawnPos.push_back(scaledPosition + ownerPos);
+				m_TotalIngredients++;
+			}
+
+			if (info.playerSpawn)
+			{
+				m_PlayerSpawnPos.push_back(scaledPosition + ownerPos);
+			}
+
+			// Add a tile component with hitbox
+			if (!info.floor && !info.wall && !info.ladder && !info.ladderExit && !info.plate)
+				continue;
+
+
+			glm::vec2 halfSize{ tileW / 2, tileH / 2 };
+			halfSize *= glm::vec2{ owner.GetTransform()->GetGlobalScale().x , owner.GetTransform()->GetGlobalScale().y };
+
+			auto gameObject = std::make_shared<dae::GameObject>(scaledPosition);
+			gameObject->AddComponent<CollisionComponent>(world, dae::CollisionLayers::MAP,dae::CollisionLayers::MAPWALKER,halfSize, halfSize, true, false);
+			gameObject->SetParent(&owner);
+
+			m_TileObjects.push_back(gameObject);
+		}
+	}
+}

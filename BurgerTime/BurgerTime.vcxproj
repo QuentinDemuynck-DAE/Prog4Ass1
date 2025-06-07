@@ -168,6 +168,9 @@
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HealthObserver.cpp" />
     <ClCompile Include="LivesComponent.cpp" />
+    <ClCompile Include="MapComponent.cpp" />
+    <ClCompile Include="MapTileComponent.cpp" />
+    <ClCompile Include="MapWalkerComponent.cpp" />
     <ClCompile Include="PatrolState.cpp" />
     <ClCompile Include="PlayerComponent.cpp" />
     <ClCompile Include="RigidbodyComponent.cpp" />
@@ -191,6 +194,9 @@
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthObserver.h" />
     <ClInclude Include="LivesComponent.h" />
+    <ClInclude Include="MapComponent.h" />
+    <ClInclude Include="MapTileComponent.h" />
+    <ClInclude Include="MapWalkerComponent.h" />
     <ClInclude Include="PatrolState.h" />
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="RigidbodyComponent.h" />
