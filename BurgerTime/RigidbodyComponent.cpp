@@ -14,14 +14,10 @@ void RigidbodyComponent::Update(float deltaTime)
 	auto& owner = GetOwner();
 
 	// Will make this better in the future
-	if (m_Velocity.x > m_MaxSpeed)
+	if (glm::length(m_Velocity) >= m_MaxSpeed)
 	{
-		m_Velocity.x = m_MaxSpeed;
-	}
-
-	if (m_Velocity.y > m_MaxSpeed)
-	{
-		m_Velocity.y = m_MaxSpeed;
+		auto normalVel = normalize(m_Velocity);
+		m_Velocity = m_MaxSpeed * normalVel;
 	}
 
 	// Apply drag

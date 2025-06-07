@@ -145,6 +145,9 @@
       <Filter>Engine Files</Filter>
     </ClInclude>
     <ClInclude Include="AnimatedSpriteComponent.h">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="SVGParser.h">
       <Filter>Engine Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -243,7 +246,7 @@
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="AnimatedSpriteComponent.cpp">
-      <Filter>Libraries</Filter>
+      <Filter>Engine Files\Component\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

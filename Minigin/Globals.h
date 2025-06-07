@@ -12,6 +12,8 @@ namespace dae {
 }
 
 static const float g_fixedTimeStep{ 0.02f };
+static const int g_windowWidth{640}; // map is 240 x 240
+static const int g_windowHeight{480};
 
 // Keystate
 enum class KeyState
@@ -22,7 +24,7 @@ enum class KeyState
 	Pressed	
 };
 
-const int g_maxControllers{ 4 };
+const int g_maxControllers{ 2 };
 
 // Hash functions
 

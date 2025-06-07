@@ -7,6 +7,7 @@
 #endif
 #endif
 
+#include "AnimatedSpriteComponent.h"
 #include "Collision.h"
 
 #include "CollisionComponent.h"
@@ -38,6 +39,11 @@
 #include "ServiceLocator.h"
 #include "ShootPepperCommand.h"
 #include "PlayerComponent.h"
+#include <glm.hpp> 
+
+#include "DebugPositionCommand.h"
+#include "EnemyComponent.h"
+#include "SVGParser.h"
 
 
 void load()
@@ -47,18 +53,28 @@ void load()
 	ServiceLocator::ProvideSoundSystem(std::make_unique<DebugSoundSystem>(std::move(noisySoundSystem)));
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("LevelOne");
 
-	auto map = std::make_shared<dae::GameObject>(glm::vec3{ 0,0,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
-	map->AddComponent<Texture2DComponent>("levelOne.png");
-	scene.Add(map);
 	// Add background
 	auto go = std::make_shared<dae::GameObject>(glm::vec3{ 0,0,0 });
-	//go->AddComponent<Texture2DComponent>("background.tga");
-	//scene.Add(go);
+	go->AddComponent<Texture2DComponent>("background.tga");
+	scene.Add(go);
 
 	// Add logo
 	go = std::make_shared<dae::GameObject>(glm::vec3{ 216,180,0 });
 	go->AddComponent<Texture2DComponent>("logo.tga");
 	scene.Add(go);
+
+	glm::vec3 mapScale = glm::vec3{ 2.0f, 2.0f,2.0f };
+	glm::vec3 mapSize = glm::vec3{210, 210, 0 };
+	mapSize *= mapScale;
+	glm::vec3 mapOffset{};
+	mapOffset.x = (g_windowWidth - mapSize.x) / 2;
+	mapOffset.y = (g_windowHeight - mapSize.y) / 2;
+
+
+	auto map = std::make_shared<dae::GameObject>(mapOffset, glm::vec3{ 0,0,0 }, mapScale);
+	map->AddComponent<Texture2DComponent>("levelOne.png");
+	scene.Add(map);
+
 
 	// Add text
 	go = std::make_shared<dae::GameObject>(glm::vec3{ 80,20,0 });
@@ -78,16 +94,14 @@ void load()
 	go->AddComponent<FPSComponent>();
 	scene.Add(go);
 
-	auto textureOne = std::make_shared<dae::GameObject>(glm::vec3{ 20,200,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
-	auto textureTwo = std::make_shared<dae::GameObject>(glm::vec3{ 20,10,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
+	auto textureOne = std::make_shared<dae::GameObject>(glm::vec3{ 300,328,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
+	auto textureTwo = std::make_shared<dae::GameObject>(glm::vec3{ 340,328,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
 
-	textureOne->AddComponent<RigidbodyComponent>();
-	textureTwo->AddComponent<RigidbodyComponent>(20.f, 10.f, 0.1f);
+	textureOne->AddComponent<RigidbodyComponent>(80.f, 10.f, 0.1f);
+	textureTwo->AddComponent<RigidbodyComponent>(80.f, 10.f, 0.1f);
 
-
-	textureOne->AddComponent<Texture2DComponent>("BurgerMan.png");
-	textureTwo->AddComponent<Texture2DComponent>("BurgerMan.png");
-
+	textureOne->AddComponent<dae::AnimatedSpriteComponent>("allAssets.png", 0, 2, glm::ivec2{ 16 , 16 }, glm::ivec2{ 10, 15 }, 0.5f);
+	textureTwo->AddComponent<dae::AnimatedSpriteComponent>("allAssets.png", 0, 2, glm::ivec2{ 16 , 16 }, glm::ivec2{ 10, 15 }, 0.5f);
 	textureOne->AddComponent<HealthComponent>(1);
 	textureTwo->AddComponent<HealthComponent>(1);
 
@@ -130,6 +144,50 @@ void load()
 	textureOne->AddComponent<PlayerComponent>();
 	textureTwo->AddComponent<PlayerComponent>();
 
+	const float svgRemap{ 0.75 }; // it somehow kept being 280 x 280 even though I set it to th same value as the texture, this is my stupid solution its 210 / 280
+
+	auto floors = dae::parseRectsInLayer("firstLevel.svg", "Floor");
+	for (auto floor : floors)
+	{
+		glm::vec3 position
+		{
+			mapOffset.x + (floor.x * mapScale.x * svgRemap),
+			mapOffset.y + (floor.y * mapScale.y * svgRemap),
+			0.0f
+		};
+
+		glm::vec2 halfSize
+		{
+			floor.width * 0.5 * svgRemap,
+			floor.height *0.5 * svgRemap
+		};
+
+		auto floorGameObject = std::make_shared<dae::GameObject>(position, glm::vec3{ 0,0,0 }, mapScale);
+		floorGameObject->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), halfSize, halfSize, true, false);
+		scene.Add(floorGameObject);
+	}
+
+	auto walls = dae::parseRectsInLayer("firstLevel.svg", "Walls");
+	for (auto wall : walls)
+	{
+		glm::vec3 position
+		{
+			mapOffset.x + (wall.x * mapScale.x * svgRemap),
+			mapOffset.y + (wall.y * mapScale.y * svgRemap) ,
+			0.0f
+		};
+
+		glm::vec2 halfSize
+		{
+			wall.width * 0.5 * svgRemap,
+			wall.height * 0.5 * svgRemap
+		};
+
+		auto wallGameObject = std::make_shared<dae::GameObject>(position, glm::vec3{ 0,0,0 }, mapScale);
+		wallGameObject->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), halfSize, halfSize, true, false);
+		scene.Add(wallGameObject);
+	}
+
 
 
 
@@ -155,7 +213,7 @@ void load()
 	scene.Add(scorePlayerTwo);
 
 
-	const float speed{ 1.f };
+	const float speed{ 100.f };
 	//Connect controllers
 	for (int i = 0; i < g_maxControllers; i++)
 	{
@@ -168,6 +226,7 @@ void load()
 		gamePad->BindCommand(GamePad::Button::ButtonX, std::make_shared<dae::ShootPepperCommand>(textureOne.get()), KeyState::Up);
 		gamePad->BindCommand(GamePad::Button::ButtonA, std::make_shared<dae::ScoreCommand>(textureOne.get()), KeyState::Up);
 		gamePad->BindCommand(GamePad::Button::ButtonB, std::make_shared<dae::ScoreCommand>(textureOne.get(), 100), KeyState::Up);
+		gamePad->BindCommand(GamePad::Button::LeftTrigger, std::make_shared<dae::DebugPositionCommand>(textureOne.get()), KeyState::Up);
 
 		dae::InputManager::GetInstance().ConnectGamePad(std::move(gamePad));
 	}
@@ -179,6 +238,8 @@ void load()
 	dae::InputManager::GetInstance().BindCommand(SDLK_c, std::make_shared<dae::ShootPepperCommand>(textureTwo.get()), KeyState::Up);
 	dae::InputManager::GetInstance().BindCommand(SDLK_z, std::make_shared<dae::ScoreCommand>(textureTwo.get()), KeyState::Up);
 	dae::InputManager::GetInstance().BindCommand(SDLK_x, std::make_shared<dae::ScoreCommand>(textureTwo.get(), 100), KeyState::Up);
+	dae::InputManager::GetInstance().BindCommand(SDLK_p, std::make_shared<dae::DebugPositionCommand>(textureTwo.get()), KeyState::Up);
+
 
 	dae::InputManager::GetInstance().BindCommand(SDLK_SPACE, std::make_shared<dae::PlaySoundCommand>("../Data/Audio/Start.mp3",10), KeyState::Up);
 

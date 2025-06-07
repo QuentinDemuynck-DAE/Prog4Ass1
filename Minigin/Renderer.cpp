@@ -10,6 +10,8 @@
 
 #include <SDL.h>
 #include <SDL_opengl.h>
+#include <vec4.hpp>
+
 #include "implot.h"
 
 
@@ -84,7 +86,7 @@ void dae::Renderer::Destroy()
 	}
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, float x, float y, glm::vec2 scale) const
+void dae::Renderer::RenderTexture(const Texture2D& texture, float x, float y, glm::vec2 scale, glm::ivec4 srcRect) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
@@ -96,18 +98,59 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, float x, float y, gl
 	dst.w = static_cast<int>(origW * scale.x);
 	dst.h = static_cast<int>(origH * scale.y);
 
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+	//Automatically assign full rect when out of bounds
+	SDL_Rect actualSrc{ srcRect.x ,srcRect.y , srcRect.z , srcRect.w };
+	if (srcRect.x < 0 || srcRect.x > origW ||
+		srcRect.y < 0 || srcRect.y > origH ||
+		srcRect.w < 0 || srcRect.z < 0 ||
+		srcRect.x + srcRect.w > origW || srcRect.y + srcRect.z > origH)
+	{
+		actualSrc.x = 0;
+		actualSrc.y = 0;
+		actualSrc.w = origW;
+		actualSrc.h = origH;
+	}
+	else
+	{
+		dst.w = static_cast<int>(actualSrc.w * scale.x);
+		dst.h = static_cast<int>(actualSrc.h * scale.y);
+		
+	}
+
+	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &actualSrc, &dst);
 }
 
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height, glm::ivec4 srcRect) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
 	dst.w = static_cast<int>(width);
 	dst.h = static_cast<int>(height);
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+
+	int origW{}, origH{};
+	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &origW, &origH);
+
+	//Automatically assign full rect when out of bounds
+	SDL_Rect actualSrc{ srcRect.x ,srcRect.y , srcRect.z , srcRect.w };
+	if (srcRect.x < 0 || srcRect.x > origW ||
+		srcRect.y < 0 || srcRect.y > origH ||
+		srcRect.w < 0 || srcRect.z < 0 ||
+		srcRect.x + srcRect.w > origW || srcRect.y + srcRect.z > origH)
+	{
+		actualSrc.x = 0;
+		actualSrc.y = 0;
+		actualSrc.w = origW;
+		actualSrc.h = origH;
+	}
+	else
+	{
+		dst.w = static_cast<int>(actualSrc.w);
+		dst.h = static_cast<int>(actualSrc.h);
+
+	}
+	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &actualSrc, &dst);
 }
 
 SDL_Renderer* dae::Renderer::GetSDLRenderer() const { return m_renderer; }

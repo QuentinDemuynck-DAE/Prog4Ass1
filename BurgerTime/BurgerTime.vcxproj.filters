@@ -93,6 +93,9 @@
     <ClCompile Include="ShootPepperCommand.cpp">
       <Filter>Game\Commands</Filter>
     </ClCompile>
+    <ClCompile Include="DebugPositionCommand.cpp">
+      <Filter>Game\Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commands.h">
@@ -153,6 +156,9 @@
       <Filter>Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="ShootPepperCommand.h">
+      <Filter>Game\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugPositionCommand.h">
       <Filter>Game\Commands</Filter>
     </ClInclude>
   </ItemGroup>

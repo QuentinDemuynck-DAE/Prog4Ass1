@@ -26,7 +26,8 @@ namespace dae
 		void Execute() override;
 	
 	private:
-		float m_X, m_Y;
+		float m_X;
+		float m_Y;
 		dae::GameObject* m_GameObject;
 		RigidbodyComponent* m_pRigidbody;
 	};
