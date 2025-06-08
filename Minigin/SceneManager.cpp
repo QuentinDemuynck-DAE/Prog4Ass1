@@ -50,6 +50,13 @@ std::shared_ptr<dae::Scene> dae::SceneManager::GetActiveScene() const
 	return m_pActiveScene;
 }
 
+//Helper to know wheter an observer is in the current Scene
+bool dae::SceneManager::IsInActiveScene(GameObject* obj) const
+{
+	if (!m_pActiveScene) return false;
+	return m_pActiveScene->Contains(obj);
+}
+
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));

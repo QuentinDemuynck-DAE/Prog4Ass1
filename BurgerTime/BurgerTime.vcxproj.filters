@@ -111,6 +111,9 @@
     <ClCompile Include="MapWalkerComponent.cpp">
       <Filter>Game\Components\Map</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerState.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FPSComponent.h">
@@ -184,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="MapWalkerComponent.h">
       <Filter>Game\Components\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

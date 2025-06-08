@@ -24,6 +24,18 @@ namespace dae
         MapComponent& operator=(const MapComponent& other) = delete;
         MapComponent& operator=(MapComponent&& other) = delete;
 
+        const std::vector<glm::vec2>& GetTopBunSpawnPositions() const;
+        const std::vector<glm::vec2>& GetTomateSpawnPositions() const;
+        const std::vector<glm::vec2>& GetSaladSpawnPositions() const;
+        const std::vector<glm::vec2>& GetCheeseSpawnPositions() const;
+        const std::vector<glm::vec2>& GetMeatSpawnPositions() const;
+        const std::vector<glm::vec2>& GetBottomBunSpawnPositions() const;
+        int GetTotalIngredients() const;
+        const std::vector<glm::vec2>& GetPlayerSpawnPositions() const;
+
+
+        const glm::vec4& Boundaries() const;
+
     private:
         // Yes I made a burger in my code :)
         std::vector<glm::vec2> m_TopBunSpawnPos;
@@ -36,6 +48,7 @@ namespace dae
 
         std::vector<glm::vec2> m_PlayerSpawnPos;
 
+        glm::vec4 m_Boundaries;
 
         b2World& m_World;
         Map      m_Map;

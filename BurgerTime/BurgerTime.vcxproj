@@ -173,6 +173,7 @@
     <ClCompile Include="MapWalkerComponent.cpp" />
     <ClCompile Include="PatrolState.cpp" />
     <ClCompile Include="PlayerComponent.cpp" />
+    <ClCompile Include="PlayerState.cpp" />
     <ClCompile Include="RigidbodyComponent.cpp" />
     <ClCompile Include="RotateComponent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="MapWalkerComponent.h" />
     <ClInclude Include="PatrolState.h" />
     <ClInclude Include="PlayerComponent.h" />
+    <ClInclude Include="PlayerState.h" />
     <ClInclude Include="RigidbodyComponent.h" />
     <ClInclude Include="RotateComponent.h" />
     <ClInclude Include="ScoreComponent.h" />

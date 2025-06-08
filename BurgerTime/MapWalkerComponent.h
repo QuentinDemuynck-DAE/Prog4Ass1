@@ -4,16 +4,21 @@
 #include <vector>
 #include <memory>
 
+#include "Observer.h"
+
+
 namespace dae {
 
     class MapTileComponent;
     class GameObject;
+    class CollisionComponent;
+    class MapComponent;
 
-    class MapWalkerComponent final : public Component
+
+    class MapWalkerComponent final : public Component, public Observer
     {
     public:
-        MapWalkerComponent(GameObject& owner,
-            MapTileComponent& startTile);
+        MapWalkerComponent(GameObject& owner, glm::vec3 spawnPosition, MapComponent& mapComponent);
 
         ~MapWalkerComponent() override = default;
 
@@ -23,16 +28,26 @@ namespace dae {
         MapWalkerComponent& operator=(MapWalkerComponent&& other) = delete;
 
 
-        void Update(float dt) override;
-        void Render(glm::vec3 position, glm::vec2 scale) override;
+        void Notify(Event event, dae::GameObject* gameObject) override;
+        void Update(float deltaTime) override;
 
+        bool CanTakeLadder() const;
+        bool CanExitLadder() const;
 
         const std::vector<MapTileComponent*>& GetConnectedTiles() const;
-        bool MoveTo(MapTileComponent& newTile);
-        void RefreshConnections();
+
+        void MoveTo(MapTileComponent& newTile);
+
+        void Respawn();
 
     private:
+
+        void KeepInBoundaries();
+
         std::vector<MapTileComponent*> m_ConnectedTiles;
+        CollisionComponent* m_OwnersCollisionComponent;
+        glm::vec3 m_Spawnposition;
+        MapComponent& m_Map;
     };
 
 } 

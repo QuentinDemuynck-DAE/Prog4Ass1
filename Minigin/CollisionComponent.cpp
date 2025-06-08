@@ -6,14 +6,14 @@
 #include "Renderer.h"
 #include "Subject.h"
 
-CollisionComponent::CollisionComponent(dae::GameObject& owner,
-    b2World& world,
-    dae::CollisionLayers collisionLayerSelf,
-    dae::CollisionLayers collisionLayerToCollide,
-    const glm::vec2& halfSize,
-    const glm::vec2& offset,
-    bool dynamic,
-    bool isSensor)
+dae::CollisionComponent::CollisionComponent(dae::GameObject& owner,
+                                            b2World& world,
+                                            dae::CollisionLayers collisionLayerSelf,
+                                            dae::CollisionLayers collisionLayerToCollide,
+                                            const glm::vec2& halfSize,
+                                            const glm::vec2& offset,
+                                            bool dynamic,
+                                            bool isSensor)
     : Component(owner)
     , m_World(world)
 	, m_SelfLayers(collisionLayerSelf)
@@ -55,10 +55,11 @@ CollisionComponent::CollisionComponent(dae::GameObject& owner,
     fd.isSensor = isSensor;
     m_pFixture = m_pBody->CreateFixture(&fd);
     UpdateCollisionLayers();
+    m_Offset = scaledOffset;
 }
 
 
-CollisionComponent::~CollisionComponent()
+dae::CollisionComponent::~CollisionComponent()
 {
     if (m_pBody)
     {
@@ -66,18 +67,18 @@ CollisionComponent::~CollisionComponent()
     }
 }
 
-void CollisionComponent::Update(float)
+void dae::CollisionComponent::Update(float)
 {
     // Snap the Box2D body to match the GameObject transform each frame
     glm::vec3 pos = GetOwner().GetTransform()->GetGlobalPosition();
     glm::vec3 eulerDeg = GetOwner().GetTransform()->GetGlobalRotation();
     float   angleRad = glm::radians(eulerDeg.z);
 
-    m_pBody->SetTransform(b2Vec2{ pos.x + m_Offset.x, pos.y + m_Offset.y }, angleRad);
+    m_pBody->SetTransform(b2Vec2{ pos.x, pos.y }, angleRad);
 }
 
 
-void CollisionComponent::OnTriggerEnter(CollisionComponent* other)
+void dae::CollisionComponent::OnTriggerEnter(CollisionComponent* other)
 {
     std::cout << "trigger enter" << std::endl;
 
@@ -87,7 +88,7 @@ void CollisionComponent::OnTriggerEnter(CollisionComponent* other)
     GetOwner().GetSubject()->Notify(e);
 }
 
-void CollisionComponent::OnTriggerExit(CollisionComponent* other)
+void dae::CollisionComponent::OnTriggerExit(CollisionComponent* other)
 {
     std::cout << "trigger exit" << std::endl;
 
@@ -97,7 +98,7 @@ void CollisionComponent::OnTriggerExit(CollisionComponent* other)
     GetOwner().GetSubject()->Notify(e);
 }
 
-void CollisionComponent::Render(glm::vec3 position, glm::vec2)
+void dae::CollisionComponent::Render(glm::vec3 position, glm::vec2)
 {
     Component::Render(position, glm::vec2{1,1}); // m_HalfSize gets scaled
 
@@ -111,6 +112,7 @@ void CollisionComponent::Render(glm::vec3 position, glm::vec2)
     glm::vec2 firstPt{};
     glm::vec2 prevPt{};
 
+    //not mine needed a quick debug draw
     for (int32 i = 0; i < count; ++i)
     {
         b2Vec2 vWorld = m_pBody->GetWorldPoint(verts[i]);
@@ -139,7 +141,7 @@ void CollisionComponent::Render(glm::vec3 position, glm::vec2)
     );
 }
 
-void CollisionComponent::AddCollisionLayerSelf(dae::CollisionLayers layer)
+void dae::CollisionComponent::AddCollisionLayerSelf(dae::CollisionLayers layer)
 {
     if (!(m_SelfLayers & layer))
     {
@@ -148,7 +150,7 @@ void CollisionComponent::AddCollisionLayerSelf(dae::CollisionLayers layer)
     }
 }
 
-void CollisionComponent::AddCollisionLayerToCollide(dae::CollisionLayers layer)
+void dae::CollisionComponent::AddCollisionLayerToCollide(dae::CollisionLayers layer)
 {
     if (!(m_CollidesWithLayers & layer))
     {
@@ -157,19 +159,36 @@ void CollisionComponent::AddCollisionLayerToCollide(dae::CollisionLayers layer)
     }
 }
 
-void CollisionComponent::RemoveCollisionLayerToSelf(dae::CollisionLayers layer)
+void dae::CollisionComponent::RemoveCollisionLayerToSelf(dae::CollisionLayers layer)
 {
     m_SelfLayers = m_SelfLayers & ~layer;
     UpdateCollisionLayers();
 }
 
-void CollisionComponent::RemoveCollisionLayerToCollide(dae::CollisionLayers layer)
+void dae::CollisionComponent::RemoveCollisionLayerToCollide(dae::CollisionLayers layer)
 {
     m_CollidesWithLayers = m_CollidesWithLayers & ~layer;
     UpdateCollisionLayers();
 }
 
-void CollisionComponent::UpdateCollisionLayers()
+dae::Rectangle dae::CollisionComponent::GetRectangle() const
+{
+    b2Vec2 bodyPos = m_pBody->GetPosition();
+
+    glm::vec2 center{
+        bodyPos.x + m_Offset.x,
+        bodyPos.y + m_Offset.y
+    };
+
+    dae::Rectangle rect;
+    rect.x = center.x - m_HalfSize.x;
+    rect.y = center.y - m_HalfSize.y;
+    rect.width = m_HalfSize.x * 2.0f;
+    rect.height = m_HalfSize.y * 2.0f;
+    return rect;
+}
+
+void dae::CollisionComponent::UpdateCollisionLayers()
 {
     b2Filter filter = m_pFixture->GetFilterData();
     filter.categoryBits = static_cast<uint16_t>(m_SelfLayers);

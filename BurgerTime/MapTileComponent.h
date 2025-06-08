@@ -12,7 +12,7 @@ namespace dae {
     public:
         MapTileComponent(GameObject& owner,
             const TileInfo& info,
-            const glm::ivec2& position);
+            const glm::ivec2& gridPosition);
 
         ~MapTileComponent() override = default;
 
@@ -24,7 +24,7 @@ namespace dae {
 
         void Update(float dt) override;
 
-        const glm::ivec2& GetPosition() const;
+        const glm::ivec2& GetPositionInGrid() const;
 
         bool GetLadder() const { return m_Ladder; }
         bool GetFloor() const { return m_Floor; }

@@ -1,5 +1,7 @@
 #include "Subject.h"
 
+#include "SceneManager.h"
+
 dae::Subject::Subject(GameObject* gameObject)
 	:m_GameObject(gameObject)
 {
@@ -21,6 +23,9 @@ void dae::Subject::RemoveObserver(std::shared_ptr<Observer> observer) {
 
 void dae::Subject::Notify(Event event)
 {
+    if (!SceneManager::GetInstance().IsInActiveScene(m_GameObject))
+        return;
+
     for (auto observer : m_Observers)
     {
         observer.get()->Notify(event, m_GameObject);

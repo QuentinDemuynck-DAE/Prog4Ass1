@@ -13,6 +13,11 @@ namespace dae {
 		int iconImage;
 	};
 
+	struct Rectangle
+	{
+		float x, y, width, height;
+	};
+
 	enum class CollisionLayers : uint16_t // max 16
 	{
 		MAP = 1 << 0,  

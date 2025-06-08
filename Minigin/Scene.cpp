@@ -97,6 +97,15 @@ void Scene::Render() const
 	}
 }
 
+bool Scene::Contains(GameObject* obj) const
+{
+	return std::ranges::any_of(m_objects.begin(), m_objects.end(),
+		[obj](const std::shared_ptr<GameObject>& go) {
+		 return go.get() == obj;
+	});
+}
+
+
 void Scene::RecursiveRender(const std::shared_ptr<GameObject>& object) const
 {
 	object->Render();

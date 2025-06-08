@@ -7,6 +7,7 @@
 namespace dae
 {
 	class Scene;
+	class GameObject;
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
@@ -19,6 +20,9 @@ namespace dae
 
 		void SetActiveScene(const std::string& name);
 		void SetActiveScene(std::shared_ptr<Scene> scene);
+
+		bool IsInActiveScene(GameObject* obj) const;
+
 		std::shared_ptr<Scene> GetActiveScene() const;
 
 	private:

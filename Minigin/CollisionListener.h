@@ -28,8 +28,8 @@ private:
         auto* bodyB = fixB->GetBody();
 
         // Extract our CollisionComponent pointer from userData
-        auto* compA = reinterpret_cast<CollisionComponent*>(bodyA->GetUserData());
-        auto* compB = reinterpret_cast<CollisionComponent*>(bodyB->GetUserData());
+        auto* compA = reinterpret_cast<dae::CollisionComponent*>(bodyA->GetUserData());
+        auto* compB = reinterpret_cast<dae::CollisionComponent*>(bodyB->GetUserData());
 
         if (compA && compB)
         {

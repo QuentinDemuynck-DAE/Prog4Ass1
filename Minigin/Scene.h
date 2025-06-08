@@ -17,6 +17,7 @@ namespace dae
 		void FixedUpdate();
 		void Render() const;
 
+		bool Contains(GameObject* obj) const;
 		const std::string& GetName() const;
 
 		~Scene();

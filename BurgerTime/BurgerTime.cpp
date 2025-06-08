@@ -44,6 +44,7 @@
 #include "DebugPositionCommand.h"
 #include "EnemyComponent.h"
 #include "MapComponent.h"
+#include "MapWalkerComponent.h"
 #include "SVGParser.h"
 
 
@@ -96,8 +97,11 @@ void load()
 	go->AddComponent<FPSComponent>();
 	scene.Add(go);
 
-	auto textureOne = std::make_shared<dae::GameObject>(glm::vec3{ 300,328,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
-	auto textureTwo = std::make_shared<dae::GameObject>(glm::vec3{ 340,328,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
+	auto mapComp = map->GetComponent<dae::MapComponent>()->GetPlayerSpawnPositions();
+
+
+	auto textureOne = std::make_shared<dae::GameObject>(glm::vec3{ mapComp.at(0),0}, glm::vec3{0,0,0}, glm::vec3{2.0f,2.0f,2.0f});
+	auto textureTwo = std::make_shared<dae::GameObject>(glm::vec3{ mapComp.at(1),0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
 
 	textureOne->AddComponent<RigidbodyComponent>(80.f, 10.f, 0.1f);
 	textureTwo->AddComponent<RigidbodyComponent>(80.f, 10.f, 0.1f);
@@ -151,8 +155,9 @@ void load()
 		dae::CollisionLayers::PLAYER
 	};
 
-	textureOne->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(),playerOwnLayer, playerColidesWith, glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
-	textureTwo->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), playerOwnLayer, playerColidesWith, glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
+	textureOne->AddComponent<dae::CollisionComponent>(*dae::Minigin::physicsWorld.get(),playerOwnLayer, playerColidesWith, glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
+	textureTwo->AddComponent<dae::CollisionComponent>(*dae::Minigin::physicsWorld.get(), playerOwnLayer, playerColidesWith, glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
+	textureOne->AddComponent<dae::MapWalkerComponent>(glm::vec3{ mapComp.at(0),0 }, *map->GetComponent<dae::MapComponent>());
 
 	textureOne->AddComponent<PlayerComponent>();
 	textureTwo->AddComponent<PlayerComponent>();
@@ -179,7 +184,7 @@ void load()
 	enemy->GetSubject()->AddObserver(enemyObserver);
 	enemy->AddComponent<EnemyComponent>(players);
 	enemy->GetComponent<EnemyComponent>()->SetState(std::make_unique<PatrolState>());
-	enemy->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(),dae::CollisionLayers::ENEMY, enemyCollidesWith, glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
+	enemy->AddComponent<dae::CollisionComponent>(*dae::Minigin::physicsWorld.get(),dae::CollisionLayers::ENEMY, enemyCollidesWith, glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
 
 	scene.Add(enemy);
 

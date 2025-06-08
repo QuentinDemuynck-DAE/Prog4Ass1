@@ -8,6 +8,7 @@
 #include <../3rdParty/nlohmann/nlohmann/json.hpp>
 #include <glm.hpp>
 #include "pugixml.hpp"
+#include "Globals.h"
 
 namespace dae
 {
@@ -38,11 +39,6 @@ namespace dae
 
     };
 
-
-    struct Rectangle
-    {
-        float x, y, width, height;
-    };
 
     // Used help for this
     inline Map loadMapFromTiledJSON(const std::string& filename, const Vec2& offset = Vec2(0.0f)) {

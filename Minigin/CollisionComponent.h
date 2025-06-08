@@ -5,59 +5,63 @@
 #include "Component.h"
 #include "Globals.h"
 
-
-class dae::GameObject;
-
-class CollisionComponent : public Component
+namespace dae
 {
-public:
-    CollisionComponent(dae::GameObject& owner,
-        b2World& world,
-        dae::CollisionLayers collisionLayerSelf,
-        dae::CollisionLayers collisionLayerToCollide,
-        const glm::vec2& halfSize,
-        const glm::vec2& offset = glm::vec2{ 0.0f, 0.0f },
-        bool dynamic = false,
-        bool isSensor = true
-    );
+    class GameObject;
 
-    ~CollisionComponent() override;
+    class CollisionComponent : public Component
+    {
+    public:
+        CollisionComponent(dae::GameObject& owner,
+            b2World& world,
+            dae::CollisionLayers collisionLayerSelf,
+            dae::CollisionLayers collisionLayerToCollide,
+            const glm::vec2& halfSize,
+            const glm::vec2& offset = glm::vec2{ 0.0f, 0.0f },
+            bool dynamic = false,
+            bool isSensor = true
+        );
 
-    void Update(float /*dt*/) override;
+        ~CollisionComponent() override;
 
-    void OnTriggerEnter(CollisionComponent* other);
+        void Update(float /*dt*/) override;
 
-    void OnTriggerExit(CollisionComponent* other);
+        void OnTriggerEnter(CollisionComponent* other);
 
-    b2Body* GetBody()    const { return m_pBody; }
-    b2Fixture* GetFixture() const { return m_pFixture; }
+        void OnTriggerExit(CollisionComponent* other);
 
-    void Render(glm::vec3 position, glm::vec2 scale) override;
+        b2Body* GetBody()    const { return m_pBody; }
+        b2Fixture* GetFixture() const { return m_pFixture; }
 
-    void AddCollisionLayerSelf(dae::CollisionLayers);
-    void AddCollisionLayerToCollide(dae::CollisionLayers);
+        void Render(glm::vec3 position, glm::vec2 scale) override;
 
-    void RemoveCollisionLayerToSelf(dae::CollisionLayers);
-    void RemoveCollisionLayerToCollide(dae::CollisionLayers);
+        void AddCollisionLayerSelf(dae::CollisionLayers);
+        void AddCollisionLayerToCollide(dae::CollisionLayers);
 
+        void RemoveCollisionLayerToSelf(dae::CollisionLayers);
+        void RemoveCollisionLayerToCollide(dae::CollisionLayers);
 
+        Rectangle GetRectangle() const;
 
-private:
+    private:
 
-    void UpdateCollisionLayers();
-    b2World& m_World;
-    b2Body* m_pBody = nullptr;
-    b2Fixture* m_pFixture = nullptr;
-    glm::vec2   m_HalfSize;
-    glm::vec2   m_Offset;
-    dae::CollisionLayers m_SelfLayers = dae::CollisionLayers::NONE;
-    dae::CollisionLayers m_CollidesWithLayers = dae::CollisionLayers::NONE;
+        void UpdateCollisionLayers();
+        b2World& m_World;
+        b2Body* m_pBody = nullptr;
+        b2Fixture* m_pFixture = nullptr;
+        glm::vec2   m_HalfSize;
+        glm::vec2   m_Offset;
+        dae::CollisionLayers m_SelfLayers = dae::CollisionLayers::NONE;
+        dae::CollisionLayers m_CollidesWithLayers = dae::CollisionLayers::NONE;
 
 #if defined(_DEBUG) || !defined(NDEBUG)
-    bool m_DrawDebug = true;
+        bool m_DrawDebug = true;
 #else
-    bool m_DrawDebug = false;
+        bool m_DrawDebug = false;
 #endif
-};
+    };
+}
+
+
 
 

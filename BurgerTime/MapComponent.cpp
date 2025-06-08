@@ -18,6 +18,24 @@ dae::MapComponent::MapComponent(GameObject& owner, b2World& world, const std::st
 	const Vec2  origin = Vec2(offset.x, offset.y);
 
 
+	// store boundaries
+	const auto transform = owner.GetTransform();
+	glm::vec2    scale2D = transform->GetGlobalScale();
+	glm::vec3    ownerPos3 = transform->GetGlobalPosition();
+	glm::vec2    ownerPos2 = glm::vec2{ ownerPos3.x, ownerPos3.y };
+
+
+	glm::vec2 worldMin = origin + ownerPos2;
+	glm::vec2 tileSizeWS = glm::vec2{ tileW, tileH } *scale2D;
+	glm::vec2 worldMax = worldMin + glm::vec2{ cols * tileSizeWS.x,
+												  rows * tileSizeWS.y };
+
+	m_Boundaries = glm::vec4{ worldMin.x,
+							  worldMin.y,
+							  worldMax.x,
+							  worldMax.y };
+
+
 	m_TileObjects.reserve(cols * rows);
 
 	// double for loop over the grid
@@ -28,7 +46,7 @@ dae::MapComponent::MapComponent(GameObject& owner, b2World& world, const std::st
 			
 			int index = y * cols + x;
 			const TileInfo& info = m_Map.tiles[index]; // get the correct tile
-			if (!info.floor && !info.wall && !info.ladder && !info.ladderExit && !info.bottomBun && !info.topBun && !info.plate && !info.meat && !info.cheese && !info.salad && !info.tomato) // basically useless tile
+			if (!info.floor && !info.wall && !info.ladder && !info.ladderExit && !info.bottomBun && !info.topBun && !info.plate && !info.meat && !info.cheese && !info.salad && !info.tomato && !info.playerSpawn) // basically useless tile
 				continue;
 			
 			glm::vec2 scale = owner.GetTransform()->GetGlobalScale();
@@ -89,4 +107,42 @@ dae::MapComponent::MapComponent(GameObject& owner, b2World& world, const std::st
 			m_TileObjects.push_back(gameObject);
 		}
 	}
+}
+
+
+const std::vector<glm::vec2>& dae::MapComponent::GetTopBunSpawnPositions() const {
+	return m_TopBunSpawnPos;
+}
+
+const std::vector<glm::vec2>& dae::MapComponent::GetTomateSpawnPositions() const {
+	return m_TomateSpawnPos;
+}
+
+const std::vector<glm::vec2>& dae::MapComponent::GetSaladSpawnPositions() const {
+	return m_SaladSpawnPos;
+}
+
+const std::vector<glm::vec2>& dae::MapComponent::GetCheeseSpawnPositions() const {
+	return m_CheeseSpawnPos;
+}
+
+const std::vector<glm::vec2>& dae::MapComponent::GetMeatSpawnPositions() const {
+	return m_MeatSpawnPos;
+}
+
+const std::vector<glm::vec2>& dae::MapComponent::GetBottomBunSpawnPositions() const {
+	return m_BottomBunSpawnPos;
+}
+
+const std::vector<glm::vec2>& dae::MapComponent::GetPlayerSpawnPositions() const {
+	return m_PlayerSpawnPos;
+}
+
+const glm::vec4& dae::MapComponent::Boundaries() const
+{
+	return m_Boundaries;
+}
+
+int dae::MapComponent::GetTotalIngredients() const {
+	return m_TotalIngredients;
 }

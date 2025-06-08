@@ -29497,7 +29497,7 @@
                 {
                  "name":"playerSpawn",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"salad",
@@ -29556,7 +29556,7 @@
                 {
                  "name":"playerSpawn",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"salad",
