@@ -22,7 +22,7 @@ namespace dae
 		GameObject(const Transform& transform, GameObject* parent = nullptr);
 		GameObject(const glm::vec3 localPosition = { 0,0,0 }, const glm::vec3 localRotation = {0,0,0}, const glm::vec3 localScale = { 1,1,1 }, GameObject* parent = nullptr);
 
-		virtual ~GameObject();
+		 ~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;

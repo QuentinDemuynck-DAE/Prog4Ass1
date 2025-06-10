@@ -102,6 +102,7 @@ dae::MapComponent::MapComponent(GameObject& owner, b2World& world, const std::st
 
 			auto gameObject = std::make_shared<dae::GameObject>(scaledPosition);
 			gameObject->AddComponent<CollisionComponent>(world, dae::CollisionLayers::MAP,dae::CollisionLayers::MAPWALKER,halfSize, halfSize, true, false);
+			gameObject->AddComponent<MapTileComponent>(info,glm::ivec2{x,y});
 			gameObject->SetParent(&owner);
 
 			m_TileObjects.push_back(gameObject);

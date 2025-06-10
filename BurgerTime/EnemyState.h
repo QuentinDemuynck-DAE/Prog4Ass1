@@ -1,9 +1,13 @@
 #pragma once
 #include "State.h"
 
-class EnemyState : public dae::State
+namespace dae
 {
-public:
-private:
-};
+	class EnemyState : public State
+	{
+	public:
+	private:
+	};
+
+}
 

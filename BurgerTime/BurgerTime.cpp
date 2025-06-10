@@ -44,12 +44,15 @@
 #include "DebugPositionCommand.h"
 #include "EnemyComponent.h"
 #include "MapComponent.h"
+#include "MapTileWalkerObserver.h"
 #include "MapWalkerComponent.h"
+#include "PlayerObserver.h"
 #include "SVGParser.h"
 
 
 void load()
 {
+
 
 	auto noisySoundSystem = std::make_unique<NoisySoundSystem>();
 	ServiceLocator::ProvideSoundSystem(std::make_unique<DebugSoundSystem>(std::move(noisySoundSystem)));
@@ -158,16 +161,27 @@ void load()
 	textureOne->AddComponent<dae::CollisionComponent>(*dae::Minigin::physicsWorld.get(),playerOwnLayer, playerColidesWith, glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
 	textureTwo->AddComponent<dae::CollisionComponent>(*dae::Minigin::physicsWorld.get(), playerOwnLayer, playerColidesWith, glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
 	textureOne->AddComponent<dae::MapWalkerComponent>(glm::vec3{ mapComp.at(0),0 }, *map->GetComponent<dae::MapComponent>());
+	textureTwo->AddComponent<dae::MapWalkerComponent>(glm::vec3{ mapComp.at(1),0 }, * map->GetComponent<dae::MapComponent>());
+
+	auto mapWalkerObs = std::make_shared<dae::MapTileWalkerObserver>(textureOne->GetComponent<dae::MapWalkerComponent>());
+	auto mapWalkerObs2 = std::make_shared<dae::MapTileWalkerObserver>(textureTwo->GetComponent<dae::MapWalkerComponent>());
+
+	textureOne->GetSubject()->AddObserver(mapWalkerObs);
+	textureTwo->GetSubject()->AddObserver(mapWalkerObs2);
 
 	textureOne->AddComponent<PlayerComponent>();
 	textureTwo->AddComponent<PlayerComponent>();
+	auto playerObserver = std::make_shared<dae::PlayerObserver>();
+	auto playerObserver2 = std::make_shared<dae::PlayerObserver>();
 
+	textureTwo->GetSubject()->AddObserver(playerObserver2);
+	textureOne->GetSubject()->AddObserver(playerObserver);
 
 	auto mapGrid = dae::loadMapFromTiledJSON("levelOne.json", glm::vec2{ mapScale });
 	//const float svgRemap{ 0.75 }; // it somehow kept being 280 x 280 even though I set it to th same value as the texture, this is my stupid solution its 210 / 280
 
 
-	auto enemyObserver = std::make_shared<EnemyObserver>();
+	auto enemyObserver = std::make_shared<dae::EnemyObserver>();
 	auto enemy = std::make_shared<dae::GameObject>(glm::vec3{ 20,110,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
 
 
@@ -182,8 +196,8 @@ void load()
 
 	enemy->AddComponent<Texture2DComponent>("EnemyOne.png");
 	enemy->GetSubject()->AddObserver(enemyObserver);
-	enemy->AddComponent<EnemyComponent>(players);
-	enemy->GetComponent<EnemyComponent>()->SetState(std::make_unique<PatrolState>());
+	enemy->AddComponent<dae::EnemyComponent>(players);
+	enemy->GetComponent<dae::EnemyComponent>()->SetState(std::make_unique<dae::PatrolState>());
 	enemy->AddComponent<dae::CollisionComponent>(*dae::Minigin::physicsWorld.get(),dae::CollisionLayers::ENEMY, enemyCollidesWith, glm::vec2{ 8, 8 }, glm::vec2{ 8, 8 }, true, false);
 
 	scene.Add(enemy);
@@ -197,21 +211,33 @@ void load()
 
 	const float speed{ 100.f };
 	//Connect controllers
-	for (int i = 0; i < g_maxControllers; i++)
+	for (int i = 0; i < 1; i++)
 	{
-		auto gamePad{ std::make_unique<GamePad>(i) };
+		auto gamePad{ std::make_unique<dae::GamePad>(i) };
 		// Bind commands for all directions
-		gamePad->BindCommand(GamePad::Button::DPadUp, std::make_shared<dae::MoveTransformCommand>(textureOne.get(), 0.f, -speed), KeyState::Pressed);
-		gamePad->BindCommand(GamePad::Button::DPadDown, std::make_shared<dae::MoveTransformCommand>(textureOne.get(), 0.f, speed), KeyState::Pressed);
-		gamePad->BindCommand(GamePad::Button::DPadLeft, std::make_shared<dae::MoveTransformCommand>(textureOne.get(), -speed, 0.f), KeyState::Pressed);
-		gamePad->BindCommand(GamePad::Button::DPadRight, std::make_shared<dae::MoveTransformCommand>(textureOne.get(), speed, 0.f), KeyState::Pressed);
-		gamePad->BindCommand(GamePad::Button::ButtonX, std::make_shared<dae::ShootPepperCommand>(textureOne.get()), KeyState::Up);
-		gamePad->BindCommand(GamePad::Button::ButtonA, std::make_shared<dae::ScoreCommand>(textureOne.get()), KeyState::Up);
-		gamePad->BindCommand(GamePad::Button::ButtonB, std::make_shared<dae::ScoreCommand>(textureOne.get(), 100), KeyState::Up);
-		gamePad->BindCommand(GamePad::Button::LeftTrigger, std::make_shared<dae::DebugPositionCommand>(textureOne.get()), KeyState::Up);
+		//gamePad->BindCommand(dae::GamePad::Button::DPadUp, std::make_shared<dae::MoveTransformCommand>(textureOne.get(), 0.f, -speed), KeyState::Pressed);
+		//gamePad->BindCommand(dae::GamePad::Button::DPadDown, std::make_shared<dae::MoveTransformCommand>(textureOne.get(), 0.f, speed), KeyState::Pressed);
+		//gamePad->BindCommand(dae::GamePad::Button::DPadLeft, std::make_shared<dae::MoveTransformCommand>(textureOne.get(), -speed, 0.f), KeyState::Pressed);
+		//gamePad->BindCommand(dae::GamePad::Button::DPadRight, std::make_shared<dae::MoveTransformCommand>(textureOne.get(), speed, 0.f), KeyState::Pressed);
+		gamePad->BindCommand(dae::GamePad::Button::ButtonX, std::make_shared<dae::ShootPepperCommand>(textureOne.get()), KeyState::Up);
+		gamePad->BindCommand(dae::GamePad::Button::ButtonA, std::make_shared<dae::ScoreCommand>(textureOne.get()), KeyState::Up);
+		gamePad->BindCommand(dae::GamePad::Button::ButtonB, std::make_shared<dae::ScoreCommand>(textureOne.get(), 100), KeyState::Up);
+		gamePad->BindCommand(dae::GamePad::Button::LeftTrigger, std::make_shared<dae::DebugPositionCommand>(textureOne.get()), KeyState::Up);
 
+		textureOne->GetComponent<PlayerComponent>()->BindGamepad(gamePad.get());
 		dae::InputManager::GetInstance().ConnectGamePad(std::move(gamePad));
 	}
+
+	auto gamePad2{ std::make_unique<dae::GamePad>(1) };
+	gamePad2->BindCommand(dae::GamePad::Button::ButtonX, std::make_shared<dae::ShootPepperCommand>(textureTwo.get()), KeyState::Up);
+	gamePad2->BindCommand(dae::GamePad::Button::ButtonA, std::make_shared<dae::ScoreCommand>(textureTwo.get()), KeyState::Up);
+	gamePad2->BindCommand(dae::GamePad::Button::ButtonB, std::make_shared<dae::ScoreCommand>(textureTwo.get(), 100), KeyState::Up);
+	gamePad2->BindCommand(dae::GamePad::Button::LeftTrigger, std::make_shared<dae::DebugPositionCommand>(textureTwo.get()), KeyState::Up);
+	textureTwo->GetComponent<PlayerComponent>()->BindGamepad(gamePad2.get());
+	dae::InputManager::GetInstance().ConnectGamePad(std::move(gamePad2));
+
+
+
 
 	dae::InputManager::GetInstance().BindCommand(SDLK_w, std::make_shared<dae::MoveTransformCommand>(textureTwo.get(), 0.f, -speed * 2.f), KeyState::Pressed);
 	dae::InputManager::GetInstance().BindCommand(SDLK_s, std::make_shared<dae::MoveTransformCommand>(textureTwo.get(), 0.f, speed * 2.f), KeyState::Pressed);
@@ -235,7 +261,6 @@ void load()
 
 int main(int, char* []) 
 {
-
 
 	dae::Minigin engine("../Data/");
 	engine.Run(load);

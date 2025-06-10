@@ -1,18 +1,20 @@
 #pragma once
-#include "EnemyState.h"
+#include "Events.h"
+#include "PlayerState.h"
+class PlayerComponent;
 
 namespace dae
 {
-	class EnemyComponent;
+	class GameObject;
 
-	class ChaseState : public EnemyState
+	class Dying : public PlayerState
 	{
 	public:
 		void OnEnter(dae::GameObject&) override;
 		void HandleInput(dae::GameObject& object, const Event& event) override;
 		void Update(dae::GameObject&, float) override;
 	private:
-		EnemyComponent* m_EnemyComponent;
+		PlayerComponent* m_EnemyComponent;
 	};
 }
 

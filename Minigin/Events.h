@@ -2,7 +2,9 @@
 #include <iostream>
 #include <variant>
 #include <vector>
-using EventArg = std::variant<int, float, std::string, void*>;
+#include <glm.hpp>
+
+using EventArg = std::variant<int, float, std::string, void*, glm::vec3>;
 using EventID = unsigned int;
 
 struct Event

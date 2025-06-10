@@ -34,6 +34,9 @@
     <Filter Include="Game\Components\Map">
       <UniqueIdentifier>{df2ad69f-89a1-4c6f-a982-18f4c68d1a0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Observers\Map">
+      <UniqueIdentifier>{9c2f653e-2fa5-434a-a7cb-28b4908f6bcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BurgerTime.cpp">
@@ -112,7 +115,22 @@
       <Filter>Game\Components\Map</Filter>
     </ClCompile>
     <ClCompile Include="PlayerState.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Climbing.cpp">
+      <Filter>Game\States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Walking.cpp">
+      <Filter>Game\States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Dying.cpp">
+      <Filter>Game\States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerObserver.cpp">
+      <Filter>Game\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="MapTileWalkerObserver.cpp">
+      <Filter>Game\Observers\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -189,7 +207,22 @@
       <Filter>Game\Components\Map</Filter>
     </ClInclude>
     <ClInclude Include="PlayerState.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game\States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Climbing.h">
+      <Filter>Game\States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Walking.h">
+      <Filter>Game\States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Dying.h">
+      <Filter>Game\States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerObserver.h">
+      <Filter>Game\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="MapTileWalkerObserver.h">
+      <Filter>Game\Observers\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,15 @@
 
 #include <iostream>
 #include <string>
+
+#include "Observer.h"
+
+namespace dae
+{
+	class MapWalkerComponent;
+}
+
+class PlayerComponent;
 class RigidbodyComponent;
 class HealthComponent;
 class ScoreComponent;
@@ -56,5 +65,25 @@ namespace dae
 		ScoreComponent* m_ScoreComponent;
 		int m_Amount;
 	
+	};
+
+	class GetOffLadderCommand : public Command
+	{
+	public:
+		GetOffLadderCommand(dae::GameObject* gameObject);
+		void Execute() override;
+	private:
+		dae::GameObject* m_GameObject;
+		MapWalkerComponent* m_MapWalkerComponent;
+	};
+
+	class GetOnLadderCommand : public Command
+	{
+	public:
+		GetOnLadderCommand(dae::GameObject* gameObject);
+		void Execute() override;
+	private:
+		dae::GameObject* m_GameObject;
+		MapWalkerComponent* m_MapWalkerComponent;
 	};
 }

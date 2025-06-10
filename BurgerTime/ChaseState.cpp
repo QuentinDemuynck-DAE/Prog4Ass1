@@ -6,14 +6,14 @@
 #include "GameObject.h"
 #include "PatrolState.h"
 
-void ChaseState::OnEnter(dae::GameObject& gameObject)
+void dae::ChaseState::OnEnter(dae::GameObject& gameObject)
 {
 	EnemyState::OnEnter(gameObject);
 	m_EnemyComponent = gameObject.GetComponent<EnemyComponent>();
 	std::cout << "Entered ChaseState";
 }
 
-void ChaseState::HandleInput(dae::GameObject& object, const Event& event)
+void dae::ChaseState::HandleInput(dae::GameObject& object, const Event& event)
 {
 	if (event.id == make_sdbm_hash("player_unseen"))
 	{
@@ -28,7 +28,7 @@ void ChaseState::HandleInput(dae::GameObject& object, const Event& event)
 	}
 }
 
-void ChaseState::Update(dae::GameObject& game_object, float deltaTime)
+void dae::ChaseState::Update(dae::GameObject& game_object, float deltaTime)
 {
 	EnemyState::Update(game_object, deltaTime);
 	m_EnemyComponent->ChasePlayer();

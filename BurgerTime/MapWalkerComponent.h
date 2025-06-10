@@ -15,24 +15,29 @@ namespace dae {
     class MapComponent;
 
 
-    class MapWalkerComponent final : public Component, public Observer
+    class MapWalkerComponent final : public Component
     {
     public:
+
+        struct ActionQueryResult {
+            bool    canPerform;      // true if the action is valid
+            glm::vec3 snapPosition;    // where to snap the character
+        };
+
         MapWalkerComponent(GameObject& owner, glm::vec3 spawnPosition, MapComponent& mapComponent);
 
-        ~MapWalkerComponent() override = default;
+        ~MapWalkerComponent() override;
 
         MapWalkerComponent(const MapWalkerComponent&) = delete;
         MapWalkerComponent& operator=(const MapWalkerComponent&) = delete;
         MapWalkerComponent(MapWalkerComponent&& other) = delete;
+
         MapWalkerComponent& operator=(MapWalkerComponent&& other) = delete;
-
-
-        void Notify(Event event, dae::GameObject* gameObject) override;
         void Update(float deltaTime) override;
 
-        bool CanTakeLadder() const;
-        bool CanExitLadder() const;
+        ActionQueryResult QueryClimbLadder() const;
+        ActionQueryResult QueryExitLadder() const;
+        bool IsOnFloor() const;
 
         const std::vector<MapTileComponent*>& GetConnectedTiles() const;
 
@@ -40,10 +45,12 @@ namespace dae {
 
         void Respawn();
 
+        void AddTile(CollisionComponent* receiver);
+        void RemoveTile(CollisionComponent* receiver);
+
+
     private:
-
         void KeepInBoundaries();
-
         std::vector<MapTileComponent*> m_ConnectedTiles;
         CollisionComponent* m_OwnersCollisionComponent;
         glm::vec3 m_Spawnposition;
