@@ -46,7 +46,7 @@ dae::CollisionComponent::CollisionComponent(dae::GameObject& owner,
     shape.SetAsBox(
         m_HalfSize.x,
         m_HalfSize.y,
-         b2Vec2{ scaledOffset.x, scaledOffset.y },
+         b2Vec2{ m_HalfSize.x, m_HalfSize.y }, //So I don't use offset here because this just makes sure its on the top left like any other drawing
          0.0f
     );
 
@@ -74,7 +74,7 @@ void dae::CollisionComponent::Update(float)
     glm::vec3 eulerDeg = GetOwner().GetTransform()->GetGlobalRotation();
     float   angleRad = glm::radians(eulerDeg.z);
 
-    m_pBody->SetTransform(b2Vec2{ pos.x, pos.y }, angleRad);
+    m_pBody->SetTransform(b2Vec2{ pos.x + m_Offset.x, pos.y + m_Offset.y}, angleRad);
 }
 
 
@@ -97,45 +97,28 @@ void dae::CollisionComponent::OnTriggerExit(CollisionComponent* other)
 
 void dae::CollisionComponent::Render(glm::vec3 position, glm::vec2)
 {
-    Component::Render(position, glm::vec2{1,1}); // m_HalfSize gets scaled
+    Component::Render(position, glm::vec2{ 1,1 }); // m_HalfSize gets scaled
 
     if (!m_DrawDebug || !m_pFixture)
         return;
 
-    auto* boxShape = static_cast<b2PolygonShape*>(m_pFixture->GetShape());
-    int32 count = boxShape->m_count;
-    auto* verts = boxShape->m_vertices;
+    //  grab your rectangle in world space
+    dae::Rectangle r = GetRectangle();
 
-    glm::vec2 firstPt{};
-    glm::vec2 prevPt{};
+    // convert to four corner points
+    glm::vec2 topLeft{ r.x,           r.y };
+    glm::vec2 topRight{ r.x + r.width, r.y };
+    glm::vec2 bottomRight{ r.x + r.width, r.y + r.height };
+    glm::vec2 bottomLeft{ r.x,           r.y + r.height };
 
-    //not mine needed a quick debug draw
-    for (int32 i = 0; i < count; ++i)
-    {
-        b2Vec2 vWorld = m_pBody->GetWorldPoint(verts[i]);
-        glm::vec2 currPt{ vWorld.x, vWorld.y };
+    // draw the four edges
+    auto& R = dae::Renderer::GetInstance();
+    SDL_Color col{ 255, 0, 0, 255 };
 
-        if (i == 0)
-        {
-            firstPt = currPt;
-        }
-        else
-        {
-            dae::Renderer::GetInstance().DrawLine(
-                prevPt.x, prevPt.y,
-                currPt.x, currPt.y,
-                SDL_Color{ 255, 0, 0, 255 }
-            );
-        }
-
-        prevPt = currPt;
-    }
-
-    dae::Renderer::GetInstance().DrawLine(
-        prevPt.x, prevPt.y,
-        firstPt.x, firstPt.y,
-        SDL_Color{ 255, 0, 0, 255 }
-    );
+    R.DrawLine(topLeft.x, topLeft.y, topRight.x, topRight.y, col);
+    R.DrawLine(topRight.x, topRight.y, bottomRight.x, bottomRight.y, col);
+    R.DrawLine(bottomRight.x, bottomRight.y, bottomLeft.x, bottomLeft.y, col);
+    R.DrawLine(bottomLeft.x, bottomLeft.y, topLeft.x, topLeft.y, col);
 }
 
 void dae::CollisionComponent::AddCollisionLayerSelf(dae::CollisionLayers layer)
@@ -170,20 +153,19 @@ void dae::CollisionComponent::RemoveCollisionLayerToCollide(dae::CollisionLayers
 
 dae::Rectangle dae::CollisionComponent::GetRectangle() const
 {
-    b2Vec2 bodyPos = m_pBody->GetPosition();
+    // This is the world-space center of the box
+    b2Vec2 center = m_pBody->GetPosition();
 
-    glm::vec2 center{
-        bodyPos.x + m_Offset.x,
-        bodyPos.y + m_Offset.y
-    };
-
+    // Build a Rectangle whose x/y are the top-left
     dae::Rectangle rect;
-    rect.x = center.x - m_HalfSize.x;
-    rect.y = center.y - m_HalfSize.y;
+    rect.x = center.x;
+    rect.y = center.y;
     rect.width = m_HalfSize.x * 2.0f;
     rect.height = m_HalfSize.y * 2.0f;
     return rect;
 }
+
+
 
 void dae::CollisionComponent::UpdateCollisionLayers()
 {

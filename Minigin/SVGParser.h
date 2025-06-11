@@ -36,7 +36,7 @@ namespace dae
         int rows = 0;
         Vec2 tileSize = Vec2(0.0f);        
         std::vector<TileInfo> tiles;
-
+        Vec2 margin;
     };
 
 
@@ -72,10 +72,14 @@ namespace dae
         int rows = tileCount / columns;
         int tileHeight = json["tileheight"];
 
+
         Vec2 totalOffset = offset + Vec2(static_cast<float>(margin), static_cast<float>(margin));
         Vec2 tileStep = Vec2(static_cast<float>(tileWidth + spacing), static_cast<float>(tileHeight + spacing));
 
         Map map;
+        map.margin.x = float(margin);
+        map.margin.y = float(margin);
+
         map.columns = columns;
         map.rows = rows;
         map.tileSize = Vec2(static_cast<float>(tileWidth), static_cast<float>(tileHeight));

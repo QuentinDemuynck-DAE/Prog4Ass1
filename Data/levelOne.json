@@ -15787,7 +15787,7 @@
                 {
                  "name":"ladderExit",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"meat",
@@ -15846,7 +15846,7 @@
                 {
                  "name":"ladderExit",
                  "type":"bool",
-                 "value":false
+                 "value":true
                 }, 
                 {
                  "name":"meat",

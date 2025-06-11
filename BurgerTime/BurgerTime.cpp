@@ -72,13 +72,51 @@ void load()
 	auto smallerFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
 
 
+	auto mapComponent = map->GetComponent<dae::MapComponent>();
+
+	// Spawn ingredients
+	for (auto position : mapComponent->GetTopBunSpawnPositions())
+	{
+		auto topBun = dae::CreateIngredient(glm::vec3{ position, 0 }, { 0,0,0 }, map->GetTransform()->GetGlobalScale(), { 14, 6 });
+		scene.Add(topBun);
+	}
+
+	for (auto position : mapComponent->GetBottomBunSpawnPositions())
+	{
+		auto botBun = dae::CreateIngredient(glm::vec3{ position, 0 }, { 0,0,0 }, map->GetTransform()->GetGlobalScale(), { 14, 7 });
+		scene.Add(botBun);
+	}
+
+	for (auto position : mapComponent->GetCheeseSpawnPositions())
+	{
+		auto cheese = dae::CreateIngredient(glm::vec3{ position, 0 }, { 0,0,0 }, map->GetTransform()->GetGlobalScale(), { 14, 8 });
+		scene.Add(cheese);
+	}
+
+	for (auto position : mapComponent->GetMeatSpawnPositions())
+	{
+		auto meat = dae::CreateIngredient(glm::vec3{ position, 0 }, { 0,0,0 }, map->GetTransform()->GetGlobalScale(), { 14, 9 });
+		scene.Add(meat);
+	}
+
+	for (auto position : mapComponent->GetTomateSpawnPositions())
+	{
+		auto tomato = dae::CreateIngredient(glm::vec3{ position, 0 }, { 0,0,0 }, map->GetTransform()->GetGlobalScale(), { 14, 10 });
+		scene.Add(tomato);
+	}
+
+	for (auto position : mapComponent->GetSaladSpawnPositions())
+	{
+		auto salad = dae::CreateIngredient(glm::vec3{ position, 0 }, { 0,0,0 }, map->GetTransform()->GetGlobalScale(), { 14, 11 });
+		scene.Add(salad);
+	}
 
 	// create players
 	std::vector<dae::GameObject*> players;
 
 	for (int i{}; i < g_maxControllers; i++)
 	{
-		auto player = dae::CreatePlayer(map->GetComponent<dae::MapComponent>(), map.get(), i);
+		auto player = dae::CreatePlayer(mapComponent, map.get(), i);
 
 		players.push_back(player.get());
 		scene.Add(player);

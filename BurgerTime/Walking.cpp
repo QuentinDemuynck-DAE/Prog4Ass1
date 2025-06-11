@@ -48,17 +48,8 @@ void dae::Walking::HandleInput(dae::GameObject& object, const Event& event)
 	}
 }
 
-void dae::Walking::Update(GameObject& game_object, float x)
+void dae::Walking::Update(GameObject&, float)
 {
-	PlayerState::Update(game_object, x);
-	if (!m_MapWalker)
-		return;
-
-	if (!m_MapWalker->IsOnFloor())
-	{
-
-		m_Rigidbody->AddVelocity(0.0f, 2.f);
-	}
 
 }
 

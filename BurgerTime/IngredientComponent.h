@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Component.h"
+#include "IngredientState.h"
 
 namespace dae
 {
@@ -10,17 +11,20 @@ namespace dae
 	class IngredientComponent final : public Component
 	{
 	public:
-		typedef std::vector<std::unique_ptr<GameObject>> ChildObjectsPtrs;
+		typedef std::vector<std::shared_ptr<GameObject>> ChildObjectsPtrs;
 
-		explicit IngredientComponent(dae::GameObject& owner);
+		explicit IngredientComponent(dae::GameObject& owner, glm::ivec4 srcRect);
 		void Update(float deltaTime) override;
-		void FixedUpdate() override;
-		void Render(glm::vec3 position, glm::vec2 scale) override;
-		void PostUpdate(float deltaTime) override;
-	private:
 
+
+		void HandleInput(const Event event);
+		void SetState(std::unique_ptr<IngredientState> newState);
+
+	private:
+		const int NUM_CHILDS = 4;
 		ChildObjectsPtrs m_pIngredientPartObjects;
 		glm::ivec4 m_TextureSourceRectsStarter;
+		std::unique_ptr<IngredientState> m_pState;
 	};
 }
 

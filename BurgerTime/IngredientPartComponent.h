@@ -15,6 +15,7 @@ namespace dae
 
 		void Activate();
 		void Deactivate();
+		bool Activated() { return m_Activated; }
 
 	private:
 		bool m_Activated;
