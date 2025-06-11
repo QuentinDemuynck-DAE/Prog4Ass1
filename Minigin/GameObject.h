@@ -67,7 +67,7 @@ namespace dae
 		}
 
 		// Parenting
-		GameObject* GetParent() { return m_parent; }
+		GameObject* GetParent() const { return m_parent; }
 		void SetParent(GameObject* parent, bool keepWorldPosition = false);
 
 		int GetChildCount() { return int(m_children.size()); }

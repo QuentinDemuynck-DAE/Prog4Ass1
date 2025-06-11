@@ -20,11 +20,21 @@ namespace dae
 		void HandleInput(const Event event);
 		void SetState(std::unique_ptr<IngredientState> newState);
 
+		void DeactivateAllChilds();
+		void SetActivatableAllPArts(const bool& activatable);
+		const int GetNumChilds() const { return NUM_CHILDS; }
+		const float GetActivationFalldown() const { return ACTIVATION_FALLDOWN; }
+
+
 	private:
 		const int NUM_CHILDS = 4;
+		const float ACTIVATION_FALLDOWN = 8.0f;
 		ChildObjectsPtrs m_pIngredientPartObjects;
 		glm::ivec4 m_TextureSourceRectsStarter;
 		std::unique_ptr<IngredientState> m_pState;
+
+
+		int m_ActivatedParts{ 0 };
 	};
 }
 

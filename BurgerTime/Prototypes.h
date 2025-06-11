@@ -126,7 +126,8 @@ namespace dae
 		glm::ivec4 startPos{ startRowIndex, srcSize };
 		auto ingredient = std::make_shared<GameObject>(position, rotation, scale);
 		ingredient->AddComponent<IngredientComponent>(startPos);
-		ingredient->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), dae::CollisionLayers::INGREDIENT, (CollisionLayers::ENEMY | CollisionLayers::MAP | CollisionLayers::PLATE) , glm::vec2{ 6, 8 }, glm::vec2{ 2, 0 }, true, false);
+		ingredient->AddComponent<CollisionComponent>(*dae::Minigin::physicsWorld.get(), dae::CollisionLayers::INGREDIENT, (CollisionLayers::ENEMY | CollisionLayers::MAP | CollisionLayers::PLATE | CollisionLayers::INGREDIENT) , glm::vec2{ 12, 4 }, glm::vec2{ 4, 0 }, true, false);
+		ingredient->AddComponent<RigidbodyComponent>(20.0f);
 		auto observer = std::make_shared<IngredientObserver>();
 		ingredient->GetSubject()->AddObserver(observer);
 

@@ -1,6 +1,8 @@
 #pragma once
 #include "IngredientState.h"
 
+class RigidbodyComponent;
+
 namespace dae
 {
 	class FallingState : public dae::IngredientState
@@ -10,6 +12,9 @@ namespace dae
 		void OnEnter(dae::GameObject&) override;
 		void OnExit(dae::GameObject&) override;
 		void Update(dae::GameObject&, float) override;
+	private:
+		const glm::vec2 m_Speed{ 0.0, 10 };
+		RigidbodyComponent* m_Rigidbody;
 	};
 }
 

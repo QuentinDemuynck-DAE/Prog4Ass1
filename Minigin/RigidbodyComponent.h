@@ -9,7 +9,7 @@ namespace dae
 class RigidbodyComponent : public Component
 {
 public:
-	RigidbodyComponent(dae::GameObject& owner, float maxSpeed = 10.f, float mass = 10.f, float drag = 0.1f);
+	RigidbodyComponent(dae::GameObject& owner, float maxSpeed = 10.f, float mass = 10.f, float drag = 0.0f);
 	~RigidbodyComponent() = default;
 	void Update(float deltaTime) override;
 	void AddVelocity(float x, float y);

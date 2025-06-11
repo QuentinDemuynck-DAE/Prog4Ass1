@@ -4,7 +4,7 @@
 
 namespace dae
 {
-	IngredientPartComponent::IngredientPartComponent(dae::GameObject& owner) : Component(owner)
+	IngredientPartComponent::IngredientPartComponent(dae::GameObject& owner, const float& activationFalldown) : Component(owner), ACTIVATION_FALLDOWN(activationFalldown)
 	{
 	}
 
@@ -30,12 +30,17 @@ namespace dae
 
 	void IngredientPartComponent::Activate()
 	{
+		if (!m_CanBeActivated)
+			return;
+
 		m_Activated = true;
+		GetOwner().GetTransform()->SetLocalPosition({ GetOwner().GetTransform()->GetLocalPosition().x, ACTIVATION_FALLDOWN, GetOwner().GetTransform()->GetLocalPosition().z });
 	}
 
 	void IngredientPartComponent::Deactivate()
 	{
 		m_Activated = false;
+		GetOwner().GetTransform()->SetLocalPosition({ GetOwner().GetTransform()->GetLocalPosition().x , 0.0f, GetOwner().GetTransform()->GetLocalPosition().z});
 	}
 }
 

@@ -17,7 +17,7 @@ namespace dae
 		void FixedUpdate();
 		void Render() const;
 
-		bool Contains(GameObject* obj) const;
+		bool Contains(const GameObject* object) const;
 		const std::string& GetName() const;
 
 		~Scene();
@@ -32,6 +32,7 @@ namespace dae
 		void RecursivePostUpdate(const std::shared_ptr<GameObject>& object, float deltaTime);
 		void RecursiveFixedUpdate(const std::shared_ptr<GameObject>& object);
 		void RecursiveRender(const std::shared_ptr<GameObject>& object) const;
+
 
 		std::string m_name;
 		std::vector < std::shared_ptr<GameObject>> m_objects{};

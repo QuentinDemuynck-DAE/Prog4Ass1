@@ -97,12 +97,17 @@ void Scene::Render() const
 	}
 }
 
-bool Scene::Contains(GameObject* obj) const
+bool Scene::Contains(const GameObject* object) const //go up the root
 {
-	return std::ranges::any_of(m_objects.begin(), m_objects.end(),
-		[obj](const std::shared_ptr<GameObject>& go) {
-		 return go.get() == obj;
-	});
+	for (const auto* current = object; current != nullptr; current = current->GetParent())
+	{
+		for (const auto& rootPtr : m_objects)
+		{
+			if (rootPtr.get() == current)
+				return true;
+		}
+	}
+	return false;
 }
 
 
@@ -116,6 +121,7 @@ void Scene::RecursiveRender(const std::shared_ptr<GameObject>& object) const
 		RecursiveRender(object->GetChildAt(i));
 	}
 }
+
 
 const std::string& Scene::GetName() const
 {

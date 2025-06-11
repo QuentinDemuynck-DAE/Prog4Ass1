@@ -3,10 +3,10 @@
 
 namespace dae
 {
-	class IngredientPartComponent : Component
+	class IngredientPartComponent :public Component
 	{
 	public:
-		explicit IngredientPartComponent(dae::GameObject& owner);
+		explicit IngredientPartComponent(dae::GameObject& owner, const float& activationFalldown);
 
 		void Update(float deltaTime) override;
 		void FixedUpdate() override;
@@ -15,10 +15,14 @@ namespace dae
 
 		void Activate();
 		void Deactivate();
-		bool Activated() { return m_Activated; }
+		bool Activated() const { return m_Activated; }
+
+		void SetActivatable(const bool& activatable) { m_CanBeActivated = activatable;  }
 
 	private:
-		bool m_Activated;
+		const float ACTIVATION_FALLDOWN;
+		bool m_Activated = false;
+		bool m_CanBeActivated = true;
 	};
 }
 

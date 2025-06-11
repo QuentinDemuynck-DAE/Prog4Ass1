@@ -154,7 +154,7 @@
       <Filter>Game\Observers</Filter>
     </ClCompile>
     <ClCompile Include="IngredientPartObserver.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\Observers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -261,7 +261,7 @@
       <Filter>Game\Observers</Filter>
     </ClInclude>
     <ClInclude Include="IngredientPartObserver.h">
-      <Filter>Game\Header Files</Filter>
+      <Filter>Game\Observers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -59,7 +59,7 @@ dae::MapComponent::MapComponent(GameObject& owner, b2World& world, const std::st
 
 	glm::vec2 scaledMargin = scale2D * m_Map.margin;
 
-	glm::vec2 worldMin = origin + ownerPos2 + scaledMargin;
+	glm::vec2 worldMin = origin + ownerPos2;
 	glm::vec2 tileSizeWS = glm::vec2{ tileW, tileH } *scale2D;
 	glm::vec2 worldMax = worldMin + glm::vec2{ cols * tileSizeWS.x,
 												  rows * tileSizeWS.y };
@@ -137,7 +137,7 @@ dae::MapComponent::MapComponent(GameObject& owner, b2World& world, const std::st
 			halfSize *= glm::vec2{ owner.GetTransform()->GetGlobalScale().x , owner.GetTransform()->GetGlobalScale().y };
 
 			auto gameObject = std::make_shared<dae::GameObject>(scaledPosition);
-			//gameObject->AddComponent<CollisionComponent>(world, dae::CollisionLayers::MAP, dae::CollisionLayers::MAPWALKER, halfSize, glm::vec2{0,0}, true, false);
+			gameObject->AddComponent<CollisionComponent>(world, dae::CollisionLayers::MAP, dae::CollisionLayers::MAPWALKER, halfSize, glm::vec2{0,0}, true, false);
 			gameObject->AddComponent<MapTileComponent>(info,glm::ivec2{x,y});
 			gameObject->SetParent(&owner);
 

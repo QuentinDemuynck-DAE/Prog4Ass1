@@ -1,6 +1,8 @@
 #pragma once
 #include <glm.hpp>
 #include "Component.h"
+#include "GameObject.h"
+#include "GameObject.h"
 
 namespace dae
 {
@@ -11,7 +13,8 @@ namespace dae
 		Transform(GameObject& owner, const glm::vec3& localPosition = { 0,0,0 }, const glm::vec3& localRotation = { 0,0,0 }, const glm::vec3& localScale = { 1.0,1.0,1.0 });
 		const glm::vec3& GetLocalPosition() const { return m_localPosition; }
 		void SetLocalPosition(const float x,const float y,const  float z);
-		void SetLocalPosition(const glm::vec3& position) { SetPositionDirty(); m_localPosition = position; }
+		void SetLocalPosition(const glm::vec3& position);
+
 
 		const glm::vec3& GetGlobalPosition();
 

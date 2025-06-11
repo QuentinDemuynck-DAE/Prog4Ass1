@@ -20,6 +20,19 @@ void dae::Transform::SetLocalPosition(const float x, const float y, const float 
     SetLocalPosition(glm::vec3{ x,y,z });
 }
 
+void dae::Transform::SetLocalPosition(const glm::vec3& position)
+{
+    {
+        SetPositionDirty();
+        m_localPosition = position;
+
+        for (int i{}; i < m_owner.GetChildCount(); i++)
+        {
+            m_owner.GetChildAt(i)->GetTransform()->SetPositionDirty();
+        }
+    }
+}
+
 const glm::vec3& dae::Transform::GetGlobalPosition()
 {
     if (m_positionIsDirty)
