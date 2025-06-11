@@ -27,5 +27,15 @@ namespace dae
 	{
 		Component::PostUpdate(deltaTime);
 	}
+
+	void IngredientPartComponent::Activate()
+	{
+		m_Activated = true;
+	}
+
+	void IngredientPartComponent::Deactivate()
+	{
+		m_Activated = false;
+	}
 }
 
