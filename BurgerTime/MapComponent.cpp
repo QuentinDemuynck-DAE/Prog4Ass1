@@ -3,8 +3,42 @@
 #include "MapTileComponent.h"
 #include "GameObject.h"
 
+dae::MapComponent::surroundingTiles dae::MapComponent::GetSurroundingTiles(MapTileComponent* tile)
+{
+	if (!tile)
+		return surroundingTiles{};
+
+	glm::ivec2 position = tile->GetPositionInGrid();
+
+	surroundingTiles surroundingTiles;
+
+	// Lambda to find neighbors
+	auto findNeighbor = [&](glm::ivec2 offset) -> MapTileComponent*
+		{
+			glm::ivec2 target = position + offset;
+			auto it = std::find_if(
+				m_TileObjects.begin(),
+				m_TileObjects.end(),
+				[&](const std::shared_ptr<GameObject>& other) {
+					auto tileComp = other->GetComponent<MapTileComponent>();
+					return tileComp && tileComp->GetPositionInGrid() == target;
+				}
+			);
+			return (it != m_TileObjects.end()) ? (*it)->GetComponent<MapTileComponent>() : nullptr;
+		};
+
+	// Calling the lambda on all the surrounding tiles
+	surroundingTiles.above = findNeighbor(glm::ivec2{0,-1});
+	surroundingTiles.below = findNeighbor(glm::ivec2{ 0,1 });
+	surroundingTiles.left = findNeighbor(glm::ivec2{ -1,0 });
+	surroundingTiles.right = findNeighbor(glm::ivec2{ 1,0 });
+
+	return surroundingTiles;
+
+}
+
 dae::MapComponent::MapComponent(GameObject& owner, b2World& world, const std::string& filename,
-	const Vec2& offset)
+                                const Vec2& offset)
 	:Component(owner),
 	m_World(world)
 {
@@ -33,7 +67,7 @@ dae::MapComponent::MapComponent(GameObject& owner, b2World& world, const std::st
 	m_Boundaries = glm::vec4{ worldMin.x,
 							  worldMin.y,
 							  worldMax.x,
-							  worldMax.y };
+							  worldMax.y -2 }; // Little offset on the top so you don't glitch in the ceiling whoops
 
 
 	m_TileObjects.reserve(cols * rows);
@@ -95,7 +129,6 @@ dae::MapComponent::MapComponent(GameObject& owner, b2World& world, const std::st
 			// Add a tile component with hitbox
 			if (!info.floor && !info.wall && !info.ladder && !info.ladderExit && !info.plate)
 				continue;
-
 
 			glm::vec2 halfSize{ tileW / 2, tileH / 2 };
 			halfSize *= glm::vec2{ owner.GetTransform()->GetGlobalScale().x , owner.GetTransform()->GetGlobalScale().y };

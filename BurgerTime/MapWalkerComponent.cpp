@@ -108,7 +108,6 @@ namespace dae
 		const auto walkerRect = m_OwnersCollisionComponent->GetRectangle();
 		const float walkerTopY = walkerRect.y;
 		const float walkerHeight = walkerRect.height;
-		const float walkerBottomY = walkerTopY + walkerHeight;
 
 		
 		const float offset = walkerHeight * 0.25f;
@@ -128,10 +127,10 @@ namespace dae
 
 	
 			const auto tileRect = tileCollider->GetRectangle();
-			const float exitBottomY = tileRect.y + tileRect.height;
+			const float exitTopY = tileRect.y;
 
 			
-			const float delta = std::abs(walkerBottomY - exitBottomY);
+			const float delta = std::abs(walkerTopY - exitTopY);
 			if (delta <= offset)
 			{
 				tileComponents.push_back(tileComp);
@@ -139,7 +138,7 @@ namespace dae
 				if (delta < closestDelta)
 				{
 					closestDelta = delta;
-					bestExitY = exitBottomY;
+					bestExitY = exitTopY;
 				}
 			}
 		}
@@ -150,20 +149,104 @@ namespace dae
 			return query;
 
 
-		const glm::vec3 curr = GetOwner()
-			.GetTransform()
-			->GetGlobalPosition();
+		const glm::vec3 curr = GetOwner().GetTransform()->GetGlobalPosition();
 
 		query.snapPosition = {
 			curr.x,
-			bestExitY - (walkerHeight),
+			bestExitY,
 			curr.z
 		};
 
 		return query;
 	}
 
+	MapWalkerComponent::ClimbDirection MapWalkerComponent::PossibleClimbDirections() const
+	{
+		std::vector<MapTileComponent*> exits;
+		std::vector<MapTileComponent*> ladders;
 
+		
+		for (auto tile : m_ConnectedTiles)
+		{
+			if (tile->GetLadderExit())
+				exits.push_back(tile);
+
+			if (tile->GetLadder())
+				ladders.push_back(tile);
+		}
+
+		auto highest = [](const std::vector<MapTileComponent*>& vec) -> MapTileComponent*
+			{
+				if (vec.empty()) return nullptr;
+				return *std::max_element(
+					vec.begin(), vec.end(),
+					[](MapTileComponent* a, MapTileComponent* b) {
+						return a->GetPositionInGrid().y < b->GetPositionInGrid().y;
+					}
+				);
+			};
+
+		auto lowest = [](const std::vector<MapTileComponent*>& vec) -> MapTileComponent*
+			{
+				if (vec.empty()) return nullptr;
+				return *std::min_element(
+					vec.begin(), vec.end(),
+					[](MapTileComponent* a, MapTileComponent* b) {
+						return a->GetPositionInGrid().y < b->GetPositionInGrid().y;
+					}
+				);
+			};
+
+
+
+		// get highest and lowest ladders and exits
+		MapTileComponent* topLadder = highest(ladders);
+		MapTileComponent* bottomLadder = lowest(ladders);
+		MapTileComponent* topExit = highest(exits);
+		MapTileComponent* bottomExit = lowest(exits);
+
+		MapComponent::surroundingTiles topLadderSurrounding = m_Map.GetSurroundingTiles(topLadder);
+		MapComponent::surroundingTiles bottomLadderSurrounding = m_Map.GetSurroundingTiles(bottomLadder);
+		MapComponent::surroundingTiles topExitSurrounding = m_Map.GetSurroundingTiles(topExit);
+		MapComponent::surroundingTiles bottomExitSurrounding = m_Map.GetSurroundingTiles(bottomExit);
+
+		bool canClimbUp = false;
+		bool canClimbDown = false;
+
+		if (ladders.size() > 4)
+		{
+			return ClimbDirection::BOTH;
+		}
+
+		if (topExitSurrounding.above
+			&& topExitSurrounding.above->GetLadder() || ladders.size() >= 4)
+		{
+			canClimbUp = true;
+		}
+
+		if (bottomExitSurrounding.below
+			&& bottomExitSurrounding.below->GetLadder())
+		{
+			canClimbDown = true;
+		}
+
+		if (topLadderSurrounding.below
+			&& topLadderSurrounding.below->GetLadderExit())
+			canClimbUp = true;
+
+		if (bottomLadderSurrounding.below
+			&& bottomLadderSurrounding.below->GetLadderExit())
+			canClimbDown = true;
+
+
+		if (canClimbUp && canClimbDown)
+			return ClimbDirection::BOTH;
+		if (canClimbUp)
+			return ClimbDirection::UP;
+		if (canClimbDown)
+			return ClimbDirection::DOWN;
+		return ClimbDirection::NONE;
+	}
 
 
 	bool dae::MapWalkerComponent::IsOnFloor() const
@@ -234,49 +317,122 @@ namespace dae
 		}
 	}
 
-	void dae::MapWalkerComponent::KeepInBoundaries()
+	void MapWalkerComponent::KeepInBoundaries()
 	{
+		// Enforce staying inside the overall map
+		glm::vec4 mapBounds = m_Map.Boundaries();
+		ResolveMapBounds(mapBounds);
 
-		glm::vec4 mapBoundaries = m_Map.Boundaries();
-		dae::Rectangle walkerRectangle = m_OwnersCollisionComponent->GetRectangle();
-
-		auto* walkerTransform = GetOwner().GetTransform();
-		glm::vec3 walkerPosition = walkerTransform->GetLocalPosition();
-
-		//basically how much hes over the map
-		float penetrationX = 0.0f;
-		float penetrationY = 0.0f;
-
-		//Left
-		if (walkerRectangle.x < mapBoundaries.x)
+		// Enforce staying outside any wall tiles
+		for (auto tile : m_ConnectedTiles)
 		{
-			penetrationX = mapBoundaries.x - walkerRectangle.x;
-		}
-		// Right
-		else if (walkerRectangle.x + walkerRectangle.width > mapBoundaries.z)
-		{
-			penetrationX = mapBoundaries.z - (walkerRectangle.x + walkerRectangle.width);
-		}
+			if (!tile->GetWall())
+				continue;
 
-		//Bottom
-		if (walkerRectangle.y < mapBoundaries.y)
-		{
-			penetrationY = mapBoundaries.y - walkerRectangle.y;
-		}
-		//Top
-		else if (walkerRectangle.y + walkerRectangle.height > mapBoundaries.w)
-		{
-			penetrationY = mapBoundaries.w - (walkerRectangle.y + walkerRectangle.height);
-		}
+			glm::vec4 boundary
+			{
+				tile->GetOwner().GetTransform()->GetGlobalPosition().x,
+				tile->GetOwner().GetTransform()->GetGlobalPosition().y,
+				tile->GetOwner().GetTransform()->GetGlobalPosition().x + tile->GetOwner().GetComponent<CollisionComponent>()->GetRectangle().width,
+				tile->GetOwner().GetTransform()->GetGlobalPosition().y + tile->GetOwner().GetComponent<CollisionComponent>()->GetRectangle().height,
+			};
 
-		// If there is any overlap, push the walker back inside the map
-		if (penetrationX != 0.0f || penetrationY != 0.0f)
-		{
-			walkerPosition.x += penetrationX;
-			walkerPosition.y += penetrationY;
-			walkerTransform->SetLocalPosition(walkerPosition);
+			ResolveWallCollision(boundary);
 		}
 	}
+
+
+	glm::vec4 MapWalkerComponent::GetWalkerBounds() const
+	{
+		// Build the walker’s world-space AABB
+		const Rectangle localRect = m_OwnersCollisionComponent->GetRectangle();
+
+
+		return {
+			GetOwner().GetTransform()->GetGlobalPosition().x,
+			GetOwner().GetTransform()->GetGlobalPosition().y,
+			GetOwner().GetTransform()->GetGlobalPosition().x + localRect.width,
+			GetOwner().GetTransform()->GetGlobalPosition().y + localRect.height
+		};
+	}
+
+	void MapWalkerComponent::ResolveMapBounds(const glm::vec4& mapBounds)
+	{
+		
+		glm::vec4 walkerBounds = GetWalkerBounds();
+		// Calculate how far the walker is outside each side of the map
+		float overlapX = 0.0f;
+		if (walkerBounds.x < mapBounds.x)
+			overlapX = mapBounds.x - walkerBounds.x;
+		else if (walkerBounds.z > mapBounds.z)
+			overlapX = mapBounds.z - walkerBounds.z;
+
+		float overlapY = 0.0f;
+		if (walkerBounds.y < mapBounds.y)
+			overlapY = mapBounds.y - walkerBounds.y;
+		else if (walkerBounds.w > mapBounds.w)
+			overlapY = mapBounds.w - walkerBounds.w;
+
+		// Push the walker back inside the map
+		if (overlapX != 0.0f || overlapY != 0.0f)
+		{
+			glm::vec3 correctedPosition = GetOwner().GetTransform()->GetGlobalPosition() + glm::vec3(overlapX, overlapY, 0.0f);
+			GetOwner().GetTransform()->SetLocalPosition(correctedPosition);
+		}
+	}
+
+	void MapWalkerComponent::ResolveWallCollision(const glm::vec4& wallBounds)
+	{
+		// walkerBounds: x = left, y = top z = right, w = bottom
+		glm::vec4 walker = GetWalkerBounds();
+
+		const float VERTICAL_THRESHOLD{ 7 };
+
+		float topPen = wallBounds.y - walker.w;
+		float botPen = walker.y - wallBounds.w;
+
+		if (!bool(bool(-topPen > VERTICAL_THRESHOLD && -topPen < walker.w - walker.y) || bool(-botPen > VERTICAL_THRESHOLD && -botPen < walker.w - walker.y)))
+			return;
+
+		float leftPen = walker.z - wallBounds.x;
+		float rightPen = wallBounds.z - walker.x;
+
+		leftPen = (leftPen > 0.0f) ? (leftPen) : FLT_MAX;
+		rightPen = (rightPen > 0.0f) ? (rightPen) : FLT_MAX;
+
+		glm::vec3 correctedPos{};
+
+		if (rightPen > walker.w - walker.y && leftPen > walker.w - walker.y)
+			return;
+
+		if (leftPen < rightPen)
+		{
+			correctedPos.x = GetOwner().GetTransform()->GetGlobalPosition().x - leftPen;
+			std::cout << "moving left " << leftPen << std::endl;
+		}
+		else
+		{
+			correctedPos.x = GetOwner().GetTransform()->GetGlobalPosition().x + rightPen;
+
+			std::cout << "moving right " << -rightPen << std::endl;
+
+		}
+		GetOwner().GetTransform()->SetLocalPosition(
+		{
+			correctedPos.x,
+			GetOwner().GetTransform()->GetGlobalPosition().y,
+			GetOwner().GetTransform()->GetGlobalPosition().z
+		}
+		);
+
+	}
+
+
+
+
+
+
+
 }
 
 

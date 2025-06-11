@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 
+#include "Globals.h"
 #include "Observer.h"
 
 
@@ -19,10 +20,22 @@ namespace dae {
     {
     public:
 
+
+        enum class ClimbDirection
+        {
+            UP,
+            DOWN,
+            BOTH,
+            NONE
+        };
+
         struct ActionQueryResult {
             bool    canPerform;      // true if the action is valid
             glm::vec3 snapPosition;    // where to snap the character
+            ClimbDirection possibleDirections;
         };
+
+
 
         MapWalkerComponent(GameObject& owner, glm::vec3 spawnPosition, MapComponent& mapComponent);
 
@@ -37,6 +50,8 @@ namespace dae {
 
         ActionQueryResult QueryClimbLadder() const;
         ActionQueryResult QueryExitLadder() const;
+        ClimbDirection PossibleClimbDirections() const;
+
         bool IsOnFloor() const;
 
         const std::vector<MapTileComponent*>& GetConnectedTiles() const;
@@ -50,7 +65,12 @@ namespace dae {
 
 
     private:
+
         void KeepInBoundaries();
+        void ResolveMapBounds(const glm::vec4& mapBounds);
+        void ResolveWallCollision(const glm::vec4& wallBounds);
+        glm::vec4 GetWalkerBounds() const;
+
         std::vector<MapTileComponent*> m_ConnectedTiles;
         CollisionComponent* m_OwnersCollisionComponent;
         glm::vec3 m_Spawnposition;

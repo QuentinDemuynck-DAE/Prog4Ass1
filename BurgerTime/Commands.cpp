@@ -11,8 +11,16 @@
 dae::MoveTransformCommand::MoveTransformCommand(dae::GameObject* gameObject, float x, float y)
 	: m_GameObject(gameObject), m_X(x), m_Y(y), m_pRigidbody(nullptr)
 {
-	if (m_GameObject && m_GameObject->HasComponent<RigidbodyComponent>()) {
+	if (!m_GameObject)
+		return;
+
+	if (m_GameObject->HasComponent<RigidbodyComponent>()) {
 		m_pRigidbody = m_GameObject->GetComponent<RigidbodyComponent>();
+	}
+
+	if (m_GameObject->HasComponent<MapWalkerComponent>())
+	{
+		m_pMapWalker = m_GameObject->GetComponent<MapWalkerComponent>();
 	}
 }
 
@@ -22,8 +30,27 @@ void dae::MoveTransformCommand::Execute()
 	if (!m_GameObject)
 		return;
 
+	MapWalkerComponent::ClimbDirection climbDirection = m_pMapWalker->PossibleClimbDirections();
+	float x = m_X;
+	float y = m_Y;
+
+	switch (climbDirection)
+	{
+	case MapWalkerComponent::ClimbDirection::UP:
+		y = (y < 0.0f) ? y : 0.0f;
+		break;
+	case MapWalkerComponent::ClimbDirection::DOWN:
+		y = (y > 0.0f) ? y : 0.0f;
+		break;
+	case MapWalkerComponent::ClimbDirection::BOTH:
+		break;
+	case MapWalkerComponent::ClimbDirection::NONE:
+		y = 0.0f;
+		break;
+	}
+
 	if (m_pRigidbody)
-		m_pRigidbody->AddVelocity(m_X, m_Y);
+		m_pRigidbody->AddVelocity(x, y);
 };
 
 dae::DamageCommand::DamageCommand(dae::GameObject* gameObject, int amount)

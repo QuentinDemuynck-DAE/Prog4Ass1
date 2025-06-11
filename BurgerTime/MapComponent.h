@@ -8,11 +8,30 @@
 
 namespace dae
 {
+	class MapTileComponent;
+}
+
+namespace dae
+{
     class GameObject;
+
+
+
 
     class MapComponent final : public Component
     {
     public:
+
+        struct surroundingTiles
+        {
+            MapTileComponent* above;
+            MapTileComponent* below;
+            MapTileComponent* left;
+            MapTileComponent* right;
+        };
+
+        surroundingTiles GetSurroundingTiles(MapTileComponent* tile);
+
         MapComponent(GameObject& owner,
             b2World& world,
             const std::string& filename,
@@ -35,6 +54,7 @@ namespace dae
 
 
         const glm::vec4& Boundaries() const;
+
 
     private:
         // Yes I made a burger in my code :)

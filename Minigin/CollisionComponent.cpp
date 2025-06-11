@@ -80,8 +80,6 @@ void dae::CollisionComponent::Update(float)
 
 void dae::CollisionComponent::OnTriggerEnter(CollisionComponent* other)
 {
-    std::cout << "trigger enter" << std::endl;
-
     Event e{ make_sdbm_hash("collision_enter") };
     e.AddArg(this);
     e.AddArg(other);
@@ -90,7 +88,6 @@ void dae::CollisionComponent::OnTriggerEnter(CollisionComponent* other)
 
 void dae::CollisionComponent::OnTriggerExit(CollisionComponent* other)
 {
-    std::cout << "trigger exit" << std::endl;
 
     Event e{ make_sdbm_hash("collision_exit") };
     e.AddArg(this);

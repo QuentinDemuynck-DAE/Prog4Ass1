@@ -38,6 +38,7 @@ namespace dae
 		float m_X;
 		float m_Y;
 		dae::GameObject* m_GameObject;
+		MapWalkerComponent* m_pMapWalker;
 		RigidbodyComponent* m_pRigidbody;
 	};
 	
