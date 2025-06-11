@@ -246,6 +246,7 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RigidbodyComponent.h" />
+    <ClInclude Include="RotateComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ServiceLocator.h" />
@@ -254,7 +255,9 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClInclude Include="State.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="SVGParser.h" />
+    <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="Texture2DComponent.h" />
     <ClInclude Include="ThreadSafeQueue.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
@@ -283,13 +286,17 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClCompile Include="PlaySoundCommand.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="RigidbodyComponent.cpp" />
+    <ClCompile Include="RotateComponent.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SdlMixerImpl.cpp" />
     <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Subject.cpp" />
+    <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="Texture2DComponent.cpp" />
     <ClCompile Include="XInputImplGamePad.cpp" />
   </ItemGroup>
   <ItemGroup>

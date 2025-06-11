@@ -15,9 +15,6 @@
     <Filter Include="Engine Files\Component\Components">
       <UniqueIdentifier>{9cbcf844-f069-461e-a675-46fd1210a03b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine Files\Input">
-      <UniqueIdentifier>{0cd785de-76c0-4f43-b55d-77479b05025b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Libraries">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -42,6 +39,9 @@
     </Filter>
     <Filter Include="Engine Files\State">
       <UniqueIdentifier>{c3556df3-dd17-4b89-b266-096f1f9992ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine Files\Component\Components\Input">
+      <UniqueIdentifier>{0cd785de-76c0-4f43-b55d-77479b05025b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -100,16 +100,13 @@
       <Filter>Engine Files</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>Engine Files\Input</Filter>
+      <Filter>Engine Files\Component\Components\Input</Filter>
     </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Engine Files\Command</Filter>
     </ClInclude>
     <ClInclude Include="GamePad.h">
-      <Filter>Engine Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="RigidbodyComponent.h">
-      <Filter>Engine Files</Filter>
+      <Filter>Engine Files\Component\Components\Input</Filter>
     </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Engine Files</Filter>
@@ -152,6 +149,18 @@
     </ClInclude>
     <ClInclude Include="GameGlobals.h">
       <Filter>Engine Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2DComponent.h">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RotateComponent.h">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidbodyComponent.h">
+      <Filter>Engine Files\Component\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -213,13 +222,13 @@
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>Engine Files\Input</Filter>
+      <Filter>Engine Files\Component\Components\Input</Filter>
     </ClCompile>
     <ClCompile Include="GamePad.cpp">
-      <Filter>Engine Files\Input</Filter>
+      <Filter>Engine Files\Component\Components\Input</Filter>
     </ClCompile>
     <ClCompile Include="XInputImplGamePad.cpp">
-      <Filter>Engine Files\Input</Filter>
+      <Filter>Engine Files\Component\Components\Input</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp">
       <Filter>Engine Files\Command</Filter>
@@ -249,6 +258,18 @@
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="AnimatedSpriteComponent.cpp">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2DComponent.cpp">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="RotateComponent.cpp">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidbodyComponent.cpp">
       <Filter>Engine Files\Component\Components</Filter>
     </ClCompile>
   </ItemGroup>

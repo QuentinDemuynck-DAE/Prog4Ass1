@@ -37,6 +37,12 @@
     <Filter Include="Game\Observers\Map">
       <UniqueIdentifier>{9c2f653e-2fa5-434a-a7cb-28b4908f6bcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Components\Ingredients">
+      <UniqueIdentifier>{c12afa0c-3d29-4929-90c0-7210d7451ff9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Components\Enteties">
+      <UniqueIdentifier>{6f1e6ff3-f295-4d15-b7bf-93aef6cb0816}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BurgerTime.cpp">
@@ -54,16 +60,7 @@
     <ClCompile Include="LivesComponent.cpp">
       <Filter>Game\Components</Filter>
     </ClCompile>
-    <ClCompile Include="RigidbodyComponent.cpp">
-      <Filter>Game\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="RotateComponent.cpp">
-      <Filter>Game\Components</Filter>
-    </ClCompile>
     <ClCompile Include="ScoreComponent.cpp">
-      <Filter>Game\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
       <Filter>Game\Components</Filter>
     </ClCompile>
     <ClCompile Include="HealthObserver.cpp">
@@ -71,9 +68,6 @@
     </ClCompile>
     <ClCompile Include="ScoreObserver.cpp">
       <Filter>Game\Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture2DComponent.cpp">
-      <Filter>Game\Components</Filter>
     </ClCompile>
     <ClCompile Include="EnemyState.cpp">
       <Filter>Game\States\Enemies</Filter>
@@ -90,14 +84,8 @@
     <ClCompile Include="StunnedState.cpp">
       <Filter>Game\States\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyComponent.cpp">
-      <Filter>Game\Components</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyObserver.cpp">
       <Filter>Game\Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerComponent.cpp">
-      <Filter>Game\Components</Filter>
     </ClCompile>
     <ClCompile Include="ShootPepperCommand.cpp">
       <Filter>Game\Commands</Filter>
@@ -132,6 +120,18 @@
     <ClCompile Include="MapTileWalkerObserver.cpp">
       <Filter>Game\Observers\Map</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyComponent.cpp">
+      <Filter>Game\Components\Enteties</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerComponent.cpp">
+      <Filter>Game\Components\Enteties</Filter>
+    </ClCompile>
+    <ClCompile Include="IngredientComponent.cpp">
+      <Filter>Game\Components\Ingredients</Filter>
+    </ClCompile>
+    <ClCompile Include="IngredientPartComponent.cpp">
+      <Filter>Game\Components\Ingredients</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FPSComponent.h">
@@ -143,16 +143,7 @@
     <ClInclude Include="LivesComponent.h">
       <Filter>Game\Components</Filter>
     </ClInclude>
-    <ClInclude Include="RigidbodyComponent.h">
-      <Filter>Game\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="RotateComponent.h">
-      <Filter>Game\Components</Filter>
-    </ClInclude>
     <ClInclude Include="ScoreComponent.h">
-      <Filter>Game\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TextComponent.h">
       <Filter>Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="HealthObserver.h">
@@ -160,9 +151,6 @@
     </ClInclude>
     <ClInclude Include="ScoreObserver.h">
       <Filter>Game\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2DComponent.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EnemyState.h">
       <Filter>Game\States\Enemies</Filter>
@@ -179,14 +167,8 @@
     <ClInclude Include="StunnedState.h">
       <Filter>Game\States\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyComponent.h">
-      <Filter>Game\Components</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyObserver.h">
       <Filter>Game\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerComponent.h">
-      <Filter>Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="ShootPepperCommand.h">
       <Filter>Game\Commands</Filter>
@@ -223,6 +205,18 @@
     </ClInclude>
     <ClInclude Include="MapTileWalkerObserver.h">
       <Filter>Game\Observers\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyComponent.h">
+      <Filter>Game\Components\Enteties</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerComponent.h">
+      <Filter>Game\Components\Enteties</Filter>
+    </ClInclude>
+    <ClInclude Include="IngredientComponent.h">
+      <Filter>Game\Components\Ingredients</Filter>
+    </ClInclude>
+    <ClInclude Include="IngredientPartComponent.h">
+      <Filter>Game\Components\Ingredients</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

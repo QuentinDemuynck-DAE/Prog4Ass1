@@ -173,6 +173,8 @@
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HealthObserver.cpp" />
+    <ClCompile Include="IngredientComponent.cpp" />
+    <ClCompile Include="IngredientPartComponent.cpp" />
     <ClCompile Include="LivesComponent.cpp" />
     <ClCompile Include="MapComponent.cpp" />
     <ClCompile Include="MapTileComponent.cpp" />
@@ -182,14 +184,10 @@
     <ClCompile Include="PlayerComponent.cpp" />
     <ClCompile Include="PlayerObserver.cpp" />
     <ClCompile Include="PlayerState.cpp" />
-    <ClCompile Include="RigidbodyComponent.cpp" />
-    <ClCompile Include="RotateComponent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="ScoreObserver.cpp" />
     <ClCompile Include="ShootPepperCommand.cpp" />
     <ClCompile Include="StunnedState.cpp" />
-    <ClCompile Include="TextComponent.cpp" />
-    <ClCompile Include="Texture2DComponent.cpp" />
     <ClCompile Include="VulnerableState.cpp" />
     <ClCompile Include="Walking.cpp" />
   </ItemGroup>
@@ -205,6 +203,8 @@
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HealthObserver.h" />
+    <ClInclude Include="IngredientComponent.h" />
+    <ClInclude Include="IngredientPartComponent.h" />
     <ClInclude Include="LivesComponent.h" />
     <ClInclude Include="MapComponent.h" />
     <ClInclude Include="MapTileComponent.h" />
@@ -214,14 +214,10 @@
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="PlayerObserver.h" />
     <ClInclude Include="PlayerState.h" />
-    <ClInclude Include="RigidbodyComponent.h" />
-    <ClInclude Include="RotateComponent.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreObserver.h" />
     <ClInclude Include="ShootPepperCommand.h" />
     <ClInclude Include="StunnedState.h" />
-    <ClInclude Include="TextComponent.h" />
-    <ClInclude Include="Texture2DComponent.h" />
     <ClInclude Include="VulnerableState.h" />
     <ClInclude Include="Walking.h" />
   </ItemGroup>
