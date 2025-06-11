@@ -214,6 +214,7 @@
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="PlayerObserver.h" />
     <ClInclude Include="PlayerState.h" />
+    <ClInclude Include="Prototypes.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="ScoreObserver.h" />
     <ClInclude Include="ShootPepperCommand.h" />

@@ -20,6 +20,7 @@ namespace dae
 	private:
 
 		ChildObjectsPtrs m_pIngredientPartObjects;
+		glm::ivec4 m_TextureSourceRectsStarter;
 	};
 }
 

@@ -14,6 +14,8 @@ public:
 	void SetTexture(const std::string& filename);
 
 	Texture2DComponent(dae::GameObject& owner, const std::string& filename);
+	Texture2DComponent(dae::GameObject& owner, const std::string& filename, glm::ivec4 sourceRect);
+
 	virtual ~Texture2DComponent() = default;
 	Texture2DComponent(const Texture2DComponent& other) = delete;
 	Texture2DComponent(Texture2DComponent&& other) = delete;
@@ -22,5 +24,8 @@ public:
 private:
 
 	std::shared_ptr<dae::Texture2D> m_texture;
+
+	//Default is -1, the full texture will automatically be taken if you don't specify a source rect
+	glm::ivec4 m_SourceRect{ -1,-1,-1,-1 };
 };
 

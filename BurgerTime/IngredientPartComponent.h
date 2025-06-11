@@ -13,7 +13,11 @@ namespace dae
 		void Render(glm::vec3 position, glm::vec2 scale) override;
 		void PostUpdate(float deltaTime) override;
 
+		void Activate();
+		void Deactivate();
+
 	private:
+		bool m_Activated;
 	};
 }
 

@@ -43,6 +43,9 @@
     <Filter Include="Game\Components\Enteties">
       <UniqueIdentifier>{6f1e6ff3-f295-4d15-b7bf-93aef6cb0816}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Helper">
+      <UniqueIdentifier>{662058df-f213-4ad4-a9a3-075ec46e27c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BurgerTime.cpp">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="IngredientPartComponent.h">
       <Filter>Game\Components\Ingredients</Filter>
+    </ClInclude>
+    <ClInclude Include="Prototypes.h">
+      <Filter>Game\Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
