@@ -17,6 +17,8 @@ public:
 	void SetDrag(float drag);
 	glm::vec2 GetVelocity() const;
 	float GetDrag() const;
+
+	void Stop();
 private:
 	float m_Mass;
 	float m_Drag;

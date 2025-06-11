@@ -170,6 +170,7 @@
     <ClCompile Include="EnemyComponent.cpp" />
     <ClCompile Include="EnemyObserver.cpp" />
     <ClCompile Include="EnemyState.cpp" />
+    <ClCompile Include="FallingOnPlate.cpp" />
     <ClCompile Include="FallingState.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="EnemyComponent.h" />
     <ClInclude Include="EnemyObserver.h" />
     <ClInclude Include="EnemyState.h" />
+    <ClInclude Include="FallingOnPlate.h" />
     <ClInclude Include="FallingState.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="HealthComponent.h" />

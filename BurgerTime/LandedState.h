@@ -8,7 +8,7 @@ namespace dae
 
 namespace dae
 {
-	class LandedState : public dae::IngredientState
+	class LandedState final : public dae::IngredientState
 	{
 	public:
 		void OnEnter(dae::GameObject&) override;

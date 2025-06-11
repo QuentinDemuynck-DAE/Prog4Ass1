@@ -30,6 +30,7 @@ namespace dae {
         bool GetFloor() const { return m_Floor; }
         bool GetLadderExit() const { return m_LadderExit; }
         bool GetWall() const { return m_Wall; }
+        bool GetPlate() const { return m_Plate; }
 
     private:
         glm::ivec2  m_Position; // as in row and column
@@ -37,6 +38,7 @@ namespace dae {
         bool m_Floor;
         bool m_LadderExit;
         bool m_Wall;
+        bool m_Plate;
     };
 
 }

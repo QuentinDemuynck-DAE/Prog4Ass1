@@ -5,7 +5,9 @@ class RigidbodyComponent;
 
 namespace dae
 {
-	class FallingState : public dae::IngredientState
+	class IngredientComponent;
+
+	class FallingState final : public dae::IngredientState
 	{
 	public:
 		void HandleInput(dae::GameObject& object, const Event& event) override;
@@ -15,6 +17,8 @@ namespace dae
 	private:
 		const glm::vec2 m_Speed{ 0.0, 10 };
 		RigidbodyComponent* m_Rigidbody;
+		IngredientComponent* m_pIngredientComponent;
+
 	};
 }
 

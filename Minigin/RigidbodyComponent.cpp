@@ -53,3 +53,8 @@ float RigidbodyComponent::GetDrag() const
 {
 	return m_Drag;
 }
+
+void RigidbodyComponent::Stop()
+{
+	m_Velocity = { 0,0 };
+}

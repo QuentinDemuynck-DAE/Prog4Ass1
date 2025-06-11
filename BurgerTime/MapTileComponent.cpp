@@ -6,7 +6,8 @@ dae::MapTileComponent::MapTileComponent(GameObject& owner, const TileInfo& info,
 	m_Ladder(info.ladder),
 	m_Floor(info.floor),
 	m_LadderExit(info.ladderExit),
-	m_Wall(info.wall)
+	m_Wall(info.wall),
+	m_Plate(info.plate)
 {
 }
 

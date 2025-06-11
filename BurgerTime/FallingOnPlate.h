@@ -1,0 +1,23 @@
+#pragma once
+#include "IngredientState.h"
+class RigidbodyComponent;
+
+namespace dae
+{
+	class IngredientComponent;
+
+	class FallingOnPlate final : public IngredientState
+	{
+	public:
+		void HandleInput(GameObject& object, const Event& event) override;
+		void OnEnter(GameObject&) override;
+		void Update(GameObject&, float) override;
+		void OnExit(GameObject&) override;
+
+	private:
+		const glm::vec2 m_Speed{ 0.0, 10 };
+		RigidbodyComponent* m_Rigidbody;
+		IngredientComponent* m_pIngredientComponent;
+
+	};
+}

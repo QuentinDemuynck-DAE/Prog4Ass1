@@ -1,15 +1,13 @@
-#include "FallingState.h"
+#include "FallingOnPlate.h"
 
 #include "CollisionComponent.h"
-#include "FallingOnPlate.h"
 #include "GameObject.h"
-#include "Globals.h"
+#include "IngredientComponent.h"
 #include "MapTileComponent.h"
 #include "RigidbodyComponent.h"
-#include "IngredientComponent.h"
-#include "LandedState.h"
+#include "ServedState.h"
 
-void dae::FallingState::HandleInput(dae::GameObject& gameObject, const Event& event)
+void dae::FallingOnPlate::HandleInput(GameObject& gameObject, const Event& event)
 {
 	// COLLISION ENTER
 	if (event.id == make_sdbm_hash("collision_enter"))
@@ -32,27 +30,27 @@ void dae::FallingState::HandleInput(dae::GameObject& gameObject, const Event& ev
 
 			auto& gob = receiver->GetOwner();
 
-			if (gob.HasComponent<MapTileComponent>() && m_pIngredientComponent) 
+			if (gob.HasComponent<MapTileComponent>() && m_pIngredientComponent)
 			{
 				auto tile = gob.GetComponent<MapTileComponent>();
 
 				if (tile->GetFloor())
 				{
-					auto state = std::make_unique<LandedState>();
+					auto state = std::make_unique<ServedState>();
 					m_pIngredientComponent->SetState(std::move(state));
 				}
+			}
+			if (gob.HasComponent<IngredientComponent>() && m_pIngredientComponent)
+			{
 
-				if (tile->GetPlate())
-				{
-					auto state = std::make_unique<FallingOnPlate>();
-					m_pIngredientComponent->SetState(std::move(state));
-				}
+				auto state = std::make_unique<ServedState>();
+				m_pIngredientComponent->SetState(std::move(state));
 			}
 		}
 	}
 }
 
-void dae::FallingState::OnEnter(dae::GameObject& gameObject)
+void dae::FallingOnPlate::OnEnter(GameObject& gameObject)
 {
 	if (gameObject.HasComponent<RigidbodyComponent>())
 	{
@@ -65,18 +63,18 @@ void dae::FallingState::OnEnter(dae::GameObject& gameObject)
 	}
 }
 
-void dae::FallingState::OnExit(dae::GameObject&)
-{
-	if (m_Rigidbody)
-	{
-		m_Rigidbody->Stop();
-	}
-}
-
-void dae::FallingState::Update(dae::GameObject&, float)
+void dae::FallingOnPlate::Update(GameObject&, float)
 {
 	if (m_Rigidbody)
 	{
 		m_Rigidbody->AddVelocity(m_Speed);
+	}
+}
+
+void dae::FallingOnPlate::OnExit(GameObject&)
+{
+	if (m_Rigidbody)
+	{
+		m_Rigidbody->Stop();
 	}
 }

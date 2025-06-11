@@ -156,6 +156,9 @@
     <ClCompile Include="IngredientPartObserver.cpp">
       <Filter>Game\Observers</Filter>
     </ClCompile>
+    <ClCompile Include="FallingOnPlate.cpp">
+      <Filter>Game\States\Ingredient</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FPSComponent.h">
@@ -262,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="IngredientPartObserver.h">
       <Filter>Game\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="FallingOnPlate.h">
+      <Filter>Game\States\Ingredient</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
