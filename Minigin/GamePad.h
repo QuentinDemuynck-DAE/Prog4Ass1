@@ -39,8 +39,7 @@ namespace dae
 		bool IsConnected() const;
 		void ProcessInput();
 
-		void BindCommand(Button keycode, std::shared_ptr<dae::Command> command, KeyState keyState);
-		void UnbindCommand(Button keycode);
+		bool CheckInput(Button button) const;
 
 		int GetId() const;
 	private:
@@ -52,11 +51,10 @@ namespace dae
 			std::shared_ptr<Command> cmd;  // only used for binds
 		};
 
-		std::vector<Pending> m_Pending;
 
 		class impl;
 		std::unique_ptr<impl> m_pImpl;
-		std::unordered_map<Button, std::pair<KeyState, std::shared_ptr<dae::Command>>> m_Keys;
+		std::unordered_map<Button, KeyState> m_Keys;
 		std::unordered_map<Button, bool> m_PreviousButtonState;
 	};
 }

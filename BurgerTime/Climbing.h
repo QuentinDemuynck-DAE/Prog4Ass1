@@ -5,6 +5,7 @@ class PlayerComponent;
 
 namespace dae
 {
+	class ControllerComponent;
 	class GameObject;
 
 	class Climbing :public PlayerState
@@ -16,6 +17,7 @@ namespace dae
 		void OnExit(GameObject&) override;
 	private:
 		PlayerComponent* m_PlayerComponent;
+		ControllerComponent* m_PlayerController;
 	};
 }
 

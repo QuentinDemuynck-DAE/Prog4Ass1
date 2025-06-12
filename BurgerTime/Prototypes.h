@@ -67,15 +67,6 @@ namespace dae
 
 		player->GetSubject()->AddObserver(playerObserver);
 
-		auto gamePad{ std::make_unique<dae::GamePad>(playerIndex)};
-
-		gamePad->BindCommand(dae::GamePad::Button::ButtonX, std::make_shared<dae::ShootPepperCommand>(player.get()), KeyState::Up);
-		gamePad->BindCommand(dae::GamePad::Button::ButtonA, std::make_shared<dae::ScoreCommand>(player.get()), KeyState::Up);
-		gamePad->BindCommand(dae::GamePad::Button::ButtonB, std::make_shared<dae::ScoreCommand>(player.get(), 100), KeyState::Up);
-		gamePad->BindCommand(dae::GamePad::Button::LeftTrigger, std::make_shared<dae::DebugPositionCommand>(player.get()), KeyState::Up);
-
-		player->GetComponent<PlayerComponent>()->BindGamepad(gamePad.get());
-		dae::InputManager::GetInstance().ConnectGamePad(std::move(gamePad));
 
 		return player;
 	}

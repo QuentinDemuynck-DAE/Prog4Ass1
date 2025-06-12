@@ -6,23 +6,43 @@
 #include <unordered_map>
 #include "Globals.h"
 #include "GamePad.h"
+#include <SDL.h>
 
 
 namespace dae
 {
+	enum class Action;
 	class Command;
 
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
 		bool ProcessInput();
-		void BindCommand(SDL_Keycode keycode, std::shared_ptr<Command> command, KeyState keyState);
-		bool ConnectGamePad(std::unique_ptr<GamePad> gamePad);
+
+		// Raw key queries
+		bool IsKeyDown(SDL_Keycode key) const;
+		bool IsKeyPressed(SDL_Keycode key) const;
+		bool IsKeyUp(SDL_Keycode key) const;
+
+		// Action binding
+		void BindKey(Action action, SDL_Keycode key);
+		void UnbindKey(Action action);
+		bool IsActionDown(Action action) const;
+		bool IsActionPressed(Action action) const;
+		bool IsActionUp(Action action) const;
+
+		void AddGamePad(std::unique_ptr<GamePad> gampad);
+
 
 	private:
-		std::unordered_map<SDL_Keycode, std::pair<std::shared_ptr<Command> , KeyState>> m_Commands;
-		std::unordered_map<SDL_Keycode, bool> m_PreviousKeyState;
-		std::unordered_map<int, std::unique_ptr<GamePad>> m_GamePads;
+
+		void UpdateStates();
+
+		std::vector<std::unique_ptr<GamePad>> m_GamePads;
+
+		std::unordered_map<SDL_Keycode, bool> m_CurrentKey;
+		std::unordered_map<SDL_Keycode, bool> m_PreviousKey;
+		std::unordered_map<Action, SDL_Keycode> m_ActionMap;
 	};
 
 }

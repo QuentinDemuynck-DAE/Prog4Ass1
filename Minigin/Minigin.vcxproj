@@ -238,8 +238,11 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClInclude Include="GameGlobals.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamePad.h" />
+    <ClInclude Include="GamePadController.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="KeyboardControllerComponent.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="PlaySoundCommand.h" />
@@ -280,7 +283,10 @@ xcopy "$(SolutionDir)steam_appid.txt" "$(OutputPath)" /Y</Command>
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GamePad.cpp" />
+    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="GamePadController.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="KeyboardControllerComponent.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="ObjectTransform.cpp" />
     <ClCompile Include="PlaySoundCommand.cpp" />

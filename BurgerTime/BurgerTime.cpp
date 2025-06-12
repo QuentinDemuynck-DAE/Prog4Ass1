@@ -30,6 +30,7 @@
 #include <glm.hpp> 
 
 #include "DebugPositionCommand.h"
+#include "GamePadController.h"
 #include "MapComponent.h"
 #include "SVGParser.h"
 #include "Prototypes.h"
@@ -111,15 +112,22 @@ void load()
 		scene.Add(salad);
 	}
 
+	dae::SceneManager::GetInstance().SetActiveScene("LevelOne");
+
 	// create players
 	std::vector<dae::GameObject*> players;
 
 	for (int i{}; i < g_maxControllers; i++)
 	{
 		auto player = dae::CreatePlayer(mapComponent, map.get(), i);
+		auto gamePad{ std::make_unique<dae::GamePad>(i) };
 
 		players.push_back(player.get());
 		scene.Add(player);
+		player->AddComponent<dae::GamePadControllerComponent>(gamePad.get());
+		dae::InputManager::GetInstance().AddGamePad(std::move(gamePad));
+
+
 	}
 
 
@@ -171,9 +179,6 @@ void load()
 	//
 	//
 	//dae::InputManager::GetInstance().BindCommand(SDLK_SPACE, std::make_shared<dae::PlaySoundCommand>("../Data/Audio/Start.mp3",10), KeyState::Up);
-
-
-	dae::SceneManager::GetInstance().SetActiveScene("LevelOne");
 }
 
 int main(int, char* []) 

@@ -66,6 +66,25 @@ namespace dae
 			return (m_components.find(id) != m_components.end());
 		}
 
+		template<typename T>
+		T* GetComponentDerived() const
+		{
+			// assume m_components is std::vector<std::shared_ptr<Component>>
+			for (auto& comp : m_components)
+			{
+				if (auto casted = dynamic_cast<T*>(comp.second.get()))
+					return casted;
+			}
+			return nullptr;
+		}
+
+		template<typename T>
+		bool HasComponentDerived() const
+		{
+			return GetComponentDerived<T>() != nullptr;
+		}
+
+
 		// Parenting
 		GameObject* GetParent() const { return m_parent; }
 		void SetParent(GameObject* parent, bool keepWorldPosition = false);

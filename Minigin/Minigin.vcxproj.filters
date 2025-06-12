@@ -40,8 +40,11 @@
     <Filter Include="Engine Files\State">
       <UniqueIdentifier>{c3556df3-dd17-4b89-b266-096f1f9992ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine Files\Component\Components\Input">
+    <Filter Include="Engine Files\Input">
       <UniqueIdentifier>{0cd785de-76c0-4f43-b55d-77479b05025b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine Files\Controllers">
+      <UniqueIdentifier>{4382e989-d396-446b-9a82-411c0a079f0a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -100,13 +103,13 @@
       <Filter>Engine Files</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>Engine Files\Component\Components\Input</Filter>
+      <Filter>Engine Files\Input</Filter>
     </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Engine Files\Command</Filter>
     </ClInclude>
     <ClInclude Include="GamePad.h">
-      <Filter>Engine Files\Component\Components\Input</Filter>
+      <Filter>Engine Files\Input</Filter>
     </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Engine Files</Filter>
@@ -161,6 +164,15 @@
     </ClInclude>
     <ClInclude Include="RigidbodyComponent.h">
       <Filter>Engine Files\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>Engine Files\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardControllerComponent.h">
+      <Filter>Engine Files\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePadController.h">
+      <Filter>Engine Files\Controllers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -222,13 +234,13 @@
       <Filter>Engine Files</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>Engine Files\Component\Components\Input</Filter>
+      <Filter>Engine Files\Input</Filter>
     </ClCompile>
     <ClCompile Include="GamePad.cpp">
-      <Filter>Engine Files\Component\Components\Input</Filter>
+      <Filter>Engine Files\Input</Filter>
     </ClCompile>
     <ClCompile Include="XInputImplGamePad.cpp">
-      <Filter>Engine Files\Component\Components\Input</Filter>
+      <Filter>Engine Files\Input</Filter>
     </ClCompile>
     <ClCompile Include="Command.cpp">
       <Filter>Engine Files\Command</Filter>
@@ -271,6 +283,15 @@
     </ClCompile>
     <ClCompile Include="RigidbodyComponent.cpp">
       <Filter>Engine Files\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Engine Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyboardControllerComponent.cpp">
+      <Filter>Engine Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePadController.cpp">
+      <Filter>Engine Files\Controllers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,8 @@
 #include "RigidbodyComponent.h"
 #include <glm.hpp>
 
+#include "Controller.h"
+
 void dae::Walking::OnEnter(dae::GameObject& game_object)
 {
 	const float speed{ 100.f };
@@ -22,13 +24,15 @@ void dae::Walking::OnEnter(dae::GameObject& game_object)
 	if (game_object.HasComponent<MapWalkerComponent>())
 		m_MapWalker = game_object.GetComponent<MapWalkerComponent>();
 
-	if (m_PlayerComponent && m_PlayerComponent->GamePad())
-	{
-		m_PlayerComponent->GamePad()->BindCommand(dae::GamePad::Button::DPadUp, std::make_shared<dae::GetOnLadderCommand>(&game_object), KeyState::Down);
-		m_PlayerComponent->GamePad()->BindCommand(dae::GamePad::Button::DPadDown, std::make_shared<dae::GetOnLadderCommand>(&game_object), KeyState::Down);
+	if (game_object.HasComponentDerived<ControllerComponent>())
+		m_PlayerController = game_object.GetComponentDerived<ControllerComponent>();
 
-		m_PlayerComponent->GamePad()->BindCommand(dae::GamePad::Button::DPadLeft, std::make_shared<dae::MoveTransformCommand>(&game_object, -speed, 0.f), KeyState::Pressed);
-		m_PlayerComponent->GamePad()->BindCommand(dae::GamePad::Button::DPadRight, std::make_shared<dae::MoveTransformCommand>(&game_object, speed, 0.f), KeyState::Pressed);
+	if (m_PlayerController)
+	{
+		m_PlayerController->Bind(dae::Action::Up, std::make_shared<dae::GetOnLadderCommand>(&game_object), KeyState::Down);
+		m_PlayerController->Bind(dae::Action::Down, std::make_shared<dae::GetOnLadderCommand>(&game_object), KeyState::Down);
+		m_PlayerController->Bind(dae::Action::Left, std::make_shared<dae::MoveTransformCommand>(&game_object, -speed, 0.f), KeyState::Pressed);
+		m_PlayerController->Bind(dae::Action::Right, std::make_shared<dae::MoveTransformCommand>(&game_object, speed, 0.f), KeyState::Pressed);
 	}
 
 }
@@ -46,6 +50,12 @@ void dae::Walking::HandleInput(dae::GameObject& object, const Event& event)
 		auto* enemyComponent = object.GetComponent<PlayerComponent>();
 		enemyComponent->SetState(std::make_unique<Climbing>());
 	}
+
+	if (event.id == make_sdbm_hash("controller_added"))
+	{
+		auto* enemyComponent = object.GetComponent<PlayerComponent>();
+		enemyComponent->SetState(std::make_unique<Walking>());
+	}
 }
 
 void dae::Walking::Update(GameObject&, float)
@@ -55,12 +65,11 @@ void dae::Walking::Update(GameObject&, float)
 
 void dae::Walking::OnExit(GameObject&)
 {
-	if (m_PlayerComponent && m_PlayerComponent->GamePad())
+	if (m_PlayerController)
 	{
-
-		m_PlayerComponent->GamePad()->UnbindCommand(dae::GamePad::Button::DPadUp);
-		m_PlayerComponent->GamePad()->UnbindCommand(dae::GamePad::Button::DPadDown);
-		m_PlayerComponent->GamePad()->UnbindCommand(dae::GamePad::Button::DPadLeft);
-		m_PlayerComponent->GamePad()->UnbindCommand(dae::GamePad::Button::DPadRight);
+		m_PlayerController->Unbind(dae::Action::Up);
+		m_PlayerController->Unbind(dae::Action::Down);
+		m_PlayerController->Unbind(dae::Action::Left);
+		m_PlayerController->Unbind(dae::Action::Right);
 	}
 }

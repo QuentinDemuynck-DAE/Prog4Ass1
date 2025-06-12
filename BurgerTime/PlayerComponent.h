@@ -38,16 +38,12 @@ public:
 	void ResetPepperCooldown() { m_timeSinceLastPepper = 0; }
 	void StopShooting();
 
-	dae::GamePad* GamePad();
-	void BindGamepad(dae::GamePad* gamePad);
-
 
 	const float PEPPER_COOLDOWN = 5.0f;
 	const float MAX_PEPPER_TIME = 2.0f;
 
 private:
 	std::unique_ptr<dae::PlayerState>  m_CurrentState;
-	dae::GamePad* m_GamePad;
 	bool m_IsShooting = false;
 	float m_CurrentlyShooting = 0.0f;
 	dae::GameObject* m_Pepper = nullptr;

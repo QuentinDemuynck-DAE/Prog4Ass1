@@ -7,7 +7,7 @@
 #include "Walking.h"
 
 PlayerComponent::PlayerComponent(dae::GameObject& owner)
-	:Component(owner), m_GamePad(m_GamePad)
+	:Component(owner)
 {
 	SetState(std::make_unique<dae::Walking>());
 }
@@ -50,17 +50,4 @@ void PlayerComponent::StopShooting()
 	m_CurrentlyShooting = 0.0f;
 	m_timeSinceLastPepper = 0.0f;
 	m_Pepper->SetParent(nullptr);
-}
-
-dae::GamePad* PlayerComponent::GamePad()
-{
-	return m_GamePad; 
-}
-
-void PlayerComponent::BindGamepad(dae::GamePad* gamePad)
-{
-	m_GamePad = gamePad;
-
-	if (m_CurrentState)
-		m_CurrentState->OnEnter(GetOwner());
 }

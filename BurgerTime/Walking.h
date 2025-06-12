@@ -4,6 +4,11 @@
 
 namespace dae
 {
+	class ControllerComponent;
+}
+
+namespace dae
+{
 	class MapWalkerComponent;
 }
 
@@ -28,6 +33,7 @@ namespace dae
 		PlayerComponent* m_PlayerComponent;
 		RigidbodyComponent* m_Rigidbody;
 		MapWalkerComponent* m_MapWalker;
+		ControllerComponent* m_PlayerController;
 	};
 }
 
