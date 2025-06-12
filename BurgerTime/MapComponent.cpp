@@ -65,9 +65,9 @@ dae::MapComponent::MapComponent(GameObject& owner, b2World& world, const std::st
 												  rows * tileSizeWS.y };
 
 	m_Boundaries = glm::vec4{ worldMin.x,
-							  worldMin.y,
+							  worldMin.y - 10.0f, // Little offset on the top so you don't glitch in the ceiling whoops
 							  worldMax.x,
-							  worldMax.y -2 }; // Little offset on the top so you don't glitch in the ceiling whoops
+							  worldMax.y}; 
 
 
 	m_TileObjects.reserve(cols * rows);

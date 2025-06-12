@@ -27,7 +27,7 @@ void dae::WalkingEnemyState::OnEnter(dae::GameObject& gameObject)
 		m_MapWalker = gameObject.GetComponent<MapWalkerComponent>();
 	}
 
-	const float speed{ 500.f };
+	const float speed{ 35.f };
 	if (m_EnemyController)
 	{
 		m_EnemyController->Bind(dae::Action::Up, std::make_shared<dae::GetOnLadderCommand>(&gameObject), KeyState::Down);
@@ -107,9 +107,7 @@ void dae::WalkingEnemyState::Update(dae::GameObject& gameObject, float deltaTime
 
 	if (m_Timer >= MIN_WALK_TIME && m_GoalClimbDirection != MapWalkerComponent::ClimbDirection::NONE)
 	{
-		auto climbLadder = m_MapWalker->QueryClimbLadder();
-		if (climbLadder.canPerform
-			&& heightDiff > 9.0f)
+		if (heightDiff > 6.0f)
 			//&& (climbLadder.possibleDirections == MapWalkerComponent::ClimbDirection::BOTH || m_GoalClimbDirection == climbLadder.possibleDirections)) //If you can climb in the direction you want to go do so
 		{
 			

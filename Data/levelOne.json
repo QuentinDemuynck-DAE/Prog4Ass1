@@ -30,7 +30,7 @@
                 {
                  "name":"ladder",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"ladderExit",
@@ -89,7 +89,7 @@
                 {
                  "name":"ladder",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"ladderExit",
@@ -364,7 +364,7 @@
                 {
                  "name":"ladder",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"ladderExit",
@@ -423,7 +423,7 @@
                 {
                  "name":"ladder",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"ladderExit",
@@ -698,7 +698,7 @@
                 {
                  "name":"ladder",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"ladderExit",
@@ -757,7 +757,7 @@
                 {
                  "name":"ladder",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"ladderExit",
@@ -1032,7 +1032,7 @@
                 {
                  "name":"ladder",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"ladderExit",
@@ -1091,7 +1091,7 @@
                 {
                  "name":"ladder",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"ladderExit",
@@ -1366,7 +1366,7 @@
                 {
                  "name":"ladder",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"ladderExit",
@@ -1425,7 +1425,7 @@
                 {
                  "name":"ladder",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"ladderExit",
@@ -3460,7 +3460,7 @@
                 {
                  "name":"wall",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
@@ -3632,7 +3632,7 @@
                 {
                  "name":"wall",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
@@ -4924,7 +4924,7 @@
                 {
                  "name":"wall",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
@@ -5096,7 +5096,7 @@
                 {
                  "name":"wall",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
@@ -7882,7 +7882,7 @@
                 {
                  "name":"wall",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
@@ -8054,7 +8054,7 @@
                 {
                  "name":"wall",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
@@ -9872,7 +9872,7 @@
                 {
                  "name":"wall",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
@@ -10658,7 +10658,7 @@
                 {
                  "name":"wall",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
@@ -11174,7 +11174,7 @@
                 {
                  "name":"wall",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
@@ -11346,7 +11346,7 @@
                 {
                  "name":"wall",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
@@ -12314,7 +12314,7 @@
                 {
                  "name":"wall",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
@@ -14304,7 +14304,7 @@
                 {
                  "name":"wall",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
@@ -15960,7 +15960,7 @@
                 {
                  "name":"wall",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
@@ -18746,7 +18746,7 @@
                 {
                  "name":"wall",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }]
         }, 
         {
@@ -29240,7 +29240,7 @@
                 {
                  "name":"ladderExit",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"meat",
@@ -29299,7 +29299,7 @@
                 {
                  "name":"ladderExit",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"meat",

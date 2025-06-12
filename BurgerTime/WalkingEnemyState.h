@@ -37,7 +37,7 @@ namespace dae
 		float m_Timer{ 0.0f };
 		float m_TimeSinceLastWallHit{ 999.0f }; // sometimes you hit the wall twice then the direction would invert again so this way I have a small time offset
 		const float WALL_HIT_GRACE{ 0.6f };
-		const float MIN_WALK_TIME{ 0.8f };
+		const float MIN_WALK_TIME{ 0.3f };
 	};
 }
 

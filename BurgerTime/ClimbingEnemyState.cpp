@@ -27,7 +27,7 @@ namespace dae
 			m_MapWalker = gameObject.GetComponent<MapWalkerComponent>();
 		}
 
-		const float speed{ 500.f };
+		const float speed{ 25.f };
 		if (m_EnemyController)
 		{
 			m_EnemyController->Bind(dae::Action::Up, std::make_shared<dae::MoveTransformCommand>(&gameObject, 0.0f, -speed), KeyState::Pressed);
@@ -101,7 +101,7 @@ namespace dae
 
 		auto directionToEnemy = m_EnemyComponent->GetClosestPlayer()->GetTransform()->GetGlobalPosition() - gameObject.GetTransform()->GetGlobalPosition();
 
-		if (m_MapWalker->IsNextAvailable((directionToEnemy.x > 0.0f)))
+		if (!m_MapWalker->IsNextAvailable((directionToEnemy.x > 0.0f)))
 		{
 			return;
 		}

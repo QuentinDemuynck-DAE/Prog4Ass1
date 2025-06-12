@@ -11,7 +11,7 @@
 
 void dae::Climbing::OnEnter(dae::GameObject& game_object)
 {
-	const float speed{ 500.f };
+	const float speed{ 38.f };
 
 	if (game_object.HasComponent<PlayerComponent>())
 		m_PlayerComponent = game_object.GetComponent<PlayerComponent>();
