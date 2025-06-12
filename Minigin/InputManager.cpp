@@ -42,7 +42,7 @@ bool dae::InputManager::IsKeyDown(SDL_Keycode key) const
 {
 	return m_CurrentKey.at(key);
 }
-
+// Creates those functions just in case 
 bool dae::InputManager::IsKeyPressed(SDL_Keycode key) const
 {
 	return m_CurrentKey.at(key) && !m_PreviousKey.at(key);
@@ -79,6 +79,21 @@ bool dae::InputManager::IsActionUp(Action action) const
 {
 	auto it = m_ActionMap.find(action);
 	return it != m_ActionMap.end() && IsKeyUp(it->second);
+}
+
+bool dae::InputManager::IsAction(Action action, KeyState state) const
+{
+	auto it = m_ActionMap.find(action);
+	if (it == m_ActionMap.end()) return false;
+
+	SDL_Keycode key = it->second;
+	switch (state)
+	{
+	case KeyState::Pressed:  return IsKeyDown(key);    // holding
+	case KeyState::Down:     return IsKeyPressed(key); // just pressed
+	case KeyState::Up:       return IsKeyUp(key);      // just released
+	}
+	return false;
 }
 
 void dae::InputManager::AddGamePad(std::unique_ptr<GamePad> gampad)

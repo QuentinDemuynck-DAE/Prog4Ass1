@@ -31,6 +31,8 @@ namespace dae
 		bool IsActionPressed(Action action) const;
 		bool IsActionUp(Action action) const;
 
+		bool IsAction(Action action, KeyState state) const;
+
 		void AddGamePad(std::unique_ptr<GamePad> gampad);
 
 

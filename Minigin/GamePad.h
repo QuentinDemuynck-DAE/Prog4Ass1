@@ -35,11 +35,16 @@ namespace dae
 			RightTrigger,
 			Count
 		};
+		void AddButton(Button button);
+
+
+		void RemoveButton(Button button);
+
 
 		bool IsConnected() const;
 		void ProcessInput();
 
-		bool CheckInput(Button button) const;
+		bool CheckInput(Button button, KeyState state) const;
 
 		int GetId() const;
 	private:
@@ -54,7 +59,7 @@ namespace dae
 
 		class impl;
 		std::unique_ptr<impl> m_pImpl;
-		std::unordered_map<Button, KeyState> m_Keys;
+		std::unordered_map<Button, bool> m_CurrentKey;
 		std::unordered_map<Button, bool> m_PreviousButtonState;
 	};
 }

@@ -20,18 +20,10 @@ namespace dae
 		void HandleInput(const Event event);
 		void SetState(std::unique_ptr<EnemyState> newState);
 
-		void SeekPlayer();
-		void ChasePlayer();
-		void SetCanMove(bool canMove);
-		void Patrol(float dt);
-		void ResetPatrolTimer();
+		std::vector<dae::GameObject*> GetPlayers() const;
+		GameObject* GetClosestPlayer() const;
 
 	private:
-		void Move(float deltaTime);
-		bool m_CanMove = true;
-		const float SEEK_DISTANCE = 100.0f;
-		const float MOVEMENT_SPEED = 10.0f;
-		const float CALCULATE_NEW_PATROL_DIR = 3.0f;
 		std::unique_ptr<EnemyState> m_CurrentState;
 		std::vector<dae::GameObject*> m_Players;
 		dae::GameObject* m_ChasingPlayer;

@@ -68,7 +68,6 @@ void dae::IngredientPartObserver::Notify(Event event, dae::GameObject* gameObjec
 				Event eventToActivate = Event(make_sdbm_hash("part_activated"));
 				m_pIngredientObject->GetSubject()->Notify(eventToActivate);
 
-				std::cout << "activated part";
 			}
 
 		}

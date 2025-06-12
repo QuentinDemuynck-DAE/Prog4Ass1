@@ -97,6 +97,37 @@ namespace dae
 			.GetTransform()
 			->GetLocalPosition();
 
+
+		auto below = m_Map.GetSurroundingTiles(leftExit).below;
+		auto above = m_Map.GetSurroundingTiles(leftExit).above;
+		bool up = false;
+		bool down = false;
+
+		if (below)
+		{
+			down = below->GetLadder();
+		}
+
+		if (above)
+		{
+			up = above->GetLadder();
+		}
+
+		query.possibleDirections = ClimbDirection::NONE;
+		if (up && down)
+		{
+			query.possibleDirections = ClimbDirection::BOTH;
+		}
+		else if (up)
+		{
+			query.possibleDirections = ClimbDirection::UP;
+		}
+		else if (down)
+		{
+			query.possibleDirections = ClimbDirection::DOWN;
+
+		}
+
 		query.snapPosition = { leftWorld.x, walkerPos.y, walkerPos.z };
 		return query;
 	}
@@ -159,6 +190,83 @@ namespace dae
 
 		return query;
 	}
+
+
+	bool MapWalkerComponent::IsWayPossible(ClimbDirection climbingDir, bool right) const
+	{
+		const int step = right ? +1 : -1;
+
+		MapTileComponent* current = nullptr;
+
+		for (auto tile : m_ConnectedTiles)
+		{
+			if (tile->GetLadderExit())
+				current = tile;
+		}
+
+		for (int i = 0; i < 2 && current; ++i)
+		{
+			if (!current || current->GetWall())
+				return false;
+
+			auto neighbors = m_Map.GetSurroundingTiles(current);
+			current = (step == +1 ? neighbors.right : neighbors.left);
+		}
+
+		if (!current || current->GetWall())
+			return false;
+
+		while (current)
+		{
+			auto neighbors = m_Map.GetSurroundingTiles(current);
+			MapTileComponent* next = (step == +1 ? neighbors.right : neighbors.left);
+
+			if (!next || next->GetWall())
+				break;   // fell off the map
+
+			if (next->GetLadderExit())
+			{
+				auto around = m_Map.GetSurroundingTiles(next);
+				bool canUp = (around.above && around.above->GetLadder());
+				bool canDown = (around.below && around.below->GetLadder());
+				bool match = false;
+
+				switch (climbingDir)
+				{
+				case ClimbDirection::UP:    match = canUp;             break;
+				case ClimbDirection::DOWN:  match = canDown;           break;
+				case ClimbDirection::BOTH:  match = (canUp && canDown); break;
+				}
+
+				if (match)
+					return true;
+
+				break;
+			}
+
+			current = next;
+		}
+
+		return false;
+	}
+
+	// Checks for one tile
+	bool MapWalkerComponent::IsNextAvailable(bool toRight) const
+	{
+		// for each tile the walker is currently overlapping
+		for (auto* tile : m_ConnectedTiles)
+		{
+			const auto neighbors = m_Map.GetSurroundingTiles(tile);
+			MapTileComponent* next = toRight ? neighbors.right : neighbors.left;
+			if (!next)
+				continue;
+
+			if (next->GetWall())
+				return false;
+		}
+		return true;
+	}
+
 
 	MapWalkerComponent::ClimbDirection MapWalkerComponent::PossibleClimbDirections() const
 	{
@@ -317,6 +425,7 @@ namespace dae
 		}
 	}
 
+
 	void MapWalkerComponent::KeepInBoundaries()
 	{
 		// Enforce staying inside the overall map
@@ -378,6 +487,9 @@ namespace dae
 		{
 			glm::vec3 correctedPosition = GetOwner().GetTransform()->GetGlobalPosition() + glm::vec3(overlapX, overlapY, 0.0f);
 			GetOwner().GetTransform()->SetLocalPosition(correctedPosition);
+
+			Event event = Event(make_sdbm_hash("out_of_bounds"));
+			GetOwner().GetSubject()->Notify(event);
 		}
 	}
 
@@ -408,15 +520,16 @@ namespace dae
 		if (leftPen < rightPen)
 		{
 			correctedPos.x = GetOwner().GetTransform()->GetGlobalPosition().x - leftPen;
-			std::cout << "moving left " << leftPen << std::endl;
 		}
 		else
 		{
 			correctedPos.x = GetOwner().GetTransform()->GetGlobalPosition().x + rightPen;
 
-			std::cout << "moving right " << -rightPen << std::endl;
-
 		}
+
+		Event event = Event(make_sdbm_hash("out_of_bounds"));
+		GetOwner().GetSubject()->Notify(event);
+
 		GetOwner().GetTransform()->SetLocalPosition(
 		{
 			correctedPos.x,
@@ -426,12 +539,6 @@ namespace dae
 		);
 
 	}
-
-
-
-
-
-
 
 }
 

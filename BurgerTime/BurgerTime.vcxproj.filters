@@ -78,10 +78,10 @@
     <ClCompile Include="EnemyState.cpp">
       <Filter>Game\States\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="PatrolState.cpp">
+    <ClCompile Include="ClimbingEnemyState.cpp">
       <Filter>Game\States\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="ChaseState.cpp">
+    <ClCompile Include="WalkingEnemyState.cpp">
       <Filter>Game\States\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="VulnerableState.cpp">
@@ -182,10 +182,10 @@
     <ClInclude Include="EnemyState.h">
       <Filter>Game\States\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="PatrolState.h">
+    <ClInclude Include="ClimbingEnemyState.h">
       <Filter>Game\States\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="ChaseState.h">
+    <ClInclude Include="WalkingEnemyState.h">
       <Filter>Game\States\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="VulnerableState.h">

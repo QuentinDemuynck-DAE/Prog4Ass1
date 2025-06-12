@@ -12,6 +12,9 @@ void dae::FallingOnPlate::HandleInput(GameObject& gameObject, const Event& event
 	// COLLISION ENTER
 	if (event.id == make_sdbm_hash("collision_enter"))
 	{
+		if (m_Timer < CHECK_TIME)
+			return;
+
 		// 0 = sender 1= other;
 		if (event.numberArgs >= 2
 			&& std::holds_alternative<void*>(event.args[0])
@@ -63,8 +66,9 @@ void dae::FallingOnPlate::OnEnter(GameObject& gameObject)
 	}
 }
 
-void dae::FallingOnPlate::Update(GameObject&, float)
+void dae::FallingOnPlate::Update(GameObject&, float dt)
 {
+	m_Timer += dt;
 	if (m_Rigidbody)
 	{
 		m_Rigidbody->AddVelocity(m_Speed);

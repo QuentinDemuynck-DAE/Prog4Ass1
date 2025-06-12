@@ -11,7 +11,7 @@
 
 void dae::Climbing::OnEnter(dae::GameObject& game_object)
 {
-	const float speed{ 100.f };
+	const float speed{ 500.f };
 
 	if (game_object.HasComponent<PlayerComponent>())
 		m_PlayerComponent = game_object.GetComponent<PlayerComponent>();
@@ -40,8 +40,8 @@ void dae::Climbing::HandleInput(dae::GameObject& object, const Event& event)
 			object.GetTransform()->SetLocalPosition(snapPos1);
 		}
 
-		auto* enemyComponent = object.GetComponent<PlayerComponent>();
-		enemyComponent->SetState(std::make_unique<Walking>());
+		auto* playerComponent = object.GetComponent<PlayerComponent>();
+		playerComponent->SetState(std::make_unique<Walking>());
 	}
 }
 

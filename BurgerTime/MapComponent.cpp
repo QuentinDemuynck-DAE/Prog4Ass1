@@ -128,6 +128,18 @@ dae::MapComponent::MapComponent(GameObject& owner, b2World& world, const std::st
 			{
 				m_PlayerSpawnPos.push_back(scaledPosition + ownerPos);
 			}
+			if (info.sausage)
+			{
+				m_SausageSpawnPos.push_back(scaledPosition + ownerPos);
+			}
+			if (info.pickle)
+			{
+				m_PickleSpawnPos.push_back(scaledPosition + ownerPos);
+			}
+			if (info.egg)
+			{
+				m_EggSpawnPos.push_back(scaledPosition + ownerPos);
+			}
 
 			// Add a tile component with hitbox
 			if (!info.floor && !info.wall && !info.ladder && !info.ladderExit && !info.plate)
@@ -173,6 +185,22 @@ const std::vector<glm::vec2>& dae::MapComponent::GetBottomBunSpawnPositions() co
 
 const std::vector<glm::vec2>& dae::MapComponent::GetPlayerSpawnPositions() const {
 	return m_PlayerSpawnPos;
+}
+
+const std::vector<glm::vec2>& dae::MapComponent::GetSausageSpawnPositions() const
+{
+	return m_SausageSpawnPos;
+}
+
+const std::vector<glm::vec2>& dae::MapComponent::GetPickleSpawnPositions() const
+{
+	return m_PickleSpawnPos;
+}
+
+const std::vector<glm::vec2>& dae::MapComponent::GetEggSpawnPositions() const
+{
+	return m_EggSpawnPos;
+
 }
 
 const glm::vec4& dae::MapComponent::Boundaries() const

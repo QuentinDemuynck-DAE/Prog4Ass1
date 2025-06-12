@@ -24,11 +24,11 @@
 #include "Commands.h"
 #include "EnemyComponent.h"
 #include "EnemyObserver.h"
-#include "PatrolState.h"
 #include "PlaySoundCommand.h"
 #include "ServiceLocator.h"
 #include <glm.hpp> 
 
+#include "AiController.h"
 #include "DebugPositionCommand.h"
 #include "GamePadController.h"
 #include "MapComponent.h"
@@ -112,12 +112,11 @@ void load()
 		scene.Add(salad);
 	}
 
-	dae::SceneManager::GetInstance().SetActiveScene("LevelOne");
 
 	// create players
 	std::vector<dae::GameObject*> players;
 
-	for (int i{}; i < g_maxControllers; i++)
+	for (int i{}; i < 1; i++)
 	{
 		auto player = dae::CreatePlayer(mapComponent, map.get(), i);
 		auto gamePad{ std::make_unique<dae::GamePad>(i) };
@@ -125,15 +124,19 @@ void load()
 		players.push_back(player.get());
 		scene.Add(player);
 		player->AddComponent<dae::GamePadControllerComponent>(gamePad.get());
+		player->GetComponent<dae::GamePadControllerComponent>()->Bind(dae::Action::Debug, std::make_shared<dae::DebugPositionCommand>(player.get()), KeyState::Down);
 		dae::InputManager::GetInstance().AddGamePad(std::move(gamePad));
 
 
 	}
 
 
-	auto enemy = dae::CreateEnemy(glm::vec3{ 20,110,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f }, players);
+	auto enemy = dae::CreateEnemy(glm::vec3{ 120,320,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f }, players, *mapComponent);
+	enemy->AddComponent<dae::AiController>();
+	enemy->GetComponent<dae::EnemyComponent>()->SetState(std::make_unique<dae::WalkingEnemyState>());
 
 	scene.Add(enemy);
+	dae::SceneManager::GetInstance().SetActiveScene("LevelOne");
 
 	//scene.Add(livesPlayerOne);
 	//scene.Add(livesPlayerTwo);

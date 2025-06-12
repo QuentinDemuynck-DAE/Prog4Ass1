@@ -32,37 +32,21 @@ namespace dae {
             else // Pending::Unbind
             {
                 m_Bindings.erase(op.button);
-                m_PreviousState.erase(op.button);
             }
 
             m_PendingOps.pop();
         }
     }
 
-    void ControllerComponent::FixedUpdate()
+    void ControllerComponent::Update(float)
     {
-        for (auto& [action, pair] : m_Bindings)
+        for (auto& [action, binding] : m_Bindings)
         {
-            auto& [state, cmd] = pair;
-            bool isPressed = CheckAction(action);
-            bool wasPressed = m_PreviousState[action];
-
-            bool shouldExecute = false;
-
-            switch (state)
-            {
-            case KeyState::Pressed: shouldExecute = isPressed; break;
-            case KeyState::Down:    shouldExecute = isPressed && !wasPressed; break;
-            case KeyState::Up:      shouldExecute = wasPressed && !isPressed; break;
-            }
-
-            if (shouldExecute && cmd)
+            const auto& [state, cmd] = binding;
+            if (CheckAction(action, state) && cmd)
                 cmd->Execute();
-
-            m_PreviousState[action] = isPressed;
         }
         ProcessPending();
-
     }
 
     void ControllerComponent::PostUpdate(float)
@@ -74,5 +58,6 @@ namespace dae {
             m_Notified = false;
         }
 
+  
     }
 } // namespace dae

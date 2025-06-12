@@ -20,12 +20,13 @@ void RigidbodyComponent::Update(float deltaTime)
 		m_Velocity = m_MaxSpeed * normalVel;
 	}
 
-	// Apply drag
-	m_Velocity.x -= m_Velocity.x * m_Drag;
-	m_Velocity.y -= m_Velocity.y * m_Drag;
 
 	owner.GetTransform()->SetLocalPosition(owner.GetTransform()->GetLocalPosition() + glm::vec3(m_Velocity.x * deltaTime ,m_Velocity.y * deltaTime, 0));
 
+
+	// Apply drag
+	m_Velocity.x -= m_Velocity.x * m_Drag;
+	m_Velocity.y -= m_Velocity.y * m_Drag;
 }
 
 void RigidbodyComponent::AddVelocity(float x, float y)

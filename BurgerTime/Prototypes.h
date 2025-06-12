@@ -20,6 +20,8 @@
 #include "ShootPepperCommand.h"
 #include "Subject.h"
 #include "RigidbodyComponent.h"
+#include "Walking.h"
+#include "WalkingEnemyState.h"
 
 // Not the prototypes design pattern! just felt like the name could match this aswell
 namespace dae
@@ -40,7 +42,7 @@ namespace dae
 		}
 
 		auto player = std::make_shared<dae::GameObject>(glm::vec3{spawns.at(playerIndex),0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
-		player->AddComponent<RigidbodyComponent>(80.f, 10.f, 0.1f);
+		player->AddComponent<RigidbodyComponent>(100.f, 10.f, 0.5f);
 		player->AddComponent<AnimatedSpriteComponent>("allAssets.png", 0, 2, glm::ivec2{ 16 , 16 }, glm::ivec2{ 10, 15 }, 0.5f);
 		player->AddComponent<LivesComponent>(5);
 
@@ -63,6 +65,7 @@ namespace dae
 		player->GetSubject()->AddObserver(mapWalkerObs);
 
 		player->AddComponent<PlayerComponent>();
+		player->GetComponent<PlayerComponent>()->SetState(std::make_unique<Walking>());
 		auto playerObserver = std::make_shared<PlayerObserver>();
 
 		player->GetSubject()->AddObserver(playerObserver);
@@ -71,7 +74,7 @@ namespace dae
 		return player;
 	}
 
-	inline GameObjectPtr CreateEnemy(glm::vec3 position , glm::vec3 rotation, glm::vec3 scale,std::vector<GameObject*> players)
+	inline GameObjectPtr CreateEnemy(glm::vec3 position , glm::vec3 rotation, glm::vec3 scale,std::vector<GameObject*> players, MapComponent& map)
 	{
 		dae::CollisionLayers enemyCollidesWith
 		{
@@ -83,9 +86,14 @@ namespace dae
 		enemy->AddComponent<Texture2DComponent>("EnemyOne.png");
 		auto enemyObserver = std::make_shared<dae::EnemyObserver>();
 		enemy->GetSubject()->AddObserver(enemyObserver);
+		enemy->AddComponent<RigidbodyComponent>(100.f, 10.f, 0.5f);
 		enemy->AddComponent<dae::EnemyComponent>(players);
-		enemy->GetComponent<dae::EnemyComponent>()->SetState(std::make_unique<dae::PatrolState>());
-		enemy->AddComponent<dae::CollisionComponent>(*dae::Minigin::physicsWorld.get(), dae::CollisionLayers::ENEMY, enemyCollidesWith, glm::vec2{ 6, 8 }, glm::vec2{ 2, 0 }, true, false);
+		enemy->AddComponent<dae::CollisionComponent>(*dae::Minigin::physicsWorld.get(), dae::CollisionLayers::ENEMY, enemyCollidesWith, glm::vec2{ 5, 8 }, glm::vec2{ 3, 0 }, true, false);
+		enemy->AddComponent<MapWalkerComponent>(position, map);
+		auto mapWalkerObs = std::make_shared<MapTileWalkerObserver>(enemy->GetComponent<dae::MapWalkerComponent>());
+
+		enemy->GetSubject()->AddObserver(mapWalkerObs);
+		enemy->GetComponent<dae::EnemyComponent>()->SetState(std::make_unique<dae::WalkingEnemyState>());
 
 		return enemy;
 	}

@@ -63,6 +63,9 @@ namespace dae {
         void AddTile(CollisionComponent* receiver);
         void RemoveTile(CollisionComponent* receiver);
 
+        bool IsWayPossible(ClimbDirection climbingDirection, bool right) const; // Checks full path for a ladder
+        bool IsNextAvailable(bool toRight) const; // checks one tile for a wall
+
 
     private:
 

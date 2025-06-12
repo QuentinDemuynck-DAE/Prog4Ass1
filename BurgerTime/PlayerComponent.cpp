@@ -9,7 +9,7 @@
 PlayerComponent::PlayerComponent(dae::GameObject& owner)
 	:Component(owner)
 {
-	SetState(std::make_unique<dae::Walking>());
+
 }
 
 void PlayerComponent::Update(float deltaTime)

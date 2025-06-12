@@ -10,6 +10,7 @@
 
 namespace dae
 {
+    // I tried to do the same as in unity and other engines where you make a name for a specific action and then bind keys to those actions (Did some research for this but mostly implemented it myself)
     enum class Action
     {
 	    Up,
@@ -17,7 +18,8 @@ namespace dae
         Right,
         Down,
         Shoot,
-        Select
+        Select,
+        Debug,
     };
 
     struct Pending {
@@ -38,20 +40,21 @@ namespace dae
         // Im now binding with actions instead of commands so that it doesnt matter what type of controller you have
         void Bind(Action action, std::shared_ptr<Command> cmd, KeyState state = KeyState::Down);
         void Unbind(Action action);
-        void FixedUpdate() override;
+        void Update(float deltaTime) override;
         void PostUpdate(float deltaTime) override;
+
+        virtual void PerformAction(Action){}; // Only does somthing on AI controllers but to avoid casting I do it likee this
 
 
     protected:
         // Checks whether the given action is currently active
-        virtual bool CheckAction(Action action) = 0;
+        virtual bool CheckAction(Action action, KeyState keystate) = 0;
+        std::unordered_map<Action, std::pair<KeyState, std::shared_ptr<Command>>> m_Bindings;
 
 
     private:
         void ProcessPending();
 
-        std::unordered_map<Action, std::pair<KeyState, std::shared_ptr<Command>>> m_Bindings;
-        std::unordered_map<Action, bool> m_PreviousState;
         bool m_Notified{ false };
         std::queue<Pending> m_PendingOps;
     };

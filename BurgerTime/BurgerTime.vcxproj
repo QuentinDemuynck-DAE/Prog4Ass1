@@ -162,7 +162,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BurgerTime.cpp" />
-    <ClCompile Include="ChaseState.cpp" />
+    <ClCompile Include="WalkingEnemyState.cpp" />
     <ClCompile Include="Climbing.cpp" />
     <ClCompile Include="Commands.cpp" />
     <ClCompile Include="DebugPositionCommand.cpp" />
@@ -186,7 +186,7 @@
     <ClCompile Include="MapTileComponent.cpp" />
     <ClCompile Include="MapTileWalkerObserver.cpp" />
     <ClCompile Include="MapWalkerComponent.cpp" />
-    <ClCompile Include="PatrolState.cpp" />
+    <ClCompile Include="ClimbingEnemyState.cpp" />
     <ClCompile Include="PlayerComponent.cpp" />
     <ClCompile Include="PlayerObserver.cpp" />
     <ClCompile Include="PlayerState.cpp" />
@@ -199,7 +199,7 @@
     <ClCompile Include="Walking.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ChaseState.h" />
+    <ClInclude Include="WalkingEnemyState.h" />
     <ClInclude Include="Climbing.h" />
     <ClInclude Include="Commands.h" />
     <ClInclude Include="DebugPositionCommand.h" />
@@ -223,7 +223,7 @@
     <ClInclude Include="MapTileComponent.h" />
     <ClInclude Include="MapTileWalkerObserver.h" />
     <ClInclude Include="MapWalkerComponent.h" />
-    <ClInclude Include="PatrolState.h" />
+    <ClInclude Include="ClimbingEnemyState.h" />
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="PlayerObserver.h" />
     <ClInclude Include="PlayerState.h" />

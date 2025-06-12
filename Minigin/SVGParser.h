@@ -27,6 +27,9 @@ namespace dae
         bool wall = false;
         bool tomato = false;
         bool playerSpawn = false;
+        bool sausage = false;
+        bool pickle = false;
+        bool egg = false;
         glm::vec2 position;
     };
     
@@ -106,7 +109,10 @@ namespace dae
                     else if (name == "topBun")     info.topBun = true;
                     else if (name == "wall")       info.wall = true;
                     else if (name == "tomato")     info.tomato = true;
-                    else if (name == "playerSpawn") info.playerSpawn = true;
+                    else if (name == "playerSpawn")info.playerSpawn = true;
+                    else if (name == "sausage")    info.sausage = true;
+                    else if (name == "pickle")     info.pickle = true;
+                    else if (name == "egg")        info.egg = true;
                 }
             }
             defs.emplace(localId, info);

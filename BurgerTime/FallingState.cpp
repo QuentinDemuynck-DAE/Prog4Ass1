@@ -14,6 +14,9 @@ void dae::FallingState::HandleInput(dae::GameObject& gameObject, const Event& ev
 	// COLLISION ENTER
 	if (event.id == make_sdbm_hash("collision_enter"))
 	{
+
+		if (m_Timer < CHECK_TIME)
+			return;
 		// 0 = sender 1= other;
 		if (event.numberArgs >= 2
 			&& std::holds_alternative<void*>(event.args[0])
@@ -73,8 +76,10 @@ void dae::FallingState::OnExit(dae::GameObject&)
 	}
 }
 
-void dae::FallingState::Update(dae::GameObject&, float)
+void dae::FallingState::Update(dae::GameObject&, float dt)
 {
+	m_Timer += dt;
+
 	if (m_Rigidbody)
 	{
 		m_Rigidbody->AddVelocity(m_Speed);

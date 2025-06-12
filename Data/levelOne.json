@@ -1477,6 +1477,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"egg",
+                 "type":"bool",
+                 "value":false
+                }, 
+                {
                  "name":"floor",
                  "type":"bool",
                  "value":false
@@ -1497,6 +1502,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"pickle",
+                 "type":"bool",
+                 "value":true
+                }, 
+                {
                  "name":"plate",
                  "type":"bool",
                  "value":false
@@ -1508,6 +1518,11 @@
                 }, 
                 {
                  "name":"salad",
+                 "type":"bool",
+                 "value":false
+                }, 
+                {
+                 "name":"sausage",
                  "type":"bool",
                  "value":false
                 }, 
@@ -2882,6 +2897,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"egg",
+                 "type":"bool",
+                 "value":true
+                }, 
+                {
                  "name":"floor",
                  "type":"bool",
                  "value":false
@@ -2902,6 +2922,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"pickle",
+                 "type":"bool",
+                 "value":false
+                }, 
+                {
                  "name":"plate",
                  "type":"bool",
                  "value":false
@@ -2913,6 +2938,11 @@
                 }, 
                 {
                  "name":"salad",
+                 "type":"bool",
+                 "value":false
+                }, 
+                {
+                 "name":"sausage",
                  "type":"bool",
                  "value":false
                 }, 
@@ -22327,7 +22357,7 @@
                 {
                  "name":"ladderExit",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"meat",
@@ -22386,7 +22416,7 @@
                 {
                  "name":"ladderExit",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"meat",
@@ -28009,6 +28039,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"egg",
+                 "type":"bool",
+                 "value":false
+                }, 
+                {
                  "name":"floor",
                  "type":"bool",
                  "value":false
@@ -28029,6 +28064,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"pickle",
+                 "type":"bool",
+                 "value":false
+                }, 
+                {
                  "name":"plate",
                  "type":"bool",
                  "value":false
@@ -28042,6 +28082,11 @@
                  "name":"salad",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"sausage",
+                 "type":"bool",
+                 "value":true
                 }, 
                 {
                  "name":"topBun",
@@ -29190,7 +29235,7 @@
                 {
                  "name":"ladder",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"ladderExit",
@@ -29249,7 +29294,7 @@
                 {
                  "name":"ladder",
                  "type":"bool",
-                 "value":true
+                 "value":false
                 }, 
                 {
                  "name":"ladderExit",
@@ -29414,6 +29459,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"egg",
+                 "type":"bool",
+                 "value":false
+                }, 
+                {
                  "name":"floor",
                  "type":"bool",
                  "value":false
@@ -29434,6 +29484,11 @@
                  "value":false
                 }, 
                 {
+                 "name":"pickle",
+                 "type":"bool",
+                 "value":false
+                }, 
+                {
                  "name":"plate",
                  "type":"bool",
                  "value":false
@@ -29447,6 +29502,11 @@
                  "name":"salad",
                  "type":"bool",
                  "value":false
+                }, 
+                {
+                 "name":"sausage",
+                 "type":"bool",
+                 "value":true
                 }, 
                 {
                  "name":"topBun",

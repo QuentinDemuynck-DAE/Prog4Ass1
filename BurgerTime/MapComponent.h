@@ -52,6 +52,11 @@ namespace dae
         int GetTotalIngredients() const;
         const std::vector<glm::vec2>& GetPlayerSpawnPositions() const;
 
+        const std::vector<glm::vec2>& GetSausageSpawnPositions() const;
+        const std::vector<glm::vec2>& GetPickleSpawnPositions() const;
+        const std::vector<glm::vec2>& GetEggSpawnPositions() const;
+
+
 
         const glm::vec4& Boundaries() const;
 
@@ -67,6 +72,10 @@ namespace dae
         int m_TotalIngredients;
 
         std::vector<glm::vec2> m_PlayerSpawnPos;
+        std::vector<glm::vec2> m_SausageSpawnPos;
+        std::vector<glm::vec2> m_PickleSpawnPos;
+        std::vector<glm::vec2> m_EggSpawnPos;
+
 
         glm::vec4 m_Boundaries;
 

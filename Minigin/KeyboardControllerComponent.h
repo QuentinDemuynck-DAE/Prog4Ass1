@@ -8,20 +8,29 @@ namespace dae
      public:
          KeyboardControllerComponent(GameObject& owner) : ControllerComponent(owner)
          {
-	         
+             BindDefaults();
          }
 
      protected:
-         bool CheckAction(Action action) override
+         bool CheckAction(Action action, KeyState keystate) override
          {
-             auto& inputManager = InputManager::GetInstance();
-             switch (action)
+             auto& input = InputManager::GetInstance();
+             return input.IsAction(action, keystate);
+         }
+     private:
+         void BindDefaults()
+         {
+             static constexpr std::pair<Action, SDL_Keycode> defaults[] = {
+                 { Action::Left,  SDLK_a },
+                 { Action::Right, SDLK_d },
+                 { Action::Up,    SDLK_w },
+                 { Action::Down,  SDLK_s },
+             };
+
+             auto& input = InputManager::GetInstance();
+             for (auto const& [act, key] : defaults)
              {
-             case Action::Left:  return inputManager.IsKeyDown(SDLK_a);
-             case Action::Right: return inputManager.IsKeyDown(SDLK_d);
-             case Action::Up :     return inputManager.IsKeyDown(SDLK_w);
-             case Action::Down:    return inputManager.IsKeyDown(SDLK_s);
-             default:                return false;
+                 input.BindKey(act, key);
              }
          }
      };
