@@ -86,3 +86,9 @@ glm::vec2 dae::RigidbodyComponent::GetLastAddedVelocity() const
 {
 	return m_LastAddedVelocity;
 }
+
+void dae::RigidbodyComponent::SetVelocity(glm::vec2 velocity)
+{
+	m_Velocity = velocity;
+	m_LastAddedVelocity = velocity;
+}

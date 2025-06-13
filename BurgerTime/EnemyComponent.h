@@ -22,8 +22,11 @@ namespace dae
 
 		std::vector<dae::GameObject*> GetPlayers() const;
 		GameObject* GetClosestPlayer() const;
+		bool CanHit() const;
+		void SetCanHit(const bool& canHit);
 
 	private:
+		bool m_CanHit{ true };
 		std::unique_ptr<EnemyState> m_CurrentState;
 		std::vector<dae::GameObject*> m_Players;
 		dae::GameObject* m_ChasingPlayer;

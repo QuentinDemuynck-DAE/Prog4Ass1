@@ -25,6 +25,13 @@ namespace dae
 		const int GetNumChilds() const { return NUM_CHILDS; }
 		const float GetActivationFalldown() const { return ACTIVATION_FALLDOWN; }
 
+		// enemies
+		void AddEnemyStanding(GameObject* enemy);
+		void RemoveEnemyStanding(GameObject* enemy);
+		const std::vector<GameObject*>& GetEnemiesStanding() const;
+		int NumberOfEnemiesStanding() const;
+		void ClearEnemiesStanding();
+
 
 	private:
 		const int NUM_CHILDS = 4;
@@ -33,7 +40,7 @@ namespace dae
 		glm::ivec4 m_TextureSourceRectsStarter;
 		std::unique_ptr<IngredientState> m_pState;
 
-
+		std::vector<GameObject*> m_EnemiesStanding;
 		int m_ActivatedParts{ 0 };
 	};
 }

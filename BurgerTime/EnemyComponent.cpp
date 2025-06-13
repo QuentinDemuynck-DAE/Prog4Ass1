@@ -55,5 +55,15 @@ namespace dae
 
 		return closestPlayer;
 	}
+
+	bool EnemyComponent::CanHit() const
+	{
+		return m_CanHit;
+	}
+
+	void EnemyComponent::SetCanHit(const bool& canHit)
+	{
+		m_CanHit = canHit;
+	}
 }
 

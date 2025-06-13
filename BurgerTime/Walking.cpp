@@ -79,7 +79,7 @@ void dae::Walking::HandleInput(dae::GameObject& object, const Event& event)
 			if (!(sender && receiver && sender == object.GetComponent<dae::CollisionComponent>()))
 				return;
 
-			if (receiver->GetOwner().HasComponent<EnemyComponent>()) //Collided with a falling ingredient so also fall down
+			if (receiver->GetOwner().HasComponent<EnemyComponent>() && receiver->GetOwner().GetComponent<EnemyComponent>()->CanHit()) //Collided with a falling ingredient so also fall down
 			{
 				auto state = std::make_unique<Dying>();
 				m_PlayerComponent->SetState(std::move(state));

@@ -9,6 +9,7 @@
 #include "Subject.h"
 #include "Texture2D.h"
 #include "Texture2DComponent.h"
+#include <algorithm> 
 
 namespace dae
 {
@@ -68,6 +69,39 @@ namespace dae
 		std::for_each(m_pIngredientPartObjects.begin(), m_pIngredientPartObjects.end(),
 			[&](std::shared_ptr<GameObject> child)
 			{child.get()->GetComponent<IngredientPartComponent>()->SetActivatable(activatable); });
+	}
+
+	void IngredientComponent::AddEnemyStanding(GameObject* enemy)
+	{
+		if (std::find(m_EnemiesStanding.begin(),
+			m_EnemiesStanding.end(),
+			enemy) == m_EnemiesStanding.end())
+		{
+			m_EnemiesStanding.push_back(enemy);
+		}
+	}
+
+	void IngredientComponent::RemoveEnemyStanding(GameObject* enemy) 
+	{
+		auto it = std::remove(m_EnemiesStanding.begin(), 
+			m_EnemiesStanding.end(),
+			enemy); 
+		m_EnemiesStanding.erase(it, m_EnemiesStanding.end()); // Remove just shifts to front!!!
+	}
+
+	const std::vector<GameObject*>& IngredientComponent::GetEnemiesStanding() const
+	{
+		return m_EnemiesStanding;
+	}
+
+	int IngredientComponent::NumberOfEnemiesStanding() const
+	{
+		return static_cast<int>(m_EnemiesStanding.size());
+	}
+
+	void IngredientComponent::ClearEnemiesStanding()
+	{
+		m_EnemiesStanding.clear();
 	}
 
 	void IngredientComponent::Update(float deltaTime)

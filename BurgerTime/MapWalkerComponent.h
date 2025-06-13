@@ -65,7 +65,8 @@ namespace dae {
 
         bool IsWayPossible(ClimbDirection climbingDirection, bool right) const; // Checks full path for a ladder
         bool IsNextAvailable(bool toRight) const; // checks one tile for a wall
-
+        void DisableBoundaries();
+        void EnableBoundaries();
 
     private:
 
@@ -78,6 +79,7 @@ namespace dae {
         CollisionComponent* m_OwnersCollisionComponent;
         glm::vec3 m_Spawnposition;
         MapComponent& m_Map;
+        bool m_CheckBoundaries{ true };
     };
 
 } 

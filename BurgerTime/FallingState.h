@@ -18,8 +18,11 @@ namespace dae
 		const glm::vec2 m_Speed{ 0.0, 10 };
 		RigidbodyComponent* m_Rigidbody;
 		IngredientComponent* m_pIngredientComponent;
+		// to not instantly collide
 		float m_Timer{ 0.0f };
-		const float CHECK_TIME = 0.5f;
+		const float CHECK_TIME = 1.0f;
+
+		int m_LayersToFall{ 1 };
 
 	};
 }

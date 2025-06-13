@@ -43,8 +43,6 @@ namespace dae
 
         Rectangle GetRectangle() const;
 
-        void Activate();
-        void Deactivate();
 
     private:
 

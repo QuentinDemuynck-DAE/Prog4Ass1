@@ -78,7 +78,7 @@ namespace dae
 	{
 		dae::CollisionLayers enemyCollidesWith
 		{
-			dae::CollisionLayers::PLAYER | dae::CollisionLayers::SALT
+			dae::CollisionLayers::PLAYER | dae::CollisionLayers::SALT | dae::CollisionLayers::INGREDIENT
 		};
 
 

@@ -267,6 +267,16 @@ namespace dae
 		return true;
 	}
 
+	void MapWalkerComponent::DisableBoundaries()
+	{
+		m_CheckBoundaries = false;
+	}
+
+	void MapWalkerComponent::EnableBoundaries()
+	{
+		m_CheckBoundaries = true;
+	}
+
 
 	MapWalkerComponent::ClimbDirection MapWalkerComponent::PossibleClimbDirections() const
 	{
@@ -428,6 +438,9 @@ namespace dae
 
 	void MapWalkerComponent::KeepInBoundaries()
 	{
+		if (!m_CheckBoundaries)
+			return;
+
 		// Enforce staying inside the overall map
 		glm::vec4 mapBounds = m_Map.Boundaries();
 		ResolveMapBounds(mapBounds);

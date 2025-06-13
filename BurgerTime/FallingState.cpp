@@ -14,9 +14,6 @@ void dae::FallingState::HandleInput(dae::GameObject& gameObject, const Event& ev
 	// COLLISION ENTER
 	if (event.id == make_sdbm_hash("collision_enter"))
 	{
-
-		if (m_Timer < CHECK_TIME)
-			return;
 		// 0 = sender 1= other;
 		if (event.numberArgs >= 2
 			&& std::holds_alternative<void*>(event.args[0])
@@ -39,10 +36,10 @@ void dae::FallingState::HandleInput(dae::GameObject& gameObject, const Event& ev
 			{
 				auto tile = gob.GetComponent<MapTileComponent>();
 
-				if (tile->GetFloor())
+				if (tile->GetFloor() && m_Timer > CHECK_TIME)
 				{
-					auto state = std::make_unique<LandedState>();
-					m_pIngredientComponent->SetState(std::move(state));
+					m_Timer = 0;
+					--m_LayersToFall;
 				}
 
 				if (tile->GetPlate())
@@ -52,6 +49,12 @@ void dae::FallingState::HandleInput(dae::GameObject& gameObject, const Event& ev
 				}
 			}
 		}
+	}
+
+	if (m_LayersToFall == 0)
+	{
+		auto state = std::make_unique<LandedState>();
+		m_pIngredientComponent->SetState(std::move(state));
 	}
 }
 
@@ -65,6 +68,7 @@ void dae::FallingState::OnEnter(dae::GameObject& gameObject)
 	if (gameObject.HasComponent<IngredientComponent>())
 	{
 		m_pIngredientComponent = gameObject.GetComponent<IngredientComponent>();
+		m_LayersToFall += m_pIngredientComponent->NumberOfEnemiesStanding();
 	}
 }
 
