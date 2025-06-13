@@ -7,7 +7,10 @@
 #include "Walking.h"
 #include <glm.hpp>
 
+#include "CollisionComponent.h"
 #include "Controller.h"
+#include "Dying.h"
+#include "EnemyComponent.h"
 
 void dae::Climbing::OnEnter(dae::GameObject& game_object)
 {
@@ -42,6 +45,34 @@ void dae::Climbing::HandleInput(dae::GameObject& object, const Event& event)
 
 		auto* playerComponent = object.GetComponent<PlayerComponent>();
 		playerComponent->SetState(std::make_unique<Walking>());
+	}
+
+	// COLLISION ENTER
+	if (event.id == make_sdbm_hash("collision_enter"))
+	{
+		// 0 = sender 1= other;
+		if (event.numberArgs >= 2
+			&& std::holds_alternative<void*>(event.args[0])
+			&& std::holds_alternative<void*>(event.args[1]))
+		{
+
+			//Only check if we sent it
+			auto sender = static_cast<CollisionComponent*>(
+				std::get<void*>(event.args[0]));
+
+			auto receiver = static_cast<CollisionComponent*>(
+				std::get<void*>(event.args[1]));
+
+			if (!(sender && receiver && sender == object.GetComponent<dae::CollisionComponent>()))
+				return;
+
+			if (receiver->GetOwner().HasComponent<EnemyComponent>()) //Collided with a falling ingredient so also fall down
+			{
+				auto state = std::make_unique<Dying>();
+				m_PlayerComponent->SetState(std::move(state));
+			}
+
+		}
 	}
 }
 

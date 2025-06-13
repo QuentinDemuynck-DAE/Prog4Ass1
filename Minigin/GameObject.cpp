@@ -180,6 +180,16 @@ void dae::GameObject::Destroy()
 	}
 }
 
+void dae::GameObject::SetVisibility(bool visible)
+{
+	m_Visible = visible;
+}
+
+bool dae::GameObject::GetVisibility()
+{
+	return m_Visible;
+}
+
 bool dae::GameObject::IsDescendant(GameObject* target)
 {
 	if (!target) return false;

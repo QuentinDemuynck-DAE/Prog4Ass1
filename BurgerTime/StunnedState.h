@@ -1,4 +1,5 @@
 #pragma once
+#include "CollisionComponent.h"
 #include "EnemyState.h"
 
 
@@ -18,6 +19,7 @@ namespace dae
 
 	private:
 		EnemyComponent* m_EnemyComponent;
+		CollisionComponent* m_CollisionComponent;;
 		bool m_WasWalking;
 		float m_Timer{ 0.0f };
 		const float MAX_STUN_DURATION{ 5.0f };

@@ -159,6 +159,21 @@
     <ClCompile Include="PepperComponent.cpp">
       <Filter>Game\Components\Enteties</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerRespawningState.cpp">
+      <Filter>Game\States\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyDying.cpp">
+      <Filter>Game\States\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyFallingAlong.cpp">
+      <Filter>Game\States\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="RespawningEnemy.cpp">
+      <Filter>Game\States\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="RespawningPlayer.cpp">
+      <Filter>Game\States\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FPSComponent.h">
@@ -268,6 +283,21 @@
     </ClInclude>
     <ClInclude Include="PepperComponent.h">
       <Filter>Game\Components\Enteties</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerRespawningState.h">
+      <Filter>Game\States\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDying.h">
+      <Filter>Game\States\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFallingAlong.h">
+      <Filter>Game\States\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="RespawningEnemy.h">
+      <Filter>Game\States\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="RespawningPlayer.h">
+      <Filter>Game\States\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

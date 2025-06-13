@@ -132,6 +132,9 @@ bool Scene::Contains(const GameObject* object) const //go up the root
 
 void Scene::RecursiveRender(const std::shared_ptr<GameObject>& object) const
 {
+	if (!object->GetVisibility())
+		return;
+
 	object->Render();
 
 	int childCount = object->GetChildCount();

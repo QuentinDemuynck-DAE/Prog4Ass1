@@ -18,11 +18,17 @@ namespace dae
 	{
 		EnemyState::OnEnter(game_object);
 		m_EnemyComponent = game_object.GetComponent<EnemyComponent>();
+
+		if (game_object.HasComponent<CollisionComponent>())
+		{
+			m_CollisionComponent = game_object.GetComponent<CollisionComponent>();
+			m_CollisionComponent->Deactivate();
+		}
 	}
 
 	void StunnedState::OnExit(dae::GameObject& game_object)
 	{
-		EnemyState::OnExit(game_object);
+		m_CollisionComponent->Activate();
 	}
 
 	void StunnedState::HandleInput(dae::GameObject& object, const Event& event)

@@ -174,6 +174,15 @@ dae::Rectangle dae::CollisionComponent::GetRectangle() const
     return rect;
 }
 
+void dae::CollisionComponent::Activate()
+{
+    m_pBody->SetActive(true);
+}
+
+void dae::CollisionComponent::Deactivate()
+{
+    m_pBody->SetActive(false);
+}
 
 
 void dae::CollisionComponent::UpdateCollisionLayers()

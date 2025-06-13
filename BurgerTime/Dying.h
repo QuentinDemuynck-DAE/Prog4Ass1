@@ -1,5 +1,6 @@
 #pragma once
 #include "Events.h"
+#include "LivesComponent.h"
 #include "PlayerState.h"
 class PlayerComponent;
 
@@ -15,6 +16,7 @@ namespace dae
 		void Update(dae::GameObject&, float) override;
 	private:
 		PlayerComponent* m_EnemyComponent;
+		LivesComponent* m_LivesComponent;
 	};
 }
 
