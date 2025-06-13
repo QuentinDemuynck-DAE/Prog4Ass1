@@ -2,6 +2,8 @@
 
 #include "ClimbingEnemyState.h"
 #include "EnemyComponent.h"
+#include "EnemyDying.h"
+#include "EnemyFallingAlong.h"
 #include "Globals.h"
 #include "GameObject.h"
 #include "Subject.h"
@@ -48,6 +50,31 @@ namespace dae
 
 			auto* enemyComponent = object.GetComponent<EnemyComponent>();
 			enemyComponent->SetState(std::make_unique<ClimbingEnemyState>());
+		}
+
+
+		if (event.id == make_sdbm_hash("ingredient_started_falling"))
+		{
+			if (event.numberArgs >= 1
+				&& std::holds_alternative<void*>(event.args[0]))
+			{
+				auto sender = static_cast<GameObject*>(
+					std::get<void*>(event.args[0]));
+
+				auto state = std::make_unique<EnemyFallingAlong>(sender);
+				m_EnemyComponent->SetState(std::move(state));
+			}
+		}
+
+		if (event.id == make_sdbm_hash("ingredient_fell_on_enemy"))
+		{
+			if (event.numberArgs >= 1
+				&& std::holds_alternative<void*>(event.args[0]))
+			{
+
+				auto state = std::make_unique<EnemyDying>();
+				m_EnemyComponent->SetState(std::move(state));
+			}
 		}
 
 	}

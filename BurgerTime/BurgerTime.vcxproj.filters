@@ -49,6 +49,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Game\GameManager">
+      <UniqueIdentifier>{ac9f34da-bcc5-4848-9eee-a6bf5bbdd6c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BurgerTime.cpp">
@@ -168,11 +171,8 @@
     <ClCompile Include="EnemyFallingAlong.cpp">
       <Filter>Game\States\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="RespawningEnemy.cpp">
-      <Filter>Game\States\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="RespawningPlayer.cpp">
-      <Filter>Game\States\Player</Filter>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -293,11 +293,8 @@
     <ClInclude Include="EnemyFallingAlong.h">
       <Filter>Game\States\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="RespawningEnemy.h">
-      <Filter>Game\States\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="RespawningPlayer.h">
-      <Filter>Game\States\Player</Filter>
+    <ClInclude Include="GameManager.h">
+      <Filter>Game\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

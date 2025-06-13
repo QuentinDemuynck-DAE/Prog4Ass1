@@ -22,7 +22,7 @@ namespace dae
 		LivesComponent* m_LivesComponent;
 		MapWalkerComponent* m_MapWalkerCommponent;
 		float m_Timer{ 0.0f };
-		const float RESPAWN_TIME{5.0f};
+		const float RESPAWN_TIME{3.0f};
 	};
 }
 

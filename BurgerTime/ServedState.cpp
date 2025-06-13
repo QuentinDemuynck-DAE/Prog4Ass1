@@ -1,8 +1,20 @@
 #include "ServedState.h"
+#include "GameObject.h"
+#include "Globals.h"
+#include "Subject.h"
 
-void dae::ServedState::OnEnter(dae::GameObject& game_object)
+void dae::ServedState::OnEnter(dae::GameObject& gameObject)
 {
-	IngredientState::OnEnter(game_object);
+
+	if (gameObject.HasComponent<IngredientComponent>())
+	{
+		m_pIngredientComponent = gameObject.GetComponent<IngredientComponent>();
+	}
+
+
+	Event event = Event(make_sdbm_hash("served"));
+
+	gameObject.GetSubject()->Notify(event);
 }
 
 void dae::ServedState::HandleInput(dae::GameObject&, const Event&)

@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "Globals.h"
 #include "IngredientComponent.h"
+#include "Subject.h"
 
 void dae::LandedState::OnEnter(dae::GameObject& gameObject)
 {
@@ -22,7 +23,7 @@ void dae::LandedState::OnEnter(dae::GameObject& gameObject)
 
 }
 
-void dae::LandedState::OnExit(dae::GameObject&)
+void dae::LandedState::OnExit(dae::GameObject& gameObject)
 {
 	if (m_pIngredientComponent)
 	{
@@ -32,7 +33,18 @@ void dae::LandedState::OnExit(dae::GameObject&)
 		glm::vec3 newPosition = m_pIngredientComponent->GetOwner().GetTransform()->GetGlobalPosition();
 		newPosition.y += m_pIngredientComponent->GetActivationFalldown();
 		m_pIngredientComponent->GetOwner().GetTransform()->SetLocalPosition(newPosition);
+
+		Event event = Event(make_sdbm_hash("ingredient_started_falling"));
+		event.AddArg(&gameObject);
+
+		for (auto& enemy : m_pIngredientComponent->GetEnemiesStanding())
+		{
+			enemy->GetSubject()->Notify(event);
+		}
 	}
+
+	
+
 }
 
 void dae::LandedState::HandleInput(dae::GameObject& gameObject, const Event& event)

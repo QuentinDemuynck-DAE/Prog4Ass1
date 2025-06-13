@@ -1,19 +1,12 @@
 #pragma once
 #include "EnemyState.h"
 #include "MapWalkerComponent.h"
-namespace dae
-{
-	class MapWalkerComponent;
-}
-
-namespace dae
-{
-	class ControllerComponent;
-}
 
 namespace dae
 {
 	class EnemyComponent;
+	class ControllerComponent;
+	class MapWalkerComponent;
 
 	class WalkingEnemyState : public EnemyState
 	{

@@ -1,6 +1,7 @@
 #include "FallingState.h"
 
 #include "CollisionComponent.h"
+#include "EnemyComponent.h"
 #include "FallingOnPlate.h"
 #include "GameObject.h"
 #include "Globals.h"
@@ -8,6 +9,7 @@
 #include "RigidbodyComponent.h"
 #include "IngredientComponent.h"
 #include "LandedState.h"
+#include "Subject.h"
 
 void dae::FallingState::HandleInput(dae::GameObject& gameObject, const Event& event)
 {
@@ -48,6 +50,12 @@ void dae::FallingState::HandleInput(dae::GameObject& gameObject, const Event& ev
 					m_pIngredientComponent->SetState(std::move(state));
 				}
 			}
+			else if (gob.HasComponent<EnemyComponent>())
+			{
+				Event eventNew = Event(make_sdbm_hash("ingredient_fell_on_enemy"));
+				eventNew.AddArg(&gameObject);
+				gob.GetSubject()->Notify(eventNew);
+			}
 		}
 	}
 
@@ -72,11 +80,23 @@ void dae::FallingState::OnEnter(dae::GameObject& gameObject)
 	}
 }
 
-void dae::FallingState::OnExit(dae::GameObject&)
+void dae::FallingState::OnExit(dae::GameObject& gameObject)
 {
 	if (m_Rigidbody)
 	{
 		m_Rigidbody->Stop();
+
+	}
+
+	if (m_pIngredientComponent)
+	{
+		Event event = Event(make_sdbm_hash("ingredient_landed"));
+		event.AddArg(&gameObject);
+
+		for (auto& enemy : m_pIngredientComponent->GetEnemiesStanding())
+		{
+			enemy->GetSubject()->Notify(event);
+		}
 	}
 }
 

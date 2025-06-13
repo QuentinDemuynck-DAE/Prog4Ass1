@@ -30,6 +30,8 @@ namespace dae
 		float GetDrag() const;
 		glm::vec2 GetLastAddedVelocity() const;
 
+		void SetVelocity(glm::vec2 velocity);
+
 		void Stop();
 		void Freeze();
 		void Resume();
