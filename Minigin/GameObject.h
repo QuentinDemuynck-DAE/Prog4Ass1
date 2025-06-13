@@ -112,6 +112,9 @@ namespace dae
 		}
 
 		dae::Subject* GetSubject();
+		void MarkDestroy();
+		bool Destroyed() { return m_MarkedForDestroy; }
+		void Destroy();
 
 	private:
 		std::unordered_map<std::type_index, std::unique_ptr<Component>> m_components{};
@@ -124,6 +127,7 @@ namespace dae
 
 		bool IsDescendant(GameObject* target);
 		bool IsChildOf(GameObject* target);
+		bool m_MarkedForDestroy{false};
 
 		std::vector<Command*> m_pBoundCommands;
 

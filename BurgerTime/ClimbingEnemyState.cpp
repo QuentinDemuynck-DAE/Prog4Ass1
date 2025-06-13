@@ -5,8 +5,10 @@
 #include "EnemyComponent.h"
 #include "GameObject.h"
 #include "Globals.h"
-#include "VulnerableState.h"
+#include "PepperComponent.h"
+#include "StunnedState.h"
 #include "WalkingEnemyState.h"
+#include "CollisionComponent.h"
 
 namespace dae
 {
@@ -59,6 +61,34 @@ namespace dae
 
 	void ClimbingEnemyState::HandleInput(dae::GameObject& object, const Event& event)
 	{
+		// COLLISION ENTER
+		if (event.id == make_sdbm_hash("collision_enter"))
+		{
+			// 0 = sender 1= other;
+			if (event.numberArgs >= 2
+				&& std::holds_alternative<void*>(event.args[0])
+				&& std::holds_alternative<void*>(event.args[1]))
+			{
+
+				//Only check if we sent it
+				auto sender = static_cast<CollisionComponent*>(
+					std::get<void*>(event.args[0]));
+
+				auto receiver = static_cast<CollisionComponent*>(
+					std::get<void*>(event.args[1]));
+
+				if (!(sender && receiver && sender == object.GetComponent<dae::CollisionComponent>()))
+					return;
+
+				if (receiver->GetOwner().HasComponent<PepperComponent>()) //Collided with a falling ingredient so also fall down
+				{
+					auto state = std::make_unique<StunnedState>(false);
+					m_EnemyComponent->SetState(std::move(state));
+				}
+
+			}
+		}
+
 		if (event.id == make_sdbm_hash("get_off_ladder"))
 		{
 			if (event.numberArgs > 0 && std::holds_alternative<glm::vec3>(event.args[0]))
@@ -71,11 +101,6 @@ namespace dae
 			enemyComponent->SetState(std::make_unique<WalkingEnemyState>());
 		}
 
-		//if (event.id == make_sdbm_hash("collision_enter"))
-		//{
-		//	auto* enemyComponent = object.GetComponent<EnemyComponent>();
-		//	enemyComponent->SetState(std::make_unique<VulnerableState>());
-		//}
 	}
 
 	void ClimbingEnemyState::Update(dae::GameObject& gameObject, float deltaTime)

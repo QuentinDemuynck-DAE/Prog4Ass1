@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "GameObject.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
 
@@ -99,7 +100,9 @@ void dae::AnimatedSpriteComponent::Update(float deltaTime)
 void dae::AnimatedSpriteComponent::Render(glm::vec3 position, glm::vec2 scale)
 {
 	glm::ivec4 srcRect = calculateSourceRect();
-	dae::Renderer::GetInstance().RenderTexture(*m_texture, position.x, position.y, scale, srcRect);
+
+	float angleDeg = GetOwner().GetTransform()->GetLocalRotation().x;
+	dae::Renderer::GetInstance().RenderTexture(*m_texture, position.x, position.y, scale, srcRect, angleDeg);
 }
 
 glm::ivec4 dae::AnimatedSpriteComponent::calculateSourceRect()

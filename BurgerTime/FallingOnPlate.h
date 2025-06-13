@@ -1,10 +1,10 @@
 #pragma once
 #include "IngredientState.h"
-class RigidbodyComponent;
 
 namespace dae
 {
 	class IngredientComponent;
+	class RigidbodyComponent;
 
 	class FallingOnPlate final : public IngredientState
 	{

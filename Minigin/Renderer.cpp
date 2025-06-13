@@ -86,38 +86,51 @@ void dae::Renderer::Destroy()
 	}
 }
 
-void dae::Renderer::RenderTexture(const Texture2D& texture, float x, float y, glm::vec2 scale, glm::ivec4 srcRect) const
+void dae::Renderer::RenderTexture(
+	const Texture2D& texture,
+	float x, float y,
+	glm::vec2 scale,
+	glm::ivec4 srcRect,
+	float angleDegrees
+) const
 {
 	SDL_Rect dst{};
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);
+	dst.x = int(x);
+	dst.y = int(y);
 
 	int origW{}, origH{};
 	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &origW, &origH);
 
-	dst.w = static_cast<int>(origW * scale.x);
-	dst.h = static_cast<int>(origH * scale.y);
+	dst.w = int(origW * scale.x);
+	dst.h = int(origH * scale.y);
 
-	//Automatically assign full rect when out of bounds
-	SDL_Rect actualSrc{ srcRect.x ,srcRect.y , srcRect.z , srcRect.w };
-	if (srcRect.x < 0 || srcRect.x > origW ||
-		srcRect.y < 0 || srcRect.y > origH ||
-		srcRect.w < 0 || srcRect.z < 0 ||
-		srcRect.x + srcRect.w > origW || srcRect.y + srcRect.z > origH)
+	SDL_Rect actualSrc{ srcRect.x, srcRect.y, srcRect.z, srcRect.w };
+	if (srcRect.x <  0 ||
+		srcRect.y <  0 ||
+		srcRect.z <= 0 ||
+		srcRect.w <= 0 ||
+		srcRect.x + srcRect.z > origW ||
+		srcRect.y + srcRect.w > origH)
 	{
-		actualSrc.x = 0;
-		actualSrc.y = 0;
-		actualSrc.w = origW;
-		actualSrc.h = origH;
+		actualSrc = { 0, 0, origW, origH };
 	}
 	else
 	{
-		dst.w = static_cast<int>(actualSrc.w * scale.x);
-		dst.h = static_cast<int>(actualSrc.h * scale.y);
-		
+		dst.w = int(actualSrc.w * scale.x);
+		dst.h = int(actualSrc.h * scale.y);
 	}
 
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &actualSrc, &dst);
+	SDL_Point pivot{ 0, 0 };
+
+	SDL_RenderCopyEx(
+		GetSDLRenderer(),
+		texture.GetSDLTexture(),
+		&actualSrc,
+		&dst,
+		angleDegrees,
+		&pivot,
+		SDL_FLIP_NONE
+	);
 }
 
 

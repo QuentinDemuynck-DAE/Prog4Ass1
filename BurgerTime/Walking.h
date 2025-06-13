@@ -2,22 +2,16 @@
 #include "Events.h"
 #include "PlayerState.h"
 
-namespace dae
-{
-	class ControllerComponent;
-}
-
-namespace dae
-{
-	class MapWalkerComponent;
-}
-
-class RigidbodyComponent;
 class PlayerComponent;
 
 namespace dae
 {
 	class GameObject;
+	class RigidbodyComponent;
+	class MapWalkerComponent;
+	class ControllerComponent;
+
+
 
 	class Walking : public PlayerState
 	{

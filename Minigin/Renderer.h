@@ -21,7 +21,7 @@ namespace dae
 		void Render() const;
 		void Destroy();
 
-		void RenderTexture(const Texture2D& texture, float x, float y, glm::vec2 scale = {1.0,1.0}, glm::ivec4 srcRect = { -1,-1,-1,-1 }) const;
+		void RenderTexture(const Texture2D& texture, float x, float y, glm::vec2 scale = {1.0,1.0}, glm::ivec4 srcRect = { -1,-1,-1,-1 },float angleDegrees =0) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height, glm::ivec4 srcRect = {-1,-1,-1,-1}) const;
 
 		SDL_Renderer* GetSDLRenderer() const;

@@ -12,6 +12,7 @@ void dae::SceneManager::Update(float deltaTime)
 void dae::SceneManager::PostUpdate(float deltaTime)
 {
 	m_pActiveScene->PostUpdate(deltaTime);
+
 }
 
 void dae::SceneManager::FixedUpdate()

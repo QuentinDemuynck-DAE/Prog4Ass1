@@ -12,12 +12,13 @@ namespace dae
 }
 
 class PlayerComponent;
-class RigidbodyComponent;
+
 class HealthComponent;
 class ScoreComponent;
 
 namespace dae
 {
+	class RigidbodyComponent;
 	class LogCommand : public Command
 	{
 	public:

@@ -1,11 +1,11 @@
 #pragma once
 #include "IngredientState.h"
 
-class RigidbodyComponent;
 
 namespace dae
 {
 	class IngredientComponent;
+	class RigidbodyComponent;
 
 	class FallingState final : public dae::IngredientState
 	{
@@ -19,7 +19,7 @@ namespace dae
 		RigidbodyComponent* m_Rigidbody;
 		IngredientComponent* m_pIngredientComponent;
 		float m_Timer{ 0.0f };
-		const float CHECK_TIME = 0.3f;
+		const float CHECK_TIME = 0.5f;
 
 	};
 }

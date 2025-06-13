@@ -162,6 +162,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BurgerTime.cpp" />
+    <ClCompile Include="PepperComponent.cpp" />
     <ClCompile Include="WalkingEnemyState.cpp" />
     <ClCompile Include="Climbing.cpp" />
     <ClCompile Include="Commands.cpp" />
@@ -195,10 +196,10 @@
     <ClCompile Include="ServedState.cpp" />
     <ClCompile Include="ShootPepperCommand.cpp" />
     <ClCompile Include="StunnedState.cpp" />
-    <ClCompile Include="VulnerableState.cpp" />
     <ClCompile Include="Walking.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PepperComponent.h" />
     <ClInclude Include="WalkingEnemyState.h" />
     <ClInclude Include="Climbing.h" />
     <ClInclude Include="Commands.h" />
@@ -233,7 +234,6 @@
     <ClInclude Include="ServedState.h" />
     <ClInclude Include="ShootPepperCommand.h" />
     <ClInclude Include="StunnedState.h" />
-    <ClInclude Include="VulnerableState.h" />
     <ClInclude Include="Walking.h" />
   </ItemGroup>
   <ItemGroup>

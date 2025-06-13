@@ -3,6 +3,8 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include "Command.h"
+#include "Scene.h"
+#include "SceneManager.h"
 #include "Subject.h"
 
 dae::GameObject::~GameObject() = default;
@@ -34,6 +36,7 @@ void dae::GameObject::PostUpdate(float deltaTime)
 	{
 		return component.second->IsDestroyed();
 	});
+
 }
 
 
@@ -137,6 +140,44 @@ void dae::GameObject::SetParent(GameObject* parent, bool keepWorldPosition)
 dae::Subject* dae::GameObject::GetSubject()
 {
 	return m_pSubject.get();
+}
+
+void dae::GameObject::MarkDestroy()
+{
+	m_MarkedForDestroy = true;
+}
+
+void dae::GameObject::Destroy()
+{
+	for (auto& childPtr : m_children)
+	{
+		childPtr->Destroy();
+	}
+	m_children.clear();
+
+	for (auto& kv : m_components)
+	{
+		kv.second->Destroy();
+	}
+	m_components.clear();
+
+	m_pBoundCommands.clear();
+
+	m_pSubject.reset();
+
+	if (m_parent)
+	{
+		auto& siblings = m_parent->m_children;
+		siblings.erase(
+			std::remove_if(
+				siblings.begin(),
+				siblings.end(),
+				[this](const std::shared_ptr<GameObject>& ptr) {
+					return ptr.get() == this;
+				}),
+			siblings.end());
+		SetParent(nullptr);
+	}
 }
 
 bool dae::GameObject::IsDescendant(GameObject* target)

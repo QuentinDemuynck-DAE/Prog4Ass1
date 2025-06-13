@@ -53,10 +53,21 @@ void Scene::RecursiveUpdate(const std::shared_ptr<GameObject>& object, float del
 
 void Scene::PostUpdate(float deltaTime)
 {
-	for (auto& object : m_objects)
+	auto it = m_objects.begin();
+	while (it != m_objects.end())
 	{
-		RecursivePostUpdate(object, deltaTime);
+		if ((*it)->Destroyed())
+		{
+			(*it)->Destroy();
+			it = m_objects.erase(it);
+		}
+		else
+		{
+			RecursivePostUpdate(*it, deltaTime);
+			++it;
+		}
 	}
+
 }
 
 void Scene::RecursivePostUpdate(const std::shared_ptr<GameObject>& object, float deltaTime)
@@ -66,7 +77,15 @@ void Scene::RecursivePostUpdate(const std::shared_ptr<GameObject>& object, float
 	int childCount = object->GetChildCount();
 	for (int i = 0; i < childCount; ++i)
 	{
-		RecursivePostUpdate(object->GetChildAt(i), deltaTime);
+		auto child = object->GetChildAt(i);
+		if (child->Destroyed())
+		{
+			child->Destroy();
+		}
+		else
+		{
+			RecursivePostUpdate(child, deltaTime);
+		}
 	}
 }
 

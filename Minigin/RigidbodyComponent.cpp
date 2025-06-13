@@ -1,7 +1,7 @@
 #include "RigidbodyComponent.h"
 #include "GameObject.h"
 
-RigidbodyComponent::RigidbodyComponent(dae::GameObject& owner, float maxSpeed, float mass, float drag)
+dae::RigidbodyComponent::RigidbodyComponent(dae::GameObject& owner, float maxSpeed, float mass, float drag)
 	: Component(owner)
 	, m_Mass{ mass }
 	, m_Drag{ drag }
@@ -9,9 +9,12 @@ RigidbodyComponent::RigidbodyComponent(dae::GameObject& owner, float maxSpeed, f
 {
 }
 
-void RigidbodyComponent::Update(float deltaTime)
+void dae::RigidbodyComponent::Update(float deltaTime)
 {
 	auto& owner = GetOwner();
+
+	if (m_Freezed)
+		return;
 
 	// Will make this better in the future
 	if (glm::length(m_Velocity) >= m_MaxSpeed)
@@ -29,33 +32,57 @@ void RigidbodyComponent::Update(float deltaTime)
 	m_Velocity.y -= m_Velocity.y * m_Drag;
 }
 
-void RigidbodyComponent::AddVelocity(float x, float y)
+void dae::RigidbodyComponent::AddVelocity(float x, float y)
 {
+	if (m_Freezed)
+		return;
+
 	m_Velocity.x += x;
 	m_Velocity.y += y;
+	m_LastAddedVelocity = glm::vec2{x, y};
+
 }
 
-void RigidbodyComponent::AddVelocity(glm::vec2 velocity)
+void dae::RigidbodyComponent::AddVelocity(glm::vec2 velocity)
 {
+	if (m_Freezed)
+		return;
+
 	m_Velocity += velocity;
+	m_LastAddedVelocity = velocity;
 }
 
-void RigidbodyComponent::SetDrag(float drag)
+void dae::RigidbodyComponent::SetDrag(float drag)
 {
 	m_Drag = drag;
 }
 
-glm::vec2 RigidbodyComponent::GetVelocity() const
+glm::vec2 dae::RigidbodyComponent::GetVelocity() const
 {
 	return m_Velocity;
 }
 
-float RigidbodyComponent::GetDrag() const
+float dae::RigidbodyComponent::GetDrag() const
 {
 	return m_Drag;
 }
 
-void RigidbodyComponent::Stop()
+void dae::RigidbodyComponent::Stop()
 {
 	m_Velocity = { 0,0 };
+}
+
+void dae::RigidbodyComponent::Freeze()
+{
+	m_Freezed = true;
+}
+
+void dae::RigidbodyComponent::Resume()
+{
+	m_Freezed = false;
+}
+
+glm::vec2 dae::RigidbodyComponent::GetLastAddedVelocity() const
+{
+	return m_LastAddedVelocity;
 }

@@ -14,6 +14,9 @@ namespace dae
      protected:
          bool CheckAction(Action action, KeyState keystate) override
          {
+             if (!m_Binded)
+                 return false;
+
              auto& input = InputManager::GetInstance();
              return input.IsAction(action, keystate);
          }
@@ -25,6 +28,7 @@ namespace dae
                  { Action::Right, SDLK_d },
                  { Action::Up,    SDLK_w },
                  { Action::Down,  SDLK_s },
+				{Action::Shoot, SDLK_j}
              };
 
              auto& input = InputManager::GetInstance();
@@ -32,7 +36,10 @@ namespace dae
              {
                  input.BindKey(act, key);
              }
+             m_Binded = true;
          }
+
+         bool m_Binded{ false };
      };
 }
 

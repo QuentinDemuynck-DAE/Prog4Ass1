@@ -4,12 +4,14 @@
 #include "GamePad.h"
 #include "GameObject.h"
 #include "PlayerState.h"
+#include "RigidbodyComponent.h"
 #include "Walking.h"
 
 PlayerComponent::PlayerComponent(dae::GameObject& owner)
 	:Component(owner)
 {
-
+	if (owner.HasComponent<dae::RigidbodyComponent>())
+		m_Rigidbody = owner.GetComponent<dae::RigidbodyComponent>();
 }
 
 void PlayerComponent::Update(float deltaTime)
@@ -18,7 +20,7 @@ void PlayerComponent::Update(float deltaTime)
 	if (m_IsShooting)
 	{
 		m_CurrentlyShooting += deltaTime;
-		if (m_CurrentlyShooting >= MAX_PEPPER_TIME)
+		if (m_CurrentlyShooting >= PEPPER_COOLDOWN)
 		{
 			StopShooting();
 		}
@@ -49,5 +51,11 @@ void PlayerComponent::StopShooting()
 	m_IsShooting = false;
 	m_CurrentlyShooting = 0.0f;
 	m_timeSinceLastPepper = 0.0f;
-	m_Pepper->SetParent(nullptr);
+	m_Rigidbody->Resume();
+	m_Pepper->MarkDestroy();
+}
+
+void PlayerComponent::SetCanShoot(const bool& canShoot)
+{
+	m_CanShoot = canShoot;
 }

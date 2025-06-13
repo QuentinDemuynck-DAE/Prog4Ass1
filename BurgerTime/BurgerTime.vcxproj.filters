@@ -84,9 +84,6 @@
     <ClCompile Include="WalkingEnemyState.cpp">
       <Filter>Game\States\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="VulnerableState.cpp">
-      <Filter>Game\States\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="StunnedState.cpp">
       <Filter>Game\States\Enemies</Filter>
     </ClCompile>
@@ -159,6 +156,9 @@
     <ClCompile Include="FallingOnPlate.cpp">
       <Filter>Game\States\Ingredient</Filter>
     </ClCompile>
+    <ClCompile Include="PepperComponent.cpp">
+      <Filter>Game\Components\Enteties</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FPSComponent.h">
@@ -186,9 +186,6 @@
       <Filter>Game\States\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="WalkingEnemyState.h">
-      <Filter>Game\States\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="VulnerableState.h">
       <Filter>Game\States\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="StunnedState.h">
@@ -268,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="FallingOnPlate.h">
       <Filter>Game\States\Ingredient</Filter>
+    </ClInclude>
+    <ClInclude Include="PepperComponent.h">
+      <Filter>Game\Components\Enteties</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

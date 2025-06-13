@@ -31,6 +31,7 @@
 #include "AiController.h"
 #include "DebugPositionCommand.h"
 #include "GamePadController.h"
+#include "KeyboardControllerComponent.h"
 #include "MapComponent.h"
 #include "SVGParser.h"
 #include "Prototypes.h"
@@ -125,6 +126,9 @@ void load()
 		scene.Add(player);
 		player->AddComponent<dae::GamePadControllerComponent>(gamePad.get());
 		player->GetComponent<dae::GamePadControllerComponent>()->Bind(dae::Action::Debug, std::make_shared<dae::DebugPositionCommand>(player.get()), KeyState::Down);
+		player->GetComponent<dae::GamePadControllerComponent>()->Bind(dae::Action::Shoot, std::make_shared<dae::ShootPepperCommand>(player.get()), KeyState::Up);
+
+		//player->AddComponent<dae::KeyboardControllerComponent>();
 		dae::InputManager::GetInstance().AddGamePad(std::move(gamePad));
 
 
@@ -170,18 +174,6 @@ void load()
 	//textureTwo.get()->GetSubject()->AddObserver(scoreObserverTwo);
 
 	//const float speed{ 100.f };
-
-	//dae::InputManager::GetInstance().BindCommand(SDLK_w, std::make_shared<dae::MoveTransformCommand>(textureTwo.get(), 0.f, -speed * 2.f), KeyState::Pressed);
-	//dae::InputManager::GetInstance().BindCommand(SDLK_s, std::make_shared<dae::MoveTransformCommand>(textureTwo.get(), 0.f, speed * 2.f), KeyState::Pressed);
-	//dae::InputManager::GetInstance().BindCommand(SDLK_a, std::make_shared<dae::MoveTransformCommand>(textureTwo.get(), -speed * 2.f, 0.f), KeyState::Pressed);
-	//dae::InputManager::GetInstance().BindCommand(SDLK_d, std::make_shared<dae::MoveTransformCommand>(textureTwo.get(), speed * 2.f, 0.f), KeyState::Pressed);
-	//dae::InputManager::GetInstance().BindCommand(SDLK_c, std::make_shared<dae::ShootPepperCommand>(textureTwo.get()), KeyState::Up);
-	//dae::InputManager::GetInstance().BindCommand(SDLK_z, std::make_shared<dae::ScoreCommand>(textureTwo.get()), KeyState::Up);
-	//dae::InputManager::GetInstance().BindCommand(SDLK_x, std::make_shared<dae::ScoreCommand>(textureTwo.get(), 100), KeyState::Up);
-	//dae::InputManager::GetInstance().BindCommand(SDLK_p, std::make_shared<dae::DebugPositionCommand>(textureTwo.get()), KeyState::Up);
-	//
-	//
-	//dae::InputManager::GetInstance().BindCommand(SDLK_SPACE, std::make_shared<dae::PlaySoundCommand>("../Data/Audio/Start.mp3",10), KeyState::Up);
 }
 
 int main(int, char* []) 

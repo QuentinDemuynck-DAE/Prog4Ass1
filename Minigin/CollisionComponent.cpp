@@ -34,9 +34,8 @@ dae::CollisionComponent::CollisionComponent(dae::GameObject& owner,
     glm::vec3 pos3 = owner.GetTransform()->GetGlobalPosition();
     bd.position.Set(pos3.x, pos3.y);
 
-    glm::vec3 eulerDeg = owner.GetTransform()->GetGlobalRotation();
-    float angleRad = glm::radians(eulerDeg.z);
-    bd.angle = angleRad;
+    float angle = owner.GetTransform()->GetGlobalRotation().x;
+    bd.angle = glm::radians(angle);
 
     bd.userData = this;
     m_pBody = m_World.CreateBody(&bd);
@@ -71,10 +70,9 @@ void dae::CollisionComponent::Update(float)
 {
     // Snap the Box2D body to match the GameObject transform each frame
     glm::vec3 pos = GetOwner().GetTransform()->GetGlobalPosition();
-    glm::vec3 eulerDeg = GetOwner().GetTransform()->GetGlobalRotation();
-    float   angleRad = glm::radians(eulerDeg.z);
+   float deg = GetOwner().GetTransform()->GetGlobalRotation().x;
 
-    m_pBody->SetTransform(b2Vec2{ pos.x + m_Offset.x, pos.y + m_Offset.y}, angleRad);
+    m_pBody->SetTransform(b2Vec2{ pos.x + m_Offset.x, pos.y + m_Offset.y}, glm::radians(deg));
 }
 
 
@@ -95,30 +93,41 @@ void dae::CollisionComponent::OnTriggerExit(CollisionComponent* other)
     GetOwner().GetSubject()->Notify(e);
 }
 
-void dae::CollisionComponent::Render(glm::vec3 position, glm::vec2)
+void dae::CollisionComponent::Render(glm::vec3 /*position*/, glm::vec2 /*scale*/)
 {
-    Component::Render(position, glm::vec2{ 1,1 }); // m_HalfSize gets scaled
-
-    if (!m_DrawDebug || !m_pFixture)
+    if (!m_DrawDebug || !m_pBody)
         return;
 
-    //  grab your rectangle in world space
-    dae::Rectangle r = GetRectangle();
-
-    // convert to four corner points
-    glm::vec2 topLeft{ r.x,           r.y };
-    glm::vec2 topRight{ r.x + r.width, r.y };
-    glm::vec2 bottomRight{ r.x + r.width, r.y + r.height };
-    glm::vec2 bottomLeft{ r.x,           r.y + r.height };
-
-    // draw the four edges
     auto& R = dae::Renderer::GetInstance();
     SDL_Color col{ 255, 0, 0, 255 };
 
-    R.DrawLine(topLeft.x, topLeft.y, topRight.x, topRight.y, col);
-    R.DrawLine(topRight.x, topRight.y, bottomRight.x, bottomRight.y, col);
-    R.DrawLine(bottomRight.x, bottomRight.y, bottomLeft.x, bottomLeft.y, col);
-    R.DrawLine(bottomLeft.x, bottomLeft.y, topLeft.x, topLeft.y, col);
+    // Walk all fixtures on the body
+    for (b2Fixture* f = m_pBody->GetFixtureList(); f; f = f->GetNext())
+    {
+        b2Shape::Type type = f->GetType();
+        if (type == b2Shape::e_polygon)
+        {
+            auto* poly = static_cast<b2PolygonShape*>(f->GetShape());
+            int32 count = poly->m_count;
+            if (count < 2)
+                continue;
+
+            // Grab the first world-space point
+            b2Vec2 first = m_pBody->GetWorldPoint(poly->m_vertices[0]);
+            b2Vec2 prev = first;
+
+            // Loop through the rest, drawing edges
+            for (int32 i = 1; i < count; ++i)
+            {
+                b2Vec2 curr = m_pBody->GetWorldPoint(poly->m_vertices[i]);
+                R.DrawLine(prev.x, prev.y, curr.x, curr.y, col);
+                prev = curr;
+            }
+
+            // Close the loop
+            R.DrawLine(prev.x, prev.y, first.x, first.y, col);
+        }
+    }
 }
 
 void dae::CollisionComponent::AddCollisionLayerSelf(dae::CollisionLayers layer)

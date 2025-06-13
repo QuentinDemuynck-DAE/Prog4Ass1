@@ -19,7 +19,7 @@ void dae::Walking::OnEnter(dae::GameObject& game_object)
 		m_PlayerComponent = game_object.GetComponent<PlayerComponent>();
 
 	if (game_object.HasComponent<RigidbodyComponent>())
-		m_Rigidbody = game_object.GetComponent<RigidbodyComponent>();
+		m_Rigidbody = game_object.GetComponent<dae::RigidbodyComponent>();
 
 	if (game_object.HasComponent<MapWalkerComponent>())
 		m_MapWalker = game_object.GetComponent<MapWalkerComponent>();

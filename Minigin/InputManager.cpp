@@ -40,17 +40,26 @@ void dae::InputManager::UpdateStates()
 
 bool dae::InputManager::IsKeyDown(SDL_Keycode key) const
 {
-	return m_CurrentKey.at(key);
+	auto it = m_CurrentKey.find(key);
+	return it != m_CurrentKey.end() && it->second;
 }
-// Creates those functions just in case 
+
 bool dae::InputManager::IsKeyPressed(SDL_Keycode key) const
 {
-	return m_CurrentKey.at(key) && !m_PreviousKey.at(key);
+	auto itC = m_CurrentKey.find(key);
+	auto itP = m_PreviousKey.find(key);
+	bool curr = (itC != m_CurrentKey.end() && itC->second);
+	bool prev = (itP != m_PreviousKey.end() && itP->second);
+	return curr && !prev;
 }
 
 bool dae::InputManager::IsKeyUp(SDL_Keycode key) const
 {
-	return !m_CurrentKey.at(key) && m_PreviousKey.at(key);
+	auto itC = m_CurrentKey.find(key);
+	auto itP = m_PreviousKey.find(key);
+	bool curr = (itC != m_CurrentKey.end() && itC->second);
+	bool prev = (itP != m_PreviousKey.end() && itP->second);
+	return !curr && prev;
 }
 
 void dae::InputManager::BindKey(Action action, SDL_Keycode key)

@@ -27,13 +27,14 @@ namespace dae {
 
         void BindDefaults() // I could make functions to change the keybinds at runtime now very easily
         {
-            static constexpr std::pair<Action, GamePad::Button> defaults[] = 
+            static constexpr std::pair<Action, GamePad::Button> defaults[] =
             {
-				{ Action::Left,  GamePad::Button::DPadLeft  },
-				{ Action::Right, GamePad::Button::DPadRight },
-				{ Action::Up,    GamePad::Button::DPadUp    },
-				{ Action::Down,  GamePad::Button::DPadDown  },
-				{Action::Debug, GamePad::Button::LeftTrigger}
+                { Action::Left,  GamePad::Button::DPadLeft  },
+                { Action::Right, GamePad::Button::DPadRight },
+                { Action::Up,    GamePad::Button::DPadUp    },
+                { Action::Down,  GamePad::Button::DPadDown  },
+                {Action::Debug, GamePad::Button::LeftTrigger},
+				{Action::Shoot, GamePad::Button::ButtonA}
             };
 
             for (auto const& [act, btn] : defaults)
