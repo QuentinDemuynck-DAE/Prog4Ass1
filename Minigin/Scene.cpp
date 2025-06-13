@@ -7,6 +7,11 @@ using namespace dae;
 
 unsigned int Scene::m_idCounter = 0;
 
+const std::vector<std::shared_ptr<GameObject>>& Scene::GetObjects()
+{
+	return m_objects;
+}
+
 Scene::Scene(const std::string& name) : m_name(name) {}
 
 Scene::~Scene() = default;

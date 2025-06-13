@@ -79,6 +79,18 @@ namespace dae
 		}
 
 		template<typename T>
+		std::vector<T*> GetComponentsDerived() const
+		{
+			std::vector<T*> results;
+			for (auto& compPtr : m_components)
+			{
+				if (auto casted = dynamic_cast<T*>(compPtr.second.get()))
+					results.push_back(casted);
+			}
+			return results;
+		}
+
+		template<typename T>
 		bool HasComponentDerived() const
 		{
 			return GetComponentDerived<T>() != nullptr;

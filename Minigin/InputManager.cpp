@@ -109,3 +109,10 @@ void dae::InputManager::AddGamePad(std::unique_ptr<GamePad> gampad)
 {
 	m_GamePads.push_back(std::move(gampad));
 }
+
+dae::GamePad* dae::InputManager::GetGamePadAtIndex(int idx) const
+{
+	if (idx < 0 || static_cast<std::size_t>(idx) >= m_GamePads.size())
+		return nullptr;
+	return m_GamePads[static_cast<std::size_t>(idx)].get();
+}

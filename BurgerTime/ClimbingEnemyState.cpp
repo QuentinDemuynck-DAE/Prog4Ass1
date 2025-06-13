@@ -23,8 +23,11 @@ namespace dae
 			m_Players = m_EnemyComponent->GetPlayers();
 		}
 
+		if (gameObject.HasComponent<AiController>())
+			m_EnemyAIController = gameObject.GetComponent<AiController>();
+
 		if (gameObject.HasComponentDerived<ControllerComponent>())
-			m_EnemyController = gameObject.GetComponentDerived<ControllerComponent>();
+			m_Controllers = gameObject.GetComponentsDerived<ControllerComponent>();
 
 		if (gameObject.HasComponent<MapWalkerComponent>())
 		{
@@ -32,12 +35,16 @@ namespace dae
 		}
 
 		const float speed{ 25.f };
-		if (m_EnemyController)
+
+		for (auto controller : m_Controllers)
 		{
-			m_EnemyController->Bind(dae::Action::Up, std::make_shared<dae::MoveTransformCommand>(&gameObject, 0.0f, -speed), KeyState::Pressed);
-			m_EnemyController->Bind(dae::Action::Down, std::make_shared<dae::MoveTransformCommand>(&gameObject, 0.0f, speed), KeyState::Pressed);
-			m_EnemyController->Bind(dae::Action::Left, std::make_shared<dae::GetOffLadderCommand>(&gameObject), KeyState::Down);
-			m_EnemyController->Bind(dae::Action::Right, std::make_shared<dae::GetOffLadderCommand>(&gameObject), KeyState::Down);
+			if (controller)
+			{
+				controller->Bind(dae::Action::Up, std::make_shared<dae::MoveTransformCommand>(&gameObject, 0.0f, -speed), KeyState::Pressed);
+				controller->Bind(dae::Action::Down, std::make_shared<dae::MoveTransformCommand>(&gameObject, 0.0f, speed), KeyState::Pressed);
+				controller->Bind(dae::Action::Left, std::make_shared<dae::GetOffLadderCommand>(&gameObject), KeyState::Down);
+				controller->Bind(dae::Action::Right, std::make_shared<dae::GetOffLadderCommand>(&gameObject), KeyState::Down);
+			}
 		}
 
 		glm::vec3 direction = m_EnemyComponent->GetClosestPlayer()->GetTransform()->GetGlobalPosition() - gameObject.GetTransform()->GetGlobalPosition();
@@ -52,12 +59,18 @@ namespace dae
 
 	void ClimbingEnemyState::OnExit(dae::GameObject&)
 	{
-		if (m_EnemyController)
+		for (auto controller : m_Controllers)
 		{
-			m_EnemyController->Unbind(dae::Action::Up);
-			m_EnemyController->Unbind(dae::Action::Down);
-			m_EnemyController->Unbind(dae::Action::Left);
-			m_EnemyController->Unbind(dae::Action::Right);
+			if (controller)
+			{
+				if (controller)
+				{
+					controller->Unbind(dae::Action::Up);
+					controller->Unbind(dae::Action::Down);
+					controller->Unbind(dae::Action::Left);
+					controller->Unbind(dae::Action::Right);
+				}
+			}
 		}
 	}
 
@@ -132,16 +145,18 @@ namespace dae
 
 	void ClimbingEnemyState::Update(dae::GameObject& gameObject, float deltaTime)
 	{
+		if (!m_EnemyAIController)
+			return;
 
 		switch (m_ClimbDirection)
 		{
 		case MapWalkerComponent::ClimbDirection::UP:
-				m_EnemyController->PerformAction(Action::Up);
+				m_EnemyAIController->PerformAction(Action::Up);
 			break;
 
 		case MapWalkerComponent::ClimbDirection::DOWN:
 
-				m_EnemyController->PerformAction(Action::Down);
+				m_EnemyAIController->PerformAction(Action::Down);
 			break;
 		}
 
@@ -164,7 +179,7 @@ namespace dae
 			|| (possibleClimbDirections == MapWalkerComponent::ClimbDirection::DOWN && m_ClimbDirection == MapWalkerComponent::ClimbDirection::UP)
 			|| (possibleClimbDirections == MapWalkerComponent::ClimbDirection::UP && m_ClimbDirection == MapWalkerComponent::ClimbDirection::DOWN))
 		{
-			m_EnemyController->PerformAction(Action::Left);
+			m_EnemyAIController->PerformAction(Action::Left);
 		}
 
 

@@ -8,8 +8,8 @@
 
 namespace dae
 {
-	EnemyComponent::EnemyComponent(dae::GameObject& owner, std::vector<dae::GameObject*> players)
-		:Component(owner), m_Players(players), m_ChasingPlayer(nullptr), m_PatrolDirectionTimer(0.0f)
+	EnemyComponent::EnemyComponent(dae::GameObject& owner, std::vector<dae::GameObject*> players, int value)
+		:Component(owner), m_Players(players), m_ChasingPlayer(nullptr), m_PatrolDirectionTimer(0.0f), m_Value(value)
 	{
 	}
 
@@ -64,6 +64,11 @@ namespace dae
 	void EnemyComponent::SetCanHit(const bool& canHit)
 	{
 		m_CanHit = canHit;
+	}
+
+	const int& EnemyComponent::GetValue() const
+	{
+		return m_Value;
 	}
 }
 

@@ -34,9 +34,10 @@ namespace dae
 		bool IsAction(Action action, KeyState state) const;
 
 		void AddGamePad(std::unique_ptr<GamePad> gampad);
-
+		GamePad* GetGamePadAtIndex(int idx) const;
 
 	private:
+
 
 		void UpdateStates();
 

@@ -42,7 +42,7 @@ namespace dae
 		}
 
 		auto player = std::make_shared<dae::GameObject>(glm::vec3{spawns.at(playerIndex),0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
-		player->AddComponent<RigidbodyComponent>(100.f, 10.f, 0.5f);
+		player->AddComponent<RigidbodyComponent>(100.f, 10.f, 0.3f);
 		player->AddComponent<AnimatedSpriteComponent>("allAssets.png", 0, 2, glm::ivec2{ 16 , 16 }, glm::ivec2{ 10, 15 }, 0.5f);
 		player->AddComponent<LivesComponent>(5);
 
@@ -74,7 +74,7 @@ namespace dae
 		return player;
 	}
 
-	inline GameObjectPtr CreateEnemy(glm::vec3 position , glm::vec3 rotation, glm::vec3 scale,std::vector<GameObject*> players, MapComponent& map)
+	inline GameObjectPtr CreateEnemy(glm::vec3 position , glm::vec3 rotation, glm::vec3 scale,std::vector<GameObject*> players, MapComponent& map,std::string fileName , const int& value = 100)
 	{
 		dae::CollisionLayers enemyCollidesWith
 		{
@@ -83,11 +83,11 @@ namespace dae
 
 
 		auto enemy = std::make_shared<GameObject>(position, rotation, scale);
-		enemy->AddComponent<Texture2DComponent>("EnemyOne.png");
+		enemy->AddComponent<AnimatedSpriteComponent>(fileName, 0, 3, glm::ivec2{16,16}, glm::ivec2{2,6}, 0.3f);
 		auto enemyObserver = std::make_shared<dae::EnemyObserver>();
 		enemy->GetSubject()->AddObserver(enemyObserver);
 		enemy->AddComponent<RigidbodyComponent>(100.f, 10.f, 0.5f);
-		enemy->AddComponent<dae::EnemyComponent>(players);
+		enemy->AddComponent<dae::EnemyComponent>(players, value);
 		enemy->AddComponent<dae::CollisionComponent>(*dae::Minigin::physicsWorld.get(), dae::CollisionLayers::ENEMY, enemyCollidesWith, glm::vec2{ 5, 8 }, glm::vec2{ 3, 0 }, true, false);
 		enemy->AddComponent<MapWalkerComponent>(position, map);
 		auto mapWalkerObs = std::make_shared<MapTileWalkerObserver>(enemy->GetComponent<dae::MapWalkerComponent>());

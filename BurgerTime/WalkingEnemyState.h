@@ -1,4 +1,5 @@
 #pragma once
+#include "AiController.h"
 #include "EnemyState.h"
 #include "MapWalkerComponent.h"
 
@@ -21,9 +22,13 @@ namespace dae
 		void UpdateGoalDirection(GameObject& gameObject);
 
 		float m_InitialDirection{ 1.0f };
+
 		MapWalkerComponent::ClimbDirection m_GoalClimbDirection;
 		EnemyComponent* m_EnemyComponent;
-		ControllerComponent* m_EnemyController;
+
+		AiController* m_EnemyAIController;
+		std::vector<ControllerComponent*> m_Controllers;
+
 		std::vector<GameObject*> m_Players;
 		MapWalkerComponent* m_MapWalker;
 

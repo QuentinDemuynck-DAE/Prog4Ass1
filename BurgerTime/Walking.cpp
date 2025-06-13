@@ -28,15 +28,19 @@ void dae::Walking::OnEnter(dae::GameObject& game_object)
 		m_MapWalker = game_object.GetComponent<MapWalkerComponent>();
 
 	if (game_object.HasComponentDerived<ControllerComponent>())
-		m_PlayerController = game_object.GetComponentDerived<ControllerComponent>();
+		m_PlayerController = game_object.GetComponentsDerived<ControllerComponent>();
 
-	if (m_PlayerController)
+	for (auto controller : m_PlayerController)
 	{
-		m_PlayerController->Bind(dae::Action::Up, std::make_shared<dae::GetOnLadderCommand>(&game_object), KeyState::Down);
-		m_PlayerController->Bind(dae::Action::Down, std::make_shared<dae::GetOnLadderCommand>(&game_object), KeyState::Down);
-		m_PlayerController->Bind(dae::Action::Left, std::make_shared<dae::MoveTransformCommand>(&game_object, -speed, 0.f), KeyState::Pressed);
-		m_PlayerController->Bind(dae::Action::Right, std::make_shared<dae::MoveTransformCommand>(&game_object, speed, 0.f), KeyState::Pressed);
+		if (controller)
+		{
+			controller->Bind(dae::Action::Up, std::make_shared<dae::GetOnLadderCommand>(&game_object), KeyState::Down);
+			controller->Bind(dae::Action::Down, std::make_shared<dae::GetOnLadderCommand>(&game_object), KeyState::Down);
+			controller->Bind(dae::Action::Left, std::make_shared<dae::MoveTransformCommand>(&game_object, -speed, 0.f), KeyState::Pressed);
+			controller->Bind(dae::Action::Right, std::make_shared<dae::MoveTransformCommand>(&game_object, speed, 0.f), KeyState::Pressed);
+		}
 	}
+	
 
 }
 
@@ -96,11 +100,14 @@ void dae::Walking::Update(GameObject&, float)
 
 void dae::Walking::OnExit(GameObject&)
 {
-	if (m_PlayerController)
+	for (auto controller : m_PlayerController)
 	{
-		m_PlayerController->Unbind(dae::Action::Up);
-		m_PlayerController->Unbind(dae::Action::Down);
-		m_PlayerController->Unbind(dae::Action::Left);
-		m_PlayerController->Unbind(dae::Action::Right);
+		if (controller)
+		{
+			controller->Unbind(dae::Action::Up);
+			controller->Unbind(dae::Action::Down);
+			controller->Unbind(dae::Action::Left);
+			controller->Unbind(dae::Action::Right);
+		}
 	}
 }

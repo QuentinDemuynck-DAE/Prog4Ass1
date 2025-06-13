@@ -5,6 +5,7 @@
 
 namespace dae
 {
+	class AiController;
 	class ControllerComponent;
 	class EnemyComponent;
 
@@ -17,8 +18,11 @@ namespace dae
         void Update(dae::GameObject& gameObject, float) override;
     private:
         float m_InitialDirection{ 1.0f };
+
         EnemyComponent* m_EnemyComponent;
-        ControllerComponent* m_EnemyController;
+        AiController* m_EnemyAIController;
+        std::vector<ControllerComponent*> m_Controllers;
+
         std::vector<GameObject*> m_Players;
         MapWalkerComponent* m_MapWalker;
         MapWalkerComponent::ClimbDirection m_ClimbDirection;

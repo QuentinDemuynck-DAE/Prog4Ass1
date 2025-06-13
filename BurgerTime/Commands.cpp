@@ -1,9 +1,12 @@
 #include "Commands.h"
+
+#include "GameManager.h"
 #include "GameObject.h"
 #include "Globals.h"
 #include "RigidbodyComponent.h"
 #include "HealthComponent.h"
 #include "MapWalkerComponent.h"
+#include "MenuController.h"
 #include "ScoreComponent.h"
 #include "Subject.h"
 
@@ -131,4 +134,31 @@ void dae::GetOnLadderCommand::Execute()
 		event.AddArg(query.snapPosition);
 		m_GameObject->GetSubject()->Notify(event);
 	}
+}
+
+void dae::MenuUpCommand::Execute()
+{
+	m_Menu->Up();
+}
+
+void dae::MenuDownCommand::Execute()
+{
+	m_Menu->Down();
+}
+
+void dae::MenuClickCommand::Execute()
+{
+	m_Menu->ClickCurrent();
+}
+
+dae::LoadSceneCommand::LoadSceneCommand(GameMode gameMode)
+	:m_GameMode(gameMode)
+{
+	
+}
+
+void dae::LoadSceneCommand::Execute()
+{
+	GameManager::GetInstance().SetGameMode(m_GameMode);
+	SceneManager::GetInstance().LoadNextScene();
 }

@@ -2,7 +2,10 @@
 
 #include <iostream>
 
+#include "GameObject.h"
+#include "Globals.h"
 #include "Scene.h"
+#include "Subject.h"
 
 void dae::SceneManager::Update(float deltaTime)
 {
@@ -27,23 +30,53 @@ void dae::SceneManager::Render()
 
 void dae::SceneManager::SetActiveScene(const std::string& name)
 {
-	auto it = std::find_if(m_scenes.begin(), m_scenes.end(), [&](const std::shared_ptr<Scene>& scene) {return (scene.get()->GetName() == name); });
-
-	if (it != m_scenes.end())
-	{
-		m_pActiveScene = *it;
-		std::cout << "Now active scene: " << name << std::endl;
-
-	}
-	else
-	{
-		std::cout << "Scene not found: " << name << std::endl;
-	}
+    for (size_t i = 0; i < m_scenes.size(); ++i)
+    {
+        if (m_scenes[i]->GetName() == name)
+        {
+            SetActiveSceneByIndex(i);
+            return;
+        }
+    }
+    throw std::runtime_error("Scene not found: " + name);
 }
 
 void dae::SceneManager::SetActiveScene(std::shared_ptr<Scene> scene)
 {
-	m_pActiveScene = scene;
+    for (size_t i = 0; i < m_scenes.size(); ++i)
+    {
+        if (m_scenes[i] == scene)
+        {
+            SetActiveSceneByIndex(i);
+            return;
+        }
+    }
+    throw std::runtime_error("Scene pointer not managed by SceneManager");
+}
+
+void dae::SceneManager::SetActiveSceneByIndex(size_t index)
+{
+    if (index >= m_scenes.size())
+    {
+        throw std::out_of_range("Scene index out of range");
+    }
+    m_activeSceneIndex = index;
+    m_pActiveScene = m_scenes[index];
+
+    for (auto& gameObject : m_pActiveScene.get()->GetObjects())
+    {
+        Event event = Event(make_sdbm_hash("scene_loaded"));
+        gameObject.get()->GetSubject()->Notify(event);
+    }
+}
+
+void dae::SceneManager::LoadNextScene()
+{
+    if (m_scenes.empty())
+        return;
+
+    size_t nextIndex = (m_activeSceneIndex + 1) % m_scenes.size();
+    SetActiveSceneByIndex(nextIndex);
 }
 
 std::shared_ptr<dae::Scene> dae::SceneManager::GetActiveScene() const

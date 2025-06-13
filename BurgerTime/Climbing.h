@@ -17,7 +17,7 @@ namespace dae
 		void OnExit(GameObject&) override;
 	private:
 		PlayerComponent* m_PlayerComponent;
-		ControllerComponent* m_PlayerController;
+		std::vector<ControllerComponent*> m_PlayerController;
 	};
 }
 

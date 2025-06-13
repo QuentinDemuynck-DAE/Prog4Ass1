@@ -24,22 +24,32 @@ void dae::WalkingEnemyState::OnEnter(dae::GameObject& gameObject)
 		m_Players = m_EnemyComponent->GetPlayers();
 	}
 
+	if (gameObject.HasComponent<AiController>())
+		m_EnemyAIController = gameObject.GetComponent<AiController>();
+
 	if (gameObject.HasComponentDerived<ControllerComponent>())
-		m_EnemyController = gameObject.GetComponentDerived<ControllerComponent>();
+		m_Controllers = gameObject.GetComponentsDerived<ControllerComponent>();
 
 	if (gameObject.HasComponent<MapWalkerComponent>())
 	{
 		m_MapWalker = gameObject.GetComponent<MapWalkerComponent>();
 	}
 
+
+
 	const float speed{ 35.f };
-	if (m_EnemyController)
+
+	for (auto controller : m_Controllers)
 	{
-		m_EnemyController->Bind(dae::Action::Up, std::make_shared<dae::GetOnLadderCommand>(&gameObject), KeyState::Down);
-		m_EnemyController->Bind(dae::Action::Down, std::make_shared<dae::GetOnLadderCommand>(&gameObject), KeyState::Down);
-		m_EnemyController->Bind(dae::Action::Left, std::make_shared<dae::MoveTransformCommand>(&gameObject, -speed, 0.f), KeyState::Pressed);
-		m_EnemyController->Bind(dae::Action::Right, std::make_shared<dae::MoveTransformCommand>(&gameObject, speed, 0.f), KeyState::Pressed);
+		if (controller)
+		{
+			controller->Bind(dae::Action::Up, std::make_shared<dae::GetOnLadderCommand>(&gameObject), KeyState::Down);
+			controller->Bind(dae::Action::Down, std::make_shared<dae::GetOnLadderCommand>(&gameObject), KeyState::Down);
+			controller->Bind(dae::Action::Left, std::make_shared<dae::MoveTransformCommand>(&gameObject, -speed, 0.f), KeyState::Pressed);
+			controller->Bind(dae::Action::Right, std::make_shared<dae::MoveTransformCommand>(&gameObject, speed, 0.f), KeyState::Pressed);
+		}
 	}
+	
 
 	glm::vec3 direction = m_EnemyComponent->GetClosestPlayer()->GetTransform()->GetGlobalPosition() - gameObject.GetTransform()->GetGlobalPosition();
 
@@ -122,8 +132,8 @@ void dae::WalkingEnemyState::HandleInput(dae::GameObject& object, const Event& e
 
 	if ( event.id == make_sdbm_hash("out_of_bounds"))
 	{
-		if (m_Timer > MIN_WALK_TIME)
-			m_EnemyController->PerformAction(Action::Up);
+		if (m_Timer > MIN_WALK_TIME && m_EnemyAIController)
+			m_EnemyAIController->PerformAction(Action::Up);
 
 		if (m_TimeSinceLastWallHit > WALL_HIT_GRACE)
 		{
@@ -136,7 +146,7 @@ void dae::WalkingEnemyState::HandleInput(dae::GameObject& object, const Event& e
 
 void dae::WalkingEnemyState::Update(dae::GameObject& gameObject, float deltaTime)
 {
-	if (!m_EnemyController || !m_MapWalker)
+	if (!m_EnemyAIController || !m_MapWalker)
 		return;
 
 	m_Timer += deltaTime;
@@ -145,9 +155,9 @@ void dae::WalkingEnemyState::Update(dae::GameObject& gameObject, float deltaTime
 	UpdateGoalDirection(gameObject);
 
 	if (m_InitialDirection > 0.0f)
-		m_EnemyController->PerformAction(Action::Right);
+		m_EnemyAIController->PerformAction(Action::Right);
 	else
-		m_EnemyController->PerformAction(Action::Left);
+		m_EnemyAIController->PerformAction(Action::Left);
 
 
 	float heightDiff = std::abs(m_EnemyComponent->GetClosestPlayer()->GetTransform()->GetGlobalPosition().y
@@ -163,12 +173,12 @@ void dae::WalkingEnemyState::Update(dae::GameObject& gameObject, float deltaTime
 			//&& (climbLadder.possibleDirections == MapWalkerComponent::ClimbDirection::BOTH || m_GoalClimbDirection == climbLadder.possibleDirections)) //If you can climb in the direction you want to go do so
 		{
 			
-			m_EnemyController->PerformAction(Action::Up);
+			m_EnemyAIController->PerformAction(Action::Up);
 		}
 	}
 	else if (m_GoalClimbDirection == MapWalkerComponent::ClimbDirection::NONE && passedPlayer ) // passed player on same layer
 	{
-		m_EnemyController->PerformAction(Action::Up);
+		m_EnemyAIController->PerformAction(Action::Up);
 	}
 
 }
@@ -176,13 +186,21 @@ void dae::WalkingEnemyState::Update(dae::GameObject& gameObject, float deltaTime
 
 void dae::WalkingEnemyState::OnExit(GameObject&)
 {
-	if (m_EnemyController)
+
+	for (auto controller : m_Controllers)
 	{
-		m_EnemyController->Unbind(dae::Action::Up);
-		m_EnemyController->Unbind(dae::Action::Down);
-		m_EnemyController->Unbind(dae::Action::Left);
-		m_EnemyController->Unbind(dae::Action::Right);
+		if (controller)
+		{
+			if (controller)
+			{
+				controller->Unbind(dae::Action::Up);
+				controller->Unbind(dae::Action::Down);
+				controller->Unbind(dae::Action::Left);
+				controller->Unbind(dae::Action::Right);
+			}
+		}
 	}
+	
 }
 
 void dae::WalkingEnemyState::UpdateGoalDirection(GameObject& gameObject)

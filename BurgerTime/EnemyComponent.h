@@ -10,7 +10,7 @@ namespace dae
 	{
 	public:
 
-		EnemyComponent(dae::GameObject& owner, std::vector<dae::GameObject*> players);
+		EnemyComponent(dae::GameObject& owner, std::vector<dae::GameObject*> players, int value);
 		virtual ~EnemyComponent() = default;
 		EnemyComponent(const EnemyComponent& other) = delete;
 		EnemyComponent(EnemyComponent&& other) = delete;
@@ -24,8 +24,10 @@ namespace dae
 		GameObject* GetClosestPlayer() const;
 		bool CanHit() const;
 		void SetCanHit(const bool& canHit);
+		const int& GetValue() const;
 
 	private:
+		const int m_Value{ 100 };
 		bool m_CanHit{ true };
 		std::unique_ptr<EnemyState> m_CurrentState;
 		std::vector<dae::GameObject*> m_Players;

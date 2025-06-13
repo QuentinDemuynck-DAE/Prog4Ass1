@@ -49,7 +49,7 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Game\GameManager">
+    <Filter Include="Game\Manager">
       <UniqueIdentifier>{ac9f34da-bcc5-4848-9eee-a6bf5bbdd6c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -172,7 +172,7 @@
       <Filter>Game\States\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
-      <Filter>Game</Filter>
+      <Filter>Game\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -294,7 +294,10 @@
       <Filter>Game\States\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
-      <Filter>Game\Header Files</Filter>
+      <Filter>Game\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneCreators.h">
+      <Filter>Game\Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

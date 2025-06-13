@@ -177,6 +177,12 @@
     <ClInclude Include="AiController.h">
       <Filter>Engine Files\Controllers</Filter>
     </ClInclude>
+    <ClInclude Include="ButtonComponent.h">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuController.h">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui\imgui.cpp">
@@ -289,6 +295,12 @@
     </ClCompile>
     <ClCompile Include="Controller.cpp">
       <Filter>Engine Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonComponent.cpp">
+      <Filter>Engine Files\Component\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuController.cpp">
+      <Filter>Engine Files\Component\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

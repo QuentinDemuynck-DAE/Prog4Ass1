@@ -26,6 +26,7 @@ namespace dae
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
+		const std::vector < std::shared_ptr<GameObject>>& GetObjects();
 	private: 
 		explicit Scene(const std::string& name);
 		void RecursiveUpdate(const std::shared_ptr<GameObject>& object, float deltaTime);

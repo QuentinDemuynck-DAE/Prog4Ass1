@@ -8,6 +8,12 @@
 
 namespace dae
 {
+	class MenuController;
+	enum class GameMode;
+}
+
+namespace dae
+{
 	class MapWalkerComponent;
 }
 
@@ -87,5 +93,41 @@ namespace dae
 	private:
 		dae::GameObject* m_GameObject;
 		MapWalkerComponent* m_MapWalkerComponent;
+	};
+
+	class MenuUpCommand : public Command
+	{
+	public:
+		MenuUpCommand(MenuController* menu) : m_Menu(menu) {}
+		void Execute() override;
+	private:
+		MenuController* m_Menu;
+	};
+
+	class MenuDownCommand : public Command
+	{
+	public:
+		MenuDownCommand(MenuController* menu) : m_Menu(menu) {}
+		void Execute() override;
+	private:
+		MenuController* m_Menu;
+	};
+
+	class MenuClickCommand : public Command
+	{
+	public:
+		MenuClickCommand(MenuController* menu) : m_Menu(menu) {}
+		void Execute() override;
+	private:
+		MenuController* m_Menu;
+	};
+
+	class LoadSceneCommand : public Command
+	{
+	public:
+		LoadSceneCommand(GameMode gameMode);
+		void Execute() override;
+	private:
+		GameMode m_GameMode;
 	};
 }
