@@ -26,7 +26,14 @@ namespace dae
 		void LoadNextScene();
 		bool IsInActiveScene(GameObject* obj) const;
 
+		std::shared_ptr<dae::Scene> GetSceneAtIndex(size_t index) const;
+
 		std::shared_ptr<Scene> GetActiveScene() const;
+
+		size_t GetActiveSceneIndex() const
+		{
+			return m_activeSceneIndex;
+		}
 
 	private:
 		friend class Singleton<SceneManager>;
@@ -35,4 +42,5 @@ namespace dae
 		std::shared_ptr<Scene> m_pActiveScene = nullptr;
 		size_t m_activeSceneIndex = 0; 
 	};
+
 }

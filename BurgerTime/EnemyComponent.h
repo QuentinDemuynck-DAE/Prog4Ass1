@@ -25,6 +25,7 @@ namespace dae
 		bool CanHit() const;
 		void SetCanHit(const bool& canHit);
 		const int& GetValue() const;
+		void SetPlayers(std::vector<dae::GameObject*> players);
 
 	private:
 		const int m_Value{ 100 };

@@ -49,9 +49,7 @@ void load()
 		dae::InputManager::GetInstance().AddGamePad(std::make_unique<dae::GamePad>(i));
 	}
 
-	CreateStartScreen();
-	CreateFirstLevel();
-	dae::SceneManager::GetInstance().SetActiveSceneByIndex(0);
+	dae::GameManager::GetInstance().LoadScenes();
 
 	//scene.Add(livesPlayerOne);
 	//scene.Add(livesPlayerTwo);
@@ -89,7 +87,6 @@ void load()
 
 int main(int, char* []) 
 {
-
 	dae::Minigin engine("../Data/");
 	engine.Run(load);
 

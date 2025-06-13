@@ -91,6 +91,14 @@ bool dae::SceneManager::IsInActiveScene(GameObject* obj) const
 	return m_pActiveScene->Contains(obj);
 }
 
+std::shared_ptr<dae::Scene> dae::SceneManager::GetSceneAtIndex(size_t index) const
+{
+    if (index >= m_scenes.size())
+    {
+        throw std::out_of_range{ "SceneManager::GetSceneAtIndex: index out of range" };
+    }
+    return m_scenes[index];
+}
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));

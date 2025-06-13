@@ -52,7 +52,10 @@ dae::CollisionComponent::CollisionComponent(dae::GameObject& owner,
     b2FixtureDef fd;
     fd.shape = &shape;
     fd.isSensor = isSensor;
-    m_pFixture = m_pBody->CreateFixture(&fd);
+    if (m_pBody)
+    {
+        m_pFixture = m_pBody->CreateFixture(&fd);
+    }
     UpdateCollisionLayers();
     m_Offset = scaledOffset;
 }
@@ -72,7 +75,8 @@ void dae::CollisionComponent::Update(float)
     glm::vec3 pos = GetOwner().GetTransform()->GetGlobalPosition();
    float deg = GetOwner().GetTransform()->GetGlobalRotation().x;
 
-    m_pBody->SetTransform(b2Vec2{ pos.x + m_Offset.x, pos.y + m_Offset.y}, glm::radians(deg));
+    if (m_pBody)
+		m_pBody->SetTransform(b2Vec2{ pos.x + m_Offset.x, pos.y + m_Offset.y}, glm::radians(deg));
 }
 
 
@@ -176,6 +180,9 @@ dae::Rectangle dae::CollisionComponent::GetRectangle() const
 
 void dae::CollisionComponent::UpdateCollisionLayers()
 {
+    if (!m_pFixture)
+        return;
+
     b2Filter filter = m_pFixture->GetFilterData();
     filter.categoryBits = static_cast<uint16_t>(m_SelfLayers);
     filter.maskBits = static_cast<uint16_t>(m_CollidesWithLayers);

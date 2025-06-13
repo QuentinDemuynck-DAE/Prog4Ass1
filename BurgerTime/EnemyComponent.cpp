@@ -70,5 +70,10 @@ namespace dae
 	{
 		return m_Value;
 	}
+
+	void EnemyComponent::SetPlayers(std::vector<dae::GameObject*> players)
+	{
+		m_Players = players;
+	}
 }
 

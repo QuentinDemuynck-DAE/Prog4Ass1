@@ -12,11 +12,13 @@
 #include "SceneManager.h"
 #include "Texture2DComponent.h"
 #include "WalkingEnemyState.h"
+#include "Texture2DComponent.h"
+#include "KeyboardControllerComponent.h"
 
-inline void CreateFirstLevel()
+
+inline void CreateFirstLevel(dae::Scene& scene , std::shared_ptr<dae::GameObject> map, std::vector<std::shared_ptr<dae::GameObject>> players, std::vector<std::shared_ptr<dae::GameObject>> additionalEnemies)
 {
-
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("LevelOne");
+	scene.RemoveAll();
 
 	// Add background
 	auto go = std::make_shared<dae::GameObject>(glm::vec3{ 0,0,0 });
@@ -28,15 +30,26 @@ inline void CreateFirstLevel()
 	go->AddComponent<Texture2DComponent>("logo.tga");
 	scene.Add(go);
 
-	auto map = dae::CreateMap("levelOne");
 	scene.Add(map);
 
 
+	scene.Add(map);
+
+	std::vector<dae::GameObject*> playersToAdd;
+
+	for (std::shared_ptr<dae::GameObject> player : players)
+	{
+		scene.Add(player);
+		playersToAdd.push_back(player.get());
+	}
+	for (auto enemy : additionalEnemies)
+	{
+		scene.Add(enemy);
+		enemy->GetComponent<dae::EnemyComponent>()->SetPlayers(playersToAdd);
+	}
+
 	// Add text
-	go = std::make_shared<dae::GameObject>(glm::vec3{ 80,20,0 });
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	go->AddComponent<dae::TextComponent>("Programming 4 Assignment", font);
-	scene.Add(go);
 
 
 	// Add FPS counter
@@ -87,27 +100,6 @@ inline void CreateFirstLevel()
 		scene.Add(salad);
 	}
 
-
-	// create players
-	std::vector<dae::GameObject*> players;
-
-	for (int i{}; i < 1; i++)
-	{
-		auto player = dae::CreatePlayer(mapComponent, map.get(), i);
-		auto gamePad{ std::make_unique<dae::GamePad>(i) };
-
-		players.push_back(player.get());
-		scene.Add(player);
-		player->AddComponent<dae::GamePadControllerComponent>(gamePad.get());
-		player->GetComponent<dae::GamePadControllerComponent>()->Bind(dae::Action::Debug, std::make_shared<dae::DebugPositionCommand>(player.get()), KeyState::Down);
-		player->GetComponent<dae::GamePadControllerComponent>()->Bind(dae::Action::Shoot, std::make_shared<dae::ShootPepperCommand>(player.get()), KeyState::Up);
-
-		//player->AddComponent<dae::KeyboardControllerComponent>();
-		dae::InputManager::GetInstance().AddGamePad(std::move(gamePad));
-		dae::GameManager::GetInstance().AddPlayer(player);
-	}
-
-
 	auto enemy = dae::CreateEnemy(glm::vec3{ 120,320,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f }, players, *mapComponent, "Enemies/Sausage.png", 100);
 	enemy->AddComponent<dae::AiController>();
 	enemy->GetComponent<dae::EnemyComponent>()->SetState(std::make_unique<dae::WalkingEnemyState>());
@@ -116,14 +108,9 @@ inline void CreateFirstLevel()
 }
 
 
-inline void CreateStartScreen()
+inline void CreateStartScreen(dae::Scene& scene)
 {
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("StartScreen");
-
-
-
-
-
+	scene.RemoveAll();
 
 	auto menuGO = std::make_shared<dae::GameObject>();
 	menuGO->AddComponent<dae::MenuController>();
@@ -143,7 +130,6 @@ inline void CreateStartScreen()
 	go->AddComponent<dae::TextComponent>("BURGER TIME!", font);
 	scene.Add(go);
 
-
 	auto buttonSolo = std::make_shared<dae::GameObject>(glm::vec3{ 200, 150, 0});
 	buttonSolo->AddComponent<dae::TextComponent>("Solo", font);
 	buttonSolo->AddComponent<dae::ButtonComponent>(std::make_unique<dae::LoadSceneCommand>(dae::GameMode::SOLO));
@@ -153,8 +139,8 @@ inline void CreateStartScreen()
 	buttonDuo->AddComponent<dae::ButtonComponent>(std::make_unique<dae::LoadSceneCommand>(dae::GameMode::COOP));
 
 	auto buttonVersus = std::make_shared<dae::GameObject>(glm::vec3{ 200, 350, 0 });
-	buttonVersus->AddComponent<dae::TextComponent>("Coop", font);
-	buttonVersus->AddComponent<dae::ButtonComponent>(std::make_unique<dae::LoadSceneCommand>(dae::GameMode::COOP));
+	buttonVersus->AddComponent<dae::TextComponent>("VERSUS", font);
+	buttonVersus->AddComponent<dae::ButtonComponent>(std::make_unique<dae::LoadSceneCommand>(dae::GameMode::VERSUS));
 
 	auto menuCtrl = menuGO->GetComponent<dae::MenuController>();
 	menuCtrl->AddButton(buttonSolo->GetComponent<dae::ButtonComponent>());
@@ -165,6 +151,8 @@ inline void CreateStartScreen()
 	for (int i{}; i < g_maxControllers; i++)
 	{
 		auto controller = std::make_shared<dae::GameObject>();
+
+
 		controller->AddComponent<dae::KeyboardControllerComponent>();
 		controller->AddComponent<dae::GamePadControllerComponent>(dae::InputManager::GetInstance().GetGamePadAtIndex(i));
 
@@ -181,5 +169,4 @@ inline void CreateStartScreen()
 	scene.Add(buttonDuo);
 	scene.Add(buttonSolo);
 	scene.Add(buttonVersus);
-
 }

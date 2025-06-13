@@ -1,6 +1,8 @@
 #pragma once
 #include "Collision.h"
 #include "CollisionComponent.h"
+#include "Scene.h"
+#include "SceneManager.h"
 
 class CollisionListener : public b2ContactListener
 {
@@ -30,6 +32,12 @@ private:
         // Extract our CollisionComponent pointer from userData
         auto* compA = reinterpret_cast<dae::CollisionComponent*>(bodyA->GetUserData());
         auto* compB = reinterpret_cast<dae::CollisionComponent*>(bodyB->GetUserData());
+
+        if (!compA || !compB)
+            return;
+
+        if (!dae::SceneManager::GetInstance().GetActiveScene().get()->Contains(&compA->GetOwner()) || !dae::SceneManager::GetInstance().GetActiveScene().get()->Contains(&compB->GetOwner()))
+            return;
 
         if (compA && compB)
         {

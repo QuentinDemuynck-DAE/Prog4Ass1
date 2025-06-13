@@ -68,6 +68,11 @@ namespace dae {
         void DisableBoundaries();
         void EnableBoundaries();
 
+        void SetSpawnPosition(glm::vec3 spawnPosition)
+        {
+            m_Spawnposition = spawnPosition;
+        }
+
     private:
 
         void KeepInBoundaries();

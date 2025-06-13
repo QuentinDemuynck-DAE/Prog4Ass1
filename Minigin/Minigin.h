@@ -15,6 +15,8 @@ namespace dae
 	{
 	public:
 		static std::unique_ptr<b2World> physicsWorld;
+		static bool m_PhysicsPaused;
+
 		explicit Minigin(const std::string& dataPath);
 		~Minigin();
 		void Run(const std::function<void()>& load);
@@ -23,6 +25,7 @@ namespace dae
 		Minigin(Minigin&& other) = delete;
 		Minigin& operator=(const Minigin& other) = delete;
 		Minigin& operator=(Minigin&& other) = delete;
+
 
 	private:
 		std::unique_ptr<CollisionListener> m_CollisionListenerPtr;

@@ -96,6 +96,25 @@ namespace dae
 			return GetComponentDerived<T>() != nullptr;
 		}
 
+		template<typename T>
+		void RemoveComponentsDerived()
+		{
+			for (auto it = m_components.begin(); it != m_components.end(); )
+			{
+				if (dynamic_cast<T*>(it->second.get()))
+				{
+			
+					it->second->Destroy();
+	
+					it = m_components.erase(it);
+				}
+				else
+				{
+					++it;
+				}
+			}
+		}
+
 
 		// Parenting
 		GameObject* GetParent() const { return m_parent; }

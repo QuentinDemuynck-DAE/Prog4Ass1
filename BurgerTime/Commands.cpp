@@ -160,5 +160,4 @@ dae::LoadSceneCommand::LoadSceneCommand(GameMode gameMode)
 void dae::LoadSceneCommand::Execute()
 {
 	GameManager::GetInstance().SetGameMode(m_GameMode);
-	SceneManager::GetInstance().LoadNextScene();
 }

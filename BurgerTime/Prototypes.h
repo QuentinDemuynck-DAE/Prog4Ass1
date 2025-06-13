@@ -22,6 +22,10 @@
 #include "RigidbodyComponent.h"
 #include "Walking.h"
 #include "WalkingEnemyState.h"
+#include "EnemyObserver.h"
+#include "Texture2DComponent.h"
+
+#include "EnemyComponent.h"
 
 // Not the prototypes design pattern! just felt like the name could match this aswell
 namespace dae
@@ -74,12 +78,19 @@ namespace dae
 		return player;
 	}
 
-	inline GameObjectPtr CreateEnemy(glm::vec3 position , glm::vec3 rotation, glm::vec3 scale,std::vector<GameObject*> players, MapComponent& map,std::string fileName , const int& value = 100)
+	inline GameObjectPtr CreateEnemy(glm::vec3 position , glm::vec3 rotation, glm::vec3 scale,std::vector<std::shared_ptr<GameObject>> playersToAdd, MapComponent& map,std::string fileName , const int& value = 100)
 	{
 		dae::CollisionLayers enemyCollidesWith
 		{
 			dae::CollisionLayers::PLAYER | dae::CollisionLayers::SALT | dae::CollisionLayers::INGREDIENT
 		};
+
+		std::vector<GameObject*> players;
+
+		for (auto player : playersToAdd)
+		{
+			players.push_back(player.get());
+		}
 
 
 		auto enemy = std::make_shared<GameObject>(position, rotation, scale);

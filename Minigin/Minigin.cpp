@@ -12,6 +12,8 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 std::unique_ptr<b2World> dae::Minigin::physicsWorld = nullptr;
+bool  dae::Minigin::m_PhysicsPaused = false;
+
 
 SDL_Window* g_window{};
 void PrintSDLVersion()
@@ -118,7 +120,9 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		while (lag >= g_fixedTimeStep)
 		{
 			sceneManager.FixedUpdate();
-			physicsWorld->Step(g_fixedTimeStep, 3, 8);
+
+			if (!m_PhysicsPaused)
+				physicsWorld->Step(g_fixedTimeStep, 3, 8);
 
 			lag -= g_fixedTimeStep;
 		}
