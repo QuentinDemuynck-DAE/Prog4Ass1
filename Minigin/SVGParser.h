@@ -6,9 +6,8 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <../nlohmann/nlohmann/json.hpp>
+#include <nlohmann/json.hpp>
 #include "Globals.h"
-#include "pugixml.hpp"
 
 namespace dae
 {
