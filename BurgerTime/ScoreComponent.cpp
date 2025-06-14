@@ -17,7 +17,8 @@ namespace dae
 	{
 		if (m_TextComponent)
 		{
-			std::string text = "Score: " + std::to_string(GameManager::GetInstance().Score());
+			auto score = std::to_string(GameManager::GetInstance().Score());
+			std::string text = "Score: " + score;
 			m_TextComponent->SetText(text );
 		}
 	}

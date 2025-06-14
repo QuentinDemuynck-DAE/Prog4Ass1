@@ -27,6 +27,8 @@
 #include "ScoreComponent.h"
 
 #include "EnemyComponent.h"
+#include "HealthObserver.h"
+#include "PepperObserver.h"
 
 // Not the prototypes design pattern! just felt like the name could match this aswell
 namespace dae
@@ -145,19 +147,30 @@ namespace dae
 		return ingredient;
 	}
 
-	///inline GameObjectPtr CreateLivesAndPepperDisplay(float height, GameObjectPtr player)
-	///{
-	///	auto mainObj = std::make_shared<dae::GameObject>();
-	///	auto lives = std::make_shared<dae::GameObject>();
-	///	auto peppers = std::make_shared<dae::GameObject>();
-	///
-	///}
+	inline GameObjectPtr CreateLivesAndPepperDisplay(float height, GameObjectPtr player)
+	{
+		auto smallerFont = dae::ResourceManager::GetInstance().LoadFont("burger.otf", 12);
+
+		auto mainObj = std::make_shared<dae::GameObject>(glm::vec3{10, height, 0});
+		auto lives = std::make_shared<dae::GameObject>(glm::vec3{0 , -10 ,0});
+		lives->AddComponent<TextComponent>("Lifes: 4", smallerFont);
+		player->GetSubject()->AddObserver(std::make_shared<HealthObserver>(lives->GetComponent<TextComponent>()));
+
+		auto peppers = std::make_shared<dae::GameObject>(glm::vec3{ 0 , 10 ,0 });
+		peppers->AddComponent<TextComponent>("Peppers: 5", smallerFont);
+		player->GetSubject()->AddObserver(std::make_shared<PepperObserver>(peppers->GetComponent<TextComponent>()));
+
+		lives->SetParent(mainObj.get());
+		peppers->SetParent(mainObj.get());
+
+		return mainObj;
+	}
 
 	inline GameObjectPtr CreateScoreDisplay()
 	{
 		auto smallerFont = dae::ResourceManager::GetInstance().LoadFont("burger.otf", 12);
 
-		auto mainObj = std::make_shared<dae::GameObject>(glm::vec3{20, g_windowHeight / 2, 0});
+		auto mainObj = std::make_shared<dae::GameObject>(glm::vec3{g_windowWidth / 2, 10, 0});
 		mainObj->AddComponent<dae::TextComponent>("Score: 0" ,smallerFont);
 		mainObj->AddComponent<dae::ScoreComponent>(mainObj->GetComponent<dae::TextComponent>());
 

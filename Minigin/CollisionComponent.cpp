@@ -67,11 +67,6 @@ dae::CollisionComponent::~CollisionComponent()
 {
     if (m_pBody)
     {
-        if (Minigin::physicsWorld->GetBodyCount() == 0)
-            printf("[ERROR] Attempting DestroyBody on empty world!\n");
-        else
-            printf("[OK] DestroyBody; bodies before = %d\n", Minigin::physicsWorld->GetBodyCount());
-
         m_World.DestroyBody(m_pBody);
     }
 }

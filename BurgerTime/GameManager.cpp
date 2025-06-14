@@ -45,6 +45,15 @@ void dae::GameManager::Reset()
 {
 	Minigin::m_PhysicsPaused = true;
 
+	for (auto player : m_Players)
+	{
+		if (player->HasComponent<KeyboardControllerComponent>())
+			player->RemoveComponent<KeyboardControllerComponent>();
+	}
+
+	if (m_Enemy->HasComponent<KeyboardControllerComponent>())
+		m_Enemy->RemoveComponent<KeyboardControllerComponent>();
+
 	SceneManager::GetInstance().GetSceneAtIndex(1)->RemoveAll();
 	SceneManager::GetInstance().GetSceneAtIndex(2)->RemoveAll();
 	SceneManager::GetInstance().GetSceneAtIndex(3)->RemoveAll();
@@ -71,6 +80,7 @@ void dae::GameManager::GoToNextScene()
 	if (SceneManager::GetInstance().GetActiveScene().get()->GetName() == "LevelThree")
 	{
 		m_MarkedReset;
+		m_Score = 0;
 		SceneManager::GetInstance().LoadNextScene();
 		return;
 	}
@@ -116,25 +126,60 @@ void dae::GameManager::SetGameMode(const GameMode& gameMode)
 
 	std::vector<std::shared_ptr<GameObject>> players;
 	std::vector<std::shared_ptr<GameObject>> enemies;
+	std::vector<std::shared_ptr<GameObject>> lifes;
+
 
 
 	switch (gameMode)
 	{
 	case GameMode::SOLO:
+		{
+
 		players.push_back(m_Players.at(0));
+		lifes.push_back(m_UIS.at(0));
+
+		m_Players.at(0)->AddComponent<KeyboardControllerComponent>();
+
+		auto kb = m_Players.at(0)->GetComponent<KeyboardControllerComponent>();
+		kb->Bind(Action::Shoot, std::make_shared<ShootPepperCommand>(m_Players.at(0).get()));
+		kb->Bind(Action::Skip, std::make_shared<SkipLevelCommand>());
+		kb->Bind(Action::Mute, std::make_shared<MuteSoundCommand>());
+		}
+
 		break;
 	case GameMode::VERSUS:
-		players.push_back(m_Players.at(0));
-		enemies.push_back(m_Enemy);
+		{
+			players.push_back(m_Players.at(0));
+			lifes.push_back(m_UIS.at(0));
+			enemies.push_back(m_Enemy);
+			m_Enemy->AddComponent<KeyboardControllerComponent>();
+			auto kb2 = m_Enemy->GetComponent<KeyboardControllerComponent>();
+			kb2->Bind(Action::Shoot, std::make_shared<ShootPepperCommand>(m_Players.at(1).get()));
+			kb2->Bind(Action::Skip, std::make_shared<SkipLevelCommand>());
+			kb2->Bind(Action::Mute, std::make_shared<MuteSoundCommand>());
+		}
+		
+
 		break;
 	case GameMode::COOP:
+		{
+		m_Players.at(1)->AddComponent<KeyboardControllerComponent>();
+
+		auto kb1 = m_Players.at(1)->GetComponent<KeyboardControllerComponent>();
+		kb1->Bind(Action::Shoot, std::make_shared<ShootPepperCommand>(m_Players.at(1).get()));
+		kb1->Bind(Action::Skip, std::make_shared<SkipLevelCommand>());
+		kb1->Bind(Action::Mute, std::make_shared<MuteSoundCommand>());
+
 		players = m_Players;
+		lifes = m_UIS;
+		}
+
 		break;
 	}
 
-	CreateFirstLevel(*levelOne, m_Maps.at(0), players, enemies);
-	CreateFirstLevel(*levelTwo, m_Maps.at(1), players, enemies);
-	CreateFirstLevel(*levelThree, m_Maps.at(2), players, enemies);
+	CreateFirstLevel(*levelOne, m_Maps.at(0), players, enemies, lifes);
+	CreateFirstLevel(*levelTwo, m_Maps.at(1), players, enemies, lifes);
+	CreateFirstLevel(*levelThree, m_Maps.at(2), players, enemies, lifes);
 
 	GoToNextScene();
 }
@@ -167,8 +212,10 @@ void dae::GameManager::EliminatePlayer(GameObject& gameObject)
 void dae::GameManager::CreateLifeTimeObjects()
 {
 
+
 	m_Maps.clear();
 	m_Players.clear();
+	m_UIS.clear();
 
 	m_Maps.push_back(CreateMap("levelOne"));
 	m_Maps.push_back(CreateMap("levelTwo"));
@@ -179,9 +226,8 @@ void dae::GameManager::CreateLifeTimeObjects()
 	m_Players.push_back(CreatePlayer(m_Maps.at(0).get()->GetComponent<MapComponent>(), m_Maps.at(0).get(), 1));
 
 	m_Players.at(0)->AddComponent<GamePadControllerComponent>(InputManager::GetInstance().GetGamePadAtIndex(0));
-
 	m_Players.at(1)->AddComponent<GamePadControllerComponent>(InputManager::GetInstance().GetGamePadAtIndex(1));
-	m_Players.at(1)->AddComponent<KeyboardControllerComponent>();
+
 
 
 	for (auto players : m_Players)
@@ -206,8 +252,10 @@ void dae::GameManager::CreateLifeTimeObjects()
 		100
 	);
 
+	m_Score = 0;
+
 	m_Enemy->AddComponent<GamePadControllerComponent>(InputManager::GetInstance().GetGamePadAtIndex(1));
-	m_Enemy->AddComponent<KeyboardControllerComponent>();
 
-
+	m_UIS.push_back(CreateLivesAndPepperDisplay(100, m_Players.at(0)));
+	m_UIS.push_back(CreateLivesAndPepperDisplay(g_windowHeight - 100, m_Players.at(1)));
 }

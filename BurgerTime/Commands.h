@@ -117,4 +117,20 @@ namespace dae
 	private:
 		GameMode m_GameMode;
 	};
+
+	class SkipLevelCommand : public Command
+	{
+	public:
+		SkipLevelCommand();
+		void Execute() override;
+	private:
+	};
+
+	class MuteSoundCommand : public Command
+	{
+	public:
+		MuteSoundCommand();
+		void Execute() override;
+	private:
+	};
 }

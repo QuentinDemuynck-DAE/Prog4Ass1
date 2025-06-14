@@ -1,5 +1,6 @@
 #include "Commands.h"
 
+#include "DerivedSoundSystems.h"
 #include "GameManager.h"
 #include "GameObject.h"
 #include "Globals.h"
@@ -8,6 +9,7 @@
 #include "MapWalkerComponent.h"
 #include "MenuController.h"
 #include "ScoreComponent.h"
+#include "ServiceLocator.h"
 #include "Subject.h"
 
 
@@ -144,4 +146,39 @@ dae::LoadSceneCommand::LoadSceneCommand(GameMode gameMode)
 void dae::LoadSceneCommand::Execute()
 {
 	GameManager::GetInstance().SetGameMode(m_GameMode);
+}
+
+dae::SkipLevelCommand::SkipLevelCommand()
+{
+}
+
+void dae::SkipLevelCommand::Execute()
+{
+	GameManager::GetInstance().GoToNextScene();
+}
+
+dae::MuteSoundCommand::MuteSoundCommand()
+{
+}
+
+void dae::MuteSoundCommand::Execute()
+{
+
+	auto& current = ServiceLocator::GetSoundSystem();
+
+	if (dynamic_cast<NullSoundSystem*>(&current) == nullptr)
+	{
+		auto noisySoundSystem = std::make_unique<NoisySoundSystem>();
+		ServiceLocator::ProvideSoundSystem(
+			std::make_unique<DebugSoundSystem>(std::move(noisySoundSystem))
+		);
+	}
+	else
+	{
+		ServiceLocator::ProvideSoundSystem(
+			std::make_unique<NullSoundSystem>()
+		);
+	}
+
+
 }

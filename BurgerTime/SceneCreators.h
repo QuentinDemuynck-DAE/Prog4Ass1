@@ -16,7 +16,7 @@
 #include "KeyboardControllerComponent.h"
 
 
-inline void CreateFirstLevel(dae::Scene& scene , std::shared_ptr<dae::GameObject> map, std::vector<std::shared_ptr<dae::GameObject>> players, std::vector<std::shared_ptr<dae::GameObject>> additionalEnemies)
+inline void CreateFirstLevel(dae::Scene& scene , std::shared_ptr<dae::GameObject> map, std::vector<std::shared_ptr<dae::GameObject>> players, std::vector<std::shared_ptr<dae::GameObject>> additionalEnemies, std::vector<std::shared_ptr<dae::GameObject>> lifes)
 {
 	scene.RemoveAll();
 
@@ -46,6 +46,11 @@ inline void CreateFirstLevel(dae::Scene& scene , std::shared_ptr<dae::GameObject
 	{
 		scene.Add(enemy);
 		enemy->GetComponent<dae::EnemyComponent>()->SetPlayers(playersToAdd);
+	}
+
+	for (auto life : lifes)
+	{
+		scene.Add(life);
 	}
 
 	// Add text
@@ -175,8 +180,8 @@ inline void CreateStartScreen(dae::Scene& scene)
 	{
 		auto controller = std::make_shared<dae::GameObject>();
 
-
-		controller->AddComponent<dae::KeyboardControllerComponent>();
+		if (i == 0)
+			controller->AddComponent<dae::KeyboardControllerComponent>();
 		controller->AddComponent<dae::GamePadControllerComponent>(dae::InputManager::GetInstance().GetGamePadAtIndex(i));
 
 		for (auto controllerComp : controller->GetComponentsDerived<dae::ControllerComponent>())
@@ -184,6 +189,8 @@ inline void CreateStartScreen(dae::Scene& scene)
 			controllerComp->Bind(dae::Action::Up, std::make_shared<dae::MenuUpCommand>(menuCtrl), KeyState::Up);
 			controllerComp->Bind(dae::Action::Down, std::make_shared<dae::MenuDownCommand>(menuCtrl), KeyState::Up);
 			controllerComp->Bind(dae::Action::Shoot, std::make_shared<dae::MenuClickCommand>(menuCtrl), KeyState::Up);
+			controllerComp->Bind(dae::Action::Mute, std::make_shared<dae::MuteSoundCommand>());
+
 		}
 
 		scene.Add(controller);

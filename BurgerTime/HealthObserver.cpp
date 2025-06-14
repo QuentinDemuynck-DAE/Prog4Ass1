@@ -39,7 +39,7 @@ void HealthObserver::Notify(Event event, dae::GameObject* gameObject)
 
 				if (m_TextComponent != nullptr)
 				{
-					std::string text = "# of lifes: " + std::to_string(lives);
+					std::string text = "lives: " + std::to_string(lives);
 					m_TextComponent->SetText(text);
 				}
 			}

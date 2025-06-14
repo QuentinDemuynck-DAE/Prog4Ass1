@@ -7,6 +7,7 @@
 #include "PepperComponent.h"
 #include "PlayerComponent.h"
 #include "RigidbodyComponent.h"
+#include "Subject.h"
 #include "Texture2DComponent.h"
 
 dae::ShootPepperCommand::ShootPepperCommand(dae::GameObject* gameObject)
@@ -60,5 +61,10 @@ void dae::ShootPepperCommand::Execute()
 
 		m_PlayerComponent->SetIsShooting(true);
 		m_PlayerComponent->SetPepper(pepper.get());
+
+		Event event = Event(make_sdbm_hash("pepper_shot"));
+		event.AddArg(m_PlayerComponent->GetNumPeppers());
+		m_OwningObj->GetSubject()->Notify(event);
+
 	}
 }

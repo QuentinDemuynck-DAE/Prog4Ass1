@@ -71,3 +71,8 @@ void PlayerComponent::StartInvincibleCycle()
 {
 	m_TimeSpawned = 0.0f;
 }
+
+int PlayerComponent::GetNumPeppers() const
+{
+	return m_AmountOfPeppers;
+}

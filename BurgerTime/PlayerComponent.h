@@ -45,6 +45,7 @@ public:
 	bool IsInvincible() const;
 	void StartInvincibleCycle();
 
+	int GetNumPeppers() const;
 
 	const float PEPPER_COOLDOWN = 0.50f;
 

@@ -20,6 +20,8 @@ namespace dae
         Shoot,
         Select,
         Debug,
+        Skip,
+        Mute
     };
 
     struct Pending {

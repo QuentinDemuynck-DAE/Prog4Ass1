@@ -148,7 +148,7 @@ void dae::WalkingEnemyState::HandleInput(dae::GameObject& object, const Event& e
 
 void dae::WalkingEnemyState::Update(dae::GameObject& gameObject, float deltaTime)
 {
-	if (!m_EnemyAIController || !m_MapWalker)
+	if (!m_EnemyAIController || !m_MapWalker || !m_EnemyComponent->GetClosestPlayer())
 		return;
 
 	m_Timer += deltaTime;
@@ -207,6 +207,9 @@ void dae::WalkingEnemyState::OnExit(GameObject&)
 
 void dae::WalkingEnemyState::UpdateGoalDirection(GameObject& gameObject)
 {
+	if (!m_EnemyComponent->GetClosestPlayer())
+		return;
+
 	glm::vec3 direction = m_EnemyComponent->GetClosestPlayer()->GetTransform()->GetGlobalPosition() - gameObject.GetTransform()->GetGlobalPosition();
 	const float differentFloorValue{ 6.0f };
 

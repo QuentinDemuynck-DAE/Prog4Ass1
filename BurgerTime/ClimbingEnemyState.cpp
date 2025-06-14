@@ -166,6 +166,9 @@ namespace dae
 
 		auto possibleClimbDirections = m_MapWalker->PossibleClimbDirections();
 
+		if (!m_EnemyComponent->GetClosestPlayer())
+			return;
+
 		auto directionToEnemy = m_EnemyComponent->GetClosestPlayer()->GetTransform()->GetGlobalPosition() - gameObject.GetTransform()->GetGlobalPosition();
 
 		if (!m_MapWalker->IsNextAvailable((directionToEnemy.x > 0.0f)))
