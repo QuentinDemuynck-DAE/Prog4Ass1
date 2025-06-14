@@ -6,6 +6,7 @@
 #include "Globals.h"
 #include "Scene.h"
 #include "Subject.h"
+#include "../BurgerTime/GameManager.h"
 
 void dae::SceneManager::Update(float deltaTime)
 {
@@ -15,7 +16,10 @@ void dae::SceneManager::Update(float deltaTime)
 void dae::SceneManager::PostUpdate(float deltaTime)
 {
 	m_pActiveScene->PostUpdate(deltaTime);
-
+    if (GameManager::GetInstance().ShouldReset())
+    {
+        GameManager::GetInstance().Reset();
+    }
 }
 
 void dae::SceneManager::FixedUpdate()

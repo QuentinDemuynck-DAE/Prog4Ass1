@@ -1,14 +1,14 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include <iostream>
 #include <fstream>
-#include <unordered_map>
-#include <../3rdParty/nlohmann/nlohmann/json.hpp>
 #include <glm.hpp>
-#include "pugixml.hpp"
+#include <iostream>
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <../nlohmann/nlohmann/json.hpp>
 #include "Globals.h"
+#include "pugixml.hpp"
 
 namespace dae
 {

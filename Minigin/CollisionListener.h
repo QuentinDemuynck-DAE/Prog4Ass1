@@ -25,6 +25,8 @@ private:
         auto* fixA = contact->GetFixtureA();
         auto* fixB = contact->GetFixtureB();
 
+
+
         // Get the two bodies
         auto* bodyA = fixA->GetBody();
         auto* bodyB = fixB->GetBody();

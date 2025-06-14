@@ -48,7 +48,7 @@ namespace dae
 		auto player = std::make_shared<dae::GameObject>(glm::vec3{spawns.at(playerIndex),0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f });
 		player->AddComponent<RigidbodyComponent>(100.f, 10.f, 0.3f);
 		player->AddComponent<AnimatedSpriteComponent>("allAssets.png", 0, 2, glm::ivec2{ 16 , 16 }, glm::ivec2{ 10, 15 }, 0.5f);
-		player->AddComponent<LivesComponent>(5);
+		player->AddComponent<LivesComponent>(4);
 
 		dae::CollisionLayers playerColidesWith
 		{

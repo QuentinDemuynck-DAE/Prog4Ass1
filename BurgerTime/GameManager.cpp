@@ -12,8 +12,6 @@ void dae::GameManager::ServeIngredient()
 
 	std::cout << "Ingredients served: " << m_ServedIngredients << " of the: " << m_TotalIngredientsToWin << std::endl;
 
-	GoToNextScene();
-
 	if (m_ServedIngredients >= m_TotalIngredientsToWin)
 	{
 		GoToNextScene();
@@ -47,24 +45,23 @@ void dae::GameManager::Reset()
 {
 	Minigin::m_PhysicsPaused = true;
 
-	if (auto world = dae::Minigin::physicsWorld.get())
-	{
-		for (b2Body* b = world->GetBodyList(); b;)
-		{
-			b2Body* next = b->GetNext();
-			world->DestroyBody(b);
-			b = next;
-		}
-		world->ClearForces();
-		world->Step(0.0f, 0, 0);
-	}
+	SceneManager::GetInstance().GetSceneAtIndex(1)->RemoveAll();
+	SceneManager::GetInstance().GetSceneAtIndex(2)->RemoveAll();
+	SceneManager::GetInstance().GetSceneAtIndex(3)->RemoveAll();
+
 
 	m_GameMode = GameMode::SOLO;
 	m_TotalIngredientsToWin = INT_MAX ;
 	m_ServedIngredients = 0 ;
 	m_Score = 0;
 	SceneManager::GetInstance().SetActiveSceneByIndex(0);
+
+
+
 	CreateLifeTimeObjects();
+
+	m_MarkedReset = false;
+
 	Minigin::m_PhysicsPaused = false;
 
 }
@@ -73,7 +70,8 @@ void dae::GameManager::GoToNextScene()
 {
 	if (SceneManager::GetInstance().GetActiveScene().get()->GetName() == "LevelThree")
 	{
-		Reset();
+		m_MarkedReset;
+		SceneManager::GetInstance().LoadNextScene();
 		return;
 	}
 	SceneManager::GetInstance().LoadNextScene();
@@ -132,10 +130,33 @@ void dae::GameManager::SetGameMode(const GameMode& gameMode)
 	}
 
 	CreateFirstLevel(*levelOne, m_Maps.at(0), players, enemies);
-	CreateFirstLevel(*levelTwo, m_Maps.at(0), players, enemies);
-	CreateFirstLevel(*levelThree, m_Maps.at(0), players, enemies);
+	CreateFirstLevel(*levelTwo, m_Maps.at(1), players, enemies);
+	CreateFirstLevel(*levelThree, m_Maps.at(2), players, enemies);
 
 	GoToNextScene();
+}
+
+void dae::GameManager::EliminatePlayer(GameObject& gameObject)
+{
+	switch (m_GameMode)
+	{
+	case GameMode::SOLO:
+		m_MarkedReset = true;
+		break;
+	case GameMode::COOP:
+		++m_EliminatedPlayers;
+		if (m_EliminatedPlayers == 2)
+		{
+			m_MarkedReset = true;
+			return;
+		}
+		gameObject.MarkDestroy();
+		break;
+	case GameMode::VERSUS:
+		m_MarkedReset = true;
+		break;
+
+	}
 }
 
 void dae::GameManager::CreateLifeTimeObjects()
@@ -145,8 +166,9 @@ void dae::GameManager::CreateLifeTimeObjects()
 	m_Players.clear();
 
 	m_Maps.push_back(CreateMap("levelOne"));
-	m_Maps.push_back(CreateMap("levelOne"));
-	m_Maps.push_back(CreateMap("levelOne"));
+	m_Maps.push_back(CreateMap("levelTwo"));
+	m_Maps.push_back(CreateMap("levelThree"));
+
 
 	m_Players.push_back(CreatePlayer(m_Maps.at(0).get()->GetComponent<MapComponent>(), m_Maps.at(0).get(), 0));
 	m_Players.push_back(CreatePlayer(m_Maps.at(0).get()->GetComponent<MapComponent>(), m_Maps.at(0).get(), 1));

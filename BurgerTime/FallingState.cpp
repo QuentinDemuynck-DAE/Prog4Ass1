@@ -3,6 +3,7 @@
 #include "CollisionComponent.h"
 #include "EnemyComponent.h"
 #include "FallingOnPlate.h"
+#include "GameManager.h"
 #include "GameObject.h"
 #include "Globals.h"
 #include "MapTileComponent.h"
@@ -77,6 +78,7 @@ void dae::FallingState::OnEnter(dae::GameObject& gameObject)
 	{
 		m_pIngredientComponent = gameObject.GetComponent<IngredientComponent>();
 		m_LayersToFall += m_pIngredientComponent->NumberOfEnemiesStanding();
+		m_NumEnemiesInitial = m_pIngredientComponent->NumberOfEnemiesStanding();
 	}
 }
 
@@ -87,6 +89,9 @@ void dae::FallingState::OnExit(dae::GameObject& gameObject)
 		m_Rigidbody->Stop();
 
 	}
+
+	GameManager::GetInstance().AddScore(GetIngredientsTarget(m_NumEnemiesInitial));
+
 
 	if (m_pIngredientComponent)
 	{

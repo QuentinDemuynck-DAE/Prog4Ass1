@@ -100,11 +100,31 @@ inline void CreateFirstLevel(dae::Scene& scene , std::shared_ptr<dae::GameObject
 		scene.Add(salad);
 	}
 
-	auto enemy = dae::CreateEnemy(glm::vec3{ 120,320,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f }, players, *mapComponent, "Enemies/Sausage.png", 100);
-	enemy->AddComponent<dae::AiController>();
-	enemy->GetComponent<dae::EnemyComponent>()->SetState(std::make_unique<dae::WalkingEnemyState>());
 
-	scene.Add(enemy);
+	for (auto position : mapComponent->GetSausageSpawnPositions())
+	{
+		auto enemy = dae::CreateEnemy(glm::vec3{position,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f }, players, *mapComponent, "Enemies/Sausage.png", 100);
+		enemy->AddComponent<dae::AiController>();
+		enemy->GetComponent<dae::EnemyComponent>()->SetState(std::make_unique<dae::WalkingEnemyState>());
+		scene.Add(enemy);
+	}
+
+	for (auto position : mapComponent->GetEggSpawnPositions())
+	{
+		auto enemy = dae::CreateEnemy(glm::vec3{ position,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f }, players, *mapComponent, "Enemies/Egg.png", 300);
+		enemy->AddComponent<dae::AiController>();
+		enemy->GetComponent<dae::EnemyComponent>()->SetState(std::make_unique<dae::WalkingEnemyState>());
+		scene.Add(enemy);
+	}
+
+	for (auto position : mapComponent->GetPickleSpawnPositions())
+	{
+		auto enemy = dae::CreateEnemy(glm::vec3{ position,0 }, glm::vec3{ 0,0,0 }, glm::vec3{ 2.0f,2.0f,2.0f }, players, *mapComponent, "Enemies/Pickle.png", 200);
+		enemy->AddComponent<dae::AiController>();
+		enemy->GetComponent<dae::EnemyComponent>()->SetState(std::make_unique<dae::WalkingEnemyState>());
+		scene.Add(enemy);
+	}
+
 }
 
 

@@ -11,8 +11,10 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "../BurgerTime/GameManager.h"
 std::unique_ptr<b2World> dae::Minigin::physicsWorld = nullptr;
 bool  dae::Minigin::m_PhysicsPaused = false;
+
 
 
 SDL_Window* g_window{};
@@ -74,6 +76,8 @@ dae::Minigin::Minigin(const std::string &dataPath)
 	physicsWorld = std::make_unique<b2World>(gravity);
 	m_CollisionListenerPtr = std::make_unique<CollisionListener>();
 	physicsWorld->SetContactListener(m_CollisionListenerPtr.get());
+
+	GameManager::GetInstance().SetCollisionListener(m_CollisionListenerPtr.get());
 }
 
 dae::Minigin::~Minigin()

@@ -3,6 +3,7 @@
 #include "CollisionComponent.h"
 #include "EnemyComponent.h"
 #include "FallingState.h"
+#include "GameManager.h"
 #include "GameObject.h"
 #include "Globals.h"
 #include "IngredientComponent.h"
@@ -20,6 +21,8 @@ void dae::LandedState::OnEnter(dae::GameObject& gameObject)
 		m_pIngredientComponent->SetActivatableAllPArts(true);
 		m_pIngredientComponent->ClearEnemiesStanding();
 	}
+
+	GameManager::GetInstance().AddScore(50);
 
 }
 

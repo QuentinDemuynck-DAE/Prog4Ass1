@@ -17,6 +17,8 @@ PlayerComponent::PlayerComponent(dae::GameObject& owner)
 void PlayerComponent::Update(float deltaTime)
 {
 	Component::Update(deltaTime);
+
+	m_TimeSpawned += deltaTime;
 	if (m_IsShooting)
 	{
 		m_CurrentlyShooting += deltaTime;
@@ -58,4 +60,14 @@ void PlayerComponent::StopShooting()
 void PlayerComponent::SetCanShoot(const bool& canShoot)
 {
 	m_CanShoot = canShoot;
+}
+
+bool PlayerComponent::IsInvincible() const
+{
+	return (m_TimeSpawned < INVINCIBLE_TIME);
+}
+
+void PlayerComponent::StartInvincibleCycle()
+{
+	m_TimeSpawned = 0.0f;
 }

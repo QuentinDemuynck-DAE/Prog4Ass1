@@ -1,5 +1,6 @@
 #include "Dying.h"
 
+#include "GameManager.h"
 #include "Globals.h"
 #include "PlayerComponent.h"
 #include "Walking.h"
@@ -61,7 +62,7 @@ void dae::Dying::OnExit(GameObject& )
 {
 	if (!m_LivesComponent || !m_MapWalkerCommponent)
 		return;
-
 	m_LivesComponent->LoseLive();
 	m_MapWalkerCommponent->Respawn();
+	m_PlayerComponent->StartInvincibleCycle();
 }

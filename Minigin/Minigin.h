@@ -17,6 +17,7 @@ namespace dae
 		static std::unique_ptr<b2World> physicsWorld;
 		static bool m_PhysicsPaused;
 
+
 		explicit Minigin(const std::string& dataPath);
 		~Minigin();
 		void Run(const std::function<void()>& load);
@@ -29,5 +30,6 @@ namespace dae
 
 	private:
 		std::unique_ptr<CollisionListener> m_CollisionListenerPtr;
+
 	};
 }

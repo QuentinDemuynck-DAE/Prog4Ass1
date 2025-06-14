@@ -23,6 +23,18 @@ namespace dae
 		const float CHECK_TIME = 1.0f;
 
 		int m_LayersToFall{ 1 };
+		int m_NumEnemiesInitial{ 0 };
+
+		constexpr int GetIngredientsTarget(int level)
+		{
+			if (level < 0 || level > 7)
+				throw std::out_of_range{ "GetIngredientsTarget: level must be 0..7" };
+
+			if (level == 0)
+				return 0;
+
+			return 500 << (level - 1);
+		}
 
 	};
 }

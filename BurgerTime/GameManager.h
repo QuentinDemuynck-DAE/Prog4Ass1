@@ -31,23 +31,34 @@ namespace dae
 		void GoToNextScene();
 		void SetGameMode(const GameMode& gameMode);
 
+		void EliminatePlayer(GameObject& gameObject);
+
 		std::vector<std::shared_ptr<GameObject>> GetActivePlayers()
 		{
 			return m_Players;
 		}
 
-	private:
+		void SetCollisionListener(CollisionListener* colLis)
+		{
+			m_CollisionListener = colLis;
+		}
 
+		bool ShouldReset() { return m_MarkedReset; }
+
+	private:
+		bool m_MarkedReset{ false };
 		void CreateLifeTimeObjects();
 
 		GameMode m_GameMode = GameMode::SOLO;
 		int m_TotalIngredientsToWin{ INT_MAX };
 		int m_ServedIngredients{ 0 };
 		int m_Score{ 0 };
+		int m_EliminatedPlayers{ 0 };
 		std::vector<std::shared_ptr<GameObject>> m_Players;
 		std::vector<std::shared_ptr<GameObject>> m_Maps;
 		std::shared_ptr<GameObject> m_Enemy;
 		std::vector<std::shared_ptr<GameObject>> m_UIS;
+		CollisionListener* m_CollisionListener;
 	};
 
 }

@@ -1,4 +1,6 @@
 #include "EnemyDying.h"
+
+#include "GameManager.h"
 #include "GameObject.h"
 #include "Subject.h"
 #include "WalkingEnemyState.h"
@@ -44,6 +46,7 @@ void dae::EnemyDying::OnExit(GameObject& )
 	if (m_EnemyComponent)
 	{
 		m_EnemyComponent->SetCanHit(true);
+		GameManager::GetInstance().AddScore(m_EnemyComponent->GetValue());
 	}
 
 	if (m_MapWalker)

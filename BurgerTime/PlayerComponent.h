@@ -42,10 +42,15 @@ public:
 	void StopShooting();
 	void SetCanShoot(const bool& canShoot);
 	bool HasPeppers() const { return m_AmountOfPeppers > 0; }
+	bool IsInvincible() const;
+	void StartInvincibleCycle();
+
 
 	const float PEPPER_COOLDOWN = 0.50f;
 
 private:
+	const float INVINCIBLE_TIME{ 5.0f };
+	float m_TimeSpawned{};
 	std::unique_ptr<dae::PlayerState>  m_CurrentState;
 	bool m_IsShooting = false;
 	float m_CurrentlyShooting = 0.0f;

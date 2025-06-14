@@ -3,8 +3,10 @@
 #include "Events.h"
 #include "GameObject.h"
 #include "Globals.h"
+#include "Minigin.h"
 #include "Renderer.h"
 #include "Subject.h"
+#include "../BurgerTime/GameManager.h"
 
 dae::CollisionComponent::CollisionComponent(dae::GameObject& owner,
                                             b2World& world,
@@ -65,6 +67,11 @@ dae::CollisionComponent::~CollisionComponent()
 {
     if (m_pBody)
     {
+        if (Minigin::physicsWorld->GetBodyCount() == 0)
+            printf("[ERROR] Attempting DestroyBody on empty world!\n");
+        else
+            printf("[OK] DestroyBody; bodies before = %d\n", Minigin::physicsWorld->GetBodyCount());
+
         m_World.DestroyBody(m_pBody);
     }
 }
@@ -82,6 +89,9 @@ void dae::CollisionComponent::Update(float)
 
 void dae::CollisionComponent::OnTriggerEnter(CollisionComponent* other)
 {
+    if (GameManager::GetInstance().ShouldReset())
+        return;
+
     Event e{ make_sdbm_hash("collision_enter") };
     e.AddArg(this);
     e.AddArg(other);
@@ -90,6 +100,8 @@ void dae::CollisionComponent::OnTriggerEnter(CollisionComponent* other)
 
 void dae::CollisionComponent::OnTriggerExit(CollisionComponent* other)
 {
+    if (GameManager::GetInstance().ShouldReset())
+        return;
 
     Event e{ make_sdbm_hash("collision_exit") };
     e.AddArg(this);
