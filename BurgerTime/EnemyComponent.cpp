@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Subject.h"
 #include "Globals.h"
+#include "SceneManager.h"
 
 namespace dae
 {
@@ -45,6 +46,9 @@ namespace dae
 
 		for (dae::GameObject* player : m_Players)
 		{
+			if (!SceneManager::GetInstance().IsInActiveScene(player))
+				continue;
+
 			float newDistance = glm::distance(GetOwner().GetTransform()->GetGlobalPosition(), player->GetTransform()->GetGlobalPosition());
 			if (newDistance < distance)
 			{

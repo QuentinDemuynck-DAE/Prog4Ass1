@@ -73,22 +73,6 @@ void dae::DamageCommand::Execute()
 	}
 }
 
-dae::ScoreCommand::ScoreCommand(dae::GameObject* gameObject, int amount)
-	:m_GameObject(gameObject), m_Amount(amount)
-{
-	if (m_GameObject->HasComponent<ScoreComponent>())
-	{
-		m_ScoreComponent = m_GameObject->GetComponent<ScoreComponent>();
-	}
-}
-
-void dae::ScoreCommand::Execute()
-{
-	if (m_ScoreComponent)
-	{
-		m_ScoreComponent->AddScore(m_Amount);
-	}
-}
 
 dae::GetOffLadderCommand::GetOffLadderCommand(dae::GameObject* gameObject)
 	:m_GameObject(gameObject)

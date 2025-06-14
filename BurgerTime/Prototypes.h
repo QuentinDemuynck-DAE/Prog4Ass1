@@ -24,6 +24,7 @@
 #include "WalkingEnemyState.h"
 #include "EnemyObserver.h"
 #include "Texture2DComponent.h"
+#include "ScoreComponent.h"
 
 #include "EnemyComponent.h"
 
@@ -142,6 +143,25 @@ namespace dae
 		ingredient->GetSubject()->AddObserver(observer);
 
 		return ingredient;
+	}
+
+	///inline GameObjectPtr CreateLivesAndPepperDisplay(float height, GameObjectPtr player)
+	///{
+	///	auto mainObj = std::make_shared<dae::GameObject>();
+	///	auto lives = std::make_shared<dae::GameObject>();
+	///	auto peppers = std::make_shared<dae::GameObject>();
+	///
+	///}
+
+	inline GameObjectPtr CreateScoreDisplay()
+	{
+		auto smallerFont = dae::ResourceManager::GetInstance().LoadFont("burger.otf", 12);
+
+		auto mainObj = std::make_shared<dae::GameObject>(glm::vec3{20, g_windowHeight / 2, 0});
+		mainObj->AddComponent<dae::TextComponent>("Score: 0" ,smallerFont);
+		mainObj->AddComponent<dae::ScoreComponent>(mainObj->GetComponent<dae::TextComponent>());
+
+		return mainObj;
 	}
 	
 }

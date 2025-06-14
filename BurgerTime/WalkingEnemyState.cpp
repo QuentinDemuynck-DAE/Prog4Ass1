@@ -50,6 +50,8 @@ void dae::WalkingEnemyState::OnEnter(dae::GameObject& gameObject)
 		}
 	}
 	
+	if (!m_EnemyComponent->GetClosestPlayer())
+		return;
 
 	glm::vec3 direction = m_EnemyComponent->GetClosestPlayer()->GetTransform()->GetGlobalPosition() - gameObject.GetTransform()->GetGlobalPosition();
 

@@ -33,6 +33,8 @@ namespace dae
 
 		void EliminatePlayer(GameObject& gameObject);
 
+		int Score() const { return m_Score; }
+
 		std::vector<std::shared_ptr<GameObject>> GetActivePlayers()
 		{
 			return m_Players;

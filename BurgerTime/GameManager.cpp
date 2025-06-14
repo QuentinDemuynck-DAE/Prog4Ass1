@@ -84,6 +84,9 @@ void dae::GameManager::GoToNextScene()
 		auto mapwalker = m_Players.at(i)->GetComponent<MapWalkerComponent>();
 		auto player = m_Players.at(i)->GetComponent<PlayerComponent>();
 
+		if (!mapwalker || !player)
+			continue;
+
 		mapwalker->SetSpawnPosition(glm::vec3{ mapComponent->GetPlayerSpawnPositions().at(i), 0 });
 		player->SetState(std::make_unique<Walking>());
 		mapwalker->Respawn();
@@ -151,6 +154,8 @@ void dae::GameManager::EliminatePlayer(GameObject& gameObject)
 			return;
 		}
 		gameObject.MarkDestroy();
+		gameObject.GetComponent<MapWalkerComponent>()->DisableBoundaries();
+		gameObject.GetTransform()->SetLocalPosition(glm::vec3{ 9999 , 9999 ,9999 }); // Somehow my enemies were still looking for him :(
 		break;
 	case GameMode::VERSUS:
 		m_MarkedReset = true;

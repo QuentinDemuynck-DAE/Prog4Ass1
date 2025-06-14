@@ -1,15 +1,22 @@
 #pragma once
 #include "Component.h"
 
-class ScoreComponent : public Component
+namespace dae
 {
-public:
-	ScoreComponent(dae::GameObject& owner);
-	virtual ~ScoreComponent() = default;
+	class TextComponent;
 
-	void AddScore(int amount);
+	class ScoreComponent : public Component
+	{
+	public:
+		ScoreComponent(dae::GameObject& owner, dae::TextComponent* textComponent);
+		virtual ~ScoreComponent() = default;
 
-private:
-	int m_Score{0};
-};
+		void FixedUpdate() override;
+
+	private:
+		dae::TextComponent* m_TextComponent;
+	};
+
+}
+
 

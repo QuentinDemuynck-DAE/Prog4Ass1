@@ -61,19 +61,6 @@ namespace dae
 		int m_Amount;
 	
 	};
-	
-	class ScoreCommand : public Command
-	{
-	public:
-		ScoreCommand(dae::GameObject* gameObject, int amount = 10);
-		void Execute() override;
-	
-	private:
-		dae::GameObject* m_GameObject;
-		ScoreComponent* m_ScoreComponent;
-		int m_Amount;
-	
-	};
 
 	class GetOffLadderCommand : public Command
 	{

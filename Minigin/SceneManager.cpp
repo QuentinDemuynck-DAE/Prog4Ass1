@@ -66,12 +66,6 @@ void dae::SceneManager::SetActiveSceneByIndex(size_t index)
     }
     m_activeSceneIndex = index;
     m_pActiveScene = m_scenes[index];
-
-    for (auto& gameObject : m_pActiveScene.get()->GetObjects())
-    {
-        Event event = Event(make_sdbm_hash("scene_loaded"));
-        gameObject.get()->GetSubject()->Notify(event);
-    }
 }
 
 void dae::SceneManager::LoadNextScene()

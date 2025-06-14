@@ -28,7 +28,7 @@ namespace dae
                  { Action::Right, SDLK_d },
                  { Action::Up,    SDLK_w },
                  { Action::Down,  SDLK_s },
-				{Action::Shoot, SDLK_j}
+				{Action::Shoot, SDLK_l}
              };
 
              auto& input = InputManager::GetInstance();

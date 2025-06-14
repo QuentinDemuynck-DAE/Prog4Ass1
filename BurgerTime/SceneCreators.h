@@ -58,7 +58,7 @@ inline void CreateFirstLevel(dae::Scene& scene , std::shared_ptr<dae::GameObject
 	go->AddComponent<FPSComponent>();
 	scene.Add(go);
 
-	auto smallerFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
+	auto smallerFont = dae::ResourceManager::GetInstance().LoadFont("burger.otf", 12);
 
 
 	auto mapComponent = map->GetComponent<dae::MapComponent>();
@@ -125,6 +125,9 @@ inline void CreateFirstLevel(dae::Scene& scene , std::shared_ptr<dae::GameObject
 		scene.Add(enemy);
 	}
 
+	auto score = dae::CreateScoreDisplay();
+	scene.Add(score);
+
 }
 
 
@@ -178,9 +181,9 @@ inline void CreateStartScreen(dae::Scene& scene)
 
 		for (auto controllerComp : controller->GetComponentsDerived<dae::ControllerComponent>())
 		{
-			controllerComp->Bind(dae::Action::Up, std::make_shared<dae::MenuUpCommand>(menuCtrl));
-			controllerComp->Bind(dae::Action::Down, std::make_shared<dae::MenuDownCommand>(menuCtrl));
-			controllerComp->Bind(dae::Action::Shoot, std::make_shared<dae::MenuClickCommand>(menuCtrl));
+			controllerComp->Bind(dae::Action::Up, std::make_shared<dae::MenuUpCommand>(menuCtrl), KeyState::Up);
+			controllerComp->Bind(dae::Action::Down, std::make_shared<dae::MenuDownCommand>(menuCtrl), KeyState::Up);
+			controllerComp->Bind(dae::Action::Shoot, std::make_shared<dae::MenuClickCommand>(menuCtrl), KeyState::Up);
 		}
 
 		scene.Add(controller);
