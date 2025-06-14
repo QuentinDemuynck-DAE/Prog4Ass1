@@ -6,6 +6,12 @@
 #include "Globals.h"
 #include <algorithm> // Ensure this header is included for std::min and std::max
 
+#ifdef PlaySound
+#  undef PlaySound
+#endif
+#include "ServiceLocator.h"
+#include "SoundSystem.h"
+
 void LivesComponent::Update(float)
 {
 	if(m_TextComponent)
@@ -31,6 +37,10 @@ void LivesComponent::LoseLive(int amount)
 
    e.AddArg(amount); // lives lost
    e.AddArg(m_Lives); // Current lives
+
+   auto& soundSystem = ServiceLocator::GetSoundSystem();
+   auto id = soundSystem.SoundToId("../Data/Audio/LoseLife.wav");
+   soundSystem.PlaySound(id, 1);
 
    GetOwner().GetSubject()->Notify(e);
 

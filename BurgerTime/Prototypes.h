@@ -153,7 +153,7 @@ namespace dae
 
 		auto mainObj = std::make_shared<dae::GameObject>(glm::vec3{10, height, 0});
 		auto lives = std::make_shared<dae::GameObject>(glm::vec3{0 , -10 ,0});
-		lives->AddComponent<TextComponent>("Lifes: 4", smallerFont);
+		lives->AddComponent<TextComponent>("Lives: 4", smallerFont);
 		player->GetSubject()->AddObserver(std::make_shared<HealthObserver>(lives->GetComponent<TextComponent>()));
 
 		auto peppers = std::make_shared<dae::GameObject>(glm::vec3{ 0 , 10 ,0 });

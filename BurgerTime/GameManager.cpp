@@ -1,6 +1,10 @@
 #include "GameManager.h"
 #include "SceneCreators.h"
-
+#ifdef PlaySound
+#  undef PlaySound
+#endif
+#include "ServiceLocator.h"
+#include "SoundSystem.h"
 void dae::GameManager::SetIngredientsToWin(const int& numIngredients)
 {
 	m_TotalIngredientsToWin = numIngredients;
@@ -77,6 +81,11 @@ void dae::GameManager::Reset()
 
 void dae::GameManager::GoToNextScene()
 {
+
+	auto& soundSystem = ServiceLocator::GetSoundSystem();
+	auto id = soundSystem.SoundToId("../Data/Audio/LevelEnd.wav");
+	soundSystem.PlaySound(id, 1);
+
 	if (SceneManager::GetInstance().GetActiveScene().get()->GetName() == "LevelThree")
 	{
 		m_MarkedReset;

@@ -23,20 +23,16 @@ NoisySoundSystem::~NoisySoundSystem()
 
 SoundID NoisySoundSystem::SoundToId(const std::string& filePath)
 {
-	// 1) Check cache
+
 	auto it = m_pathToID.find(filePath);
 	if (it != m_pathToID.end()) {
 		return it->second;
 	}
-
-	// 2) Not loaded yet: reserve new ID
 	SoundID id = m_nextID++;
 
-	// 3) Record in cache *before* enqueueing (so re-entrant LoadSound calls work)
 	m_pathToID[filePath] = id;
 
-	// 4) Enqueue the actual load on the worker thread
-	m_queue.Push({ SoundEvent::Type::Load, id, filePath, /*volume=*/0 });
+	m_queue.Push({ SoundEvent::Type::Load, id, filePath,0 });
 
 	return id;
 }

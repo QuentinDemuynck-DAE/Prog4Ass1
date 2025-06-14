@@ -36,6 +36,10 @@
 #include "SVGParser.h"
 #include "Prototypes.h"
 #include "SceneCreators.h"
+#ifdef PlaySound
+#  undef PlaySound
+#endif
+
 
 
 void load()
@@ -44,12 +48,18 @@ void load()
 	auto noisySoundSystem = std::make_unique<NoisySoundSystem>();
 	ServiceLocator::ProvideSoundSystem(std::make_unique<DebugSoundSystem>(std::move(noisySoundSystem)));
 
+
+
 	for (int i{} ; i < g_maxControllers; i++)
 	{
 		dae::InputManager::GetInstance().AddGamePad(std::make_unique<dae::GamePad>(i));
 	}
 
 	dae::GameManager::GetInstance().LoadScenes();
+
+	auto& soundSystem = ServiceLocator::GetSoundSystem();
+	auto id = soundSystem.SoundToId("../Data/Audio/Start.wav");
+	soundSystem.PlaySound(id, 1);
 
 	//scene.Add(livesPlayerOne);
 	//scene.Add(livesPlayerTwo);
@@ -88,6 +98,7 @@ void load()
 int main(int, char* []) 
 {
 	dae::Minigin engine("../Data/");
+
 	engine.Run(load);
 
 	return 0;

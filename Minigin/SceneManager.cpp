@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Globals.h"
 #include "Scene.h"
+#include "ServiceLocator.h"
 #include "Subject.h"
 #include "../BurgerTime/GameManager.h"
 
@@ -72,6 +73,7 @@ void dae::SceneManager::LoadNextScene()
 {
     if (m_scenes.empty())
         return;
+
 
     size_t nextIndex = (m_activeSceneIndex + 1) % m_scenes.size();
     SetActiveSceneByIndex(nextIndex);
