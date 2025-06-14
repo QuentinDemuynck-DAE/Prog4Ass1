@@ -17,5 +17,80 @@ Minigin is, despite perhaps the suggestion in its name, **not** a game engine. I
 
 Either download the latest release of this project and compile/run in visual studio or, since students need to have their work on github too, they can use this repository as a template (see the "Use this template" button at the top right corner). There is no point in forking this project.
 
-#Link 
-https://github.com/QuentinDemuynck-DAE/Prog4Ass1
+# Link 
+
+[REPO](https://github.com/QuentinDemuynck-DAE/Prog4Ass1)
+
+# Simple 2D Game Engine & Burger Time Demo 
+
+A **Burger Time** remake serves as a demonstration for the component-based game engine made for Prog 4, which allows for modification of new gameplay mechanics and player vs. AI control.
+  
+## Features 
+
+### Entity-Component System 
+
+- **Game Objects**  
+  
+  Construct entities at run time by assembling various components.  
+
+- **Flexible Composition**  
+
+  Change behavior dynamically without the need for subclassing by adding and removing components.  
+
+### Event & Observer Pattern  
+
+- **Custom Event Types**  
+
+  Create your own events with customizable data payloads for high flexibility.
+
+- **Decoupled Messaging**  
+
+  Emit and subscribe to game events through subjects and observers.  
+
+### Finite State Machines  
+
+- **Character & System States**  
+
+  Create states with entry and exit callbacks.
+
+- **Configurable Transitions**  
+
+  Use events, timers, or user-defined conditions to trigger state changes.
+
+### Command Pattern & Input Abstraction  
+
+- **AI Controllers**  
+
+  Create an AI control logic that translates and issues commands akin to human players, allowing seamless shift between manual and AI control.  
+
+- **Multiple Controllers**  
+
+  Attach any number of controller components (keyboard, gamepad, AI) to an entity.  
+
+- **Rebindable Commands**  
+
+  Assign physical inputs to actions such as `Left`, `Up`, `Shoot`, etc.
+
+### Scene Management
+
+- **Level & UI Scenes**
+
+- Load/unload levels, menus.
+
+### Sound System
+
+- **Music & SFX**
+-SAAS
+
+## Burger Time Demo
+
+A remake showcasing engine features:
+
+- **Level Design**  
+  3 of the original stages
+- **Enemy AI**  
+  Sausage, Egg, Pickle
+- **Pepper Mechanics**  
+  Sprinkle pepper to stun enemies.
+- **Scene Transitions**  
+  Title screens and levels
